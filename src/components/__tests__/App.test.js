@@ -1,35 +1,38 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
-import {shallow} from 'enzyme';
+import {MemoryRouter} from 'react-router'
+import {mount} from 'enzyme';
 import App from './../app';
 import HomePage from '../pages/home';
 import LoginPage from '../pages/login';
 import LogoutPage from '../pages/logout';
 
 
-let pathMap = {};
-
 describe('App tests', () => {
-    beforeAll(() => {
-        const component = shallow(<App/>);
-
-        pathMap = component.find(Route).reduce((pathMap, route) => {
-            const routeProps = route.props();
-            pathMap[routeProps.path] = routeProps.component;
-            return pathMap;
-        }, {});
-    });
-
     it('Should show home component', () => {
-        expect(pathMap['/']).toBe(HomePage);
+        const component = mount(
+            <MemoryRouter initialEntries={['/']}>
+                <App/>
+            </MemoryRouter>
+        );
+        expect(component.find(HomePage)).toHaveLength(1);
     });
 
     it('Should show login component', () => {
-        expect(pathMap['/login']).toBe(LoginPage);
+        const component = mount(
+            <MemoryRouter initialEntries={['/login']}>
+                <App/>
+            </MemoryRouter>
+        );
+        expect(component.find(LoginPage)).toHaveLength(1);
     });
 
     it('Should show logout component', () => {
-        expect(pathMap['/logout']).toBe(LogoutPage);
+        const component = mount(
+            <MemoryRouter initialEntries={['/logout']}>
+                <App/>
+            </MemoryRouter>
+        );
+        expect(component.find(LogoutPage)).toHaveLength(1);
     });
 });
 
