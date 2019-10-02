@@ -1,15 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Redirect, BrowserRouter as Router, Switch} from 'react-router-dom';
+import {Redirect, BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {act} from 'react-dom/test-utils';
+import {shallow} from 'enzyme';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import App from './../app';
+import HomePage from '../pages/home';
 
 
 let container;
+let pathMap = {};
 
 beforeEach(() => {
     container = document.createElement('div');
     document.body.appendChild(container);
+    const component = shallow(<App/>);
+    console.log(component);
+
+    pathMap = component.find(Route).reduce((pathMap, route) => {
+        const routeProps = route.props;
+        pathMap[routeProps.path] = routeProps.component;
+        return pathMap;
+    }, {});
+
 });
 
 
@@ -18,31 +31,8 @@ afterEach(() => {
     container = null;
 });
 
-
-it('routers', () => {
-    act(() => {
-        global.window = Object.create(window);
-        const url = "127.0.0.1:3000/login";
-        Object.defineProperty(window, 'location', {
-            value: {
-                href: url
-            }
-        });
-
-        ReactDOM.render(
-            <>
-                <Router>
-                    <App />
-                    <Redirect to="/login" />
-                </Router>
-            </>, 
-            container
-        );
-
-        expect(window.location.href).toEqual(url);
-        expect(container.querySelectorAll('div').length).toBe(1);
-        const headerBlock = container.querySelector('div');
-        // TODO this test
-        // expect(headerBlock.textContent).toBe('Login page');
-    });
+it('Should show home component', () => {
+    expect(pathMap['/']).toBe(HomePage);
 });
+
+
