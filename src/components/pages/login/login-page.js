@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {Button, Form, Jumbotron} from 'react-bootstrap';
 
 import './login-page.css';
@@ -23,8 +24,14 @@ const LoginPage = () => {
 
                 <Button variant="primary" type="submit">
                     Login
-            </Button>
+                </Button>
             </Form>
+
+            <div className="bottom-links">
+                <pre>
+                    <Link to='/'>Home</Link> | <Link to='#'>Signup</Link>
+                </pre>
+            </div>
         </Jumbotron>
     );
 };

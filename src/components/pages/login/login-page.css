@@ -1,5 +1,12 @@
 .login-block {
     margin: auto;
     margin-top: 10%;
+    padding-bottom: 0 !important;
     width: 60%;
+}
+
+.bottom-links {
+    text-align: center;
+    margin-top: 10px;
+    padding-bottom: 10px;
 }
