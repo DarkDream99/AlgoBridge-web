@@ -9,7 +9,10 @@ import {AlgoBridgeService} from './services';
 import {AlgoBridgeServiceProvider} from './components/service-context';
 import store from './store';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const algoBrigdeService = new AlgoBridgeService();
+
 
 ReactDOM.render(
     <Provider store={store}>
