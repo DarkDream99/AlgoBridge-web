@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import {connect} from 'react-redux';
 import IdentificationBody from '../../identification-body';
 import LinkList from '../../link-list';
 import PageTitle from '../../page-title';
@@ -6,17 +7,7 @@ import PageTitle from '../../page-title';
 import './login-page.css';
 
 
-const LoginPage = () => {
-    const linkListObj = [
-        {
-            href: "/",
-            label: "Home",
-        }, {
-            href: "/signup",
-            label: "Signup"
-        },
-    ];
-
+const LoginPage = ({links: linkListObj}) => {
     return (
         <Fragment>
             <menu className="links">
@@ -28,5 +19,16 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+
+const mapStateToProps = ({links}) => {
+    return { 
+        links: [
+            links.home,
+            links.signup,
+        ]
+    }
+}
+
+
+export default connect(mapStateToProps)(LoginPage);
 

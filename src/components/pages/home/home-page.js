@@ -1,19 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import LinkList from '../../link-list';
 import './home-page.css';
 
 
-const HomePage = () => {
-    const linkListObj = [
-        {
-            href: '/login',
-            label: 'Login',
-        }, {
-            href: '/signup',
-            label: 'Signup',
-        }
-    ];
-
+const HomePage = ({links: linkListObj}) => {
     return (
         <>
             <menu className='menu'>
@@ -24,4 +15,13 @@ const HomePage = () => {
     );
 }
 
-export default HomePage;
+const mapStateToProps = ({links}) => {
+    return {
+        links: [
+            links.login,
+            links.signup,
+        ]
+    } 
+};
+
+export default connect(mapStateToProps)(HomePage);
