@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import './link-list.css';
+
 
 const LinkList = ({linkListObj}) => {
     const linksCount = linkListObj.length;
@@ -20,7 +22,7 @@ const LinkList = ({linkListObj}) => {
     });
 
     return (
-        <div className="bottom-links">
+        <div className="link-list-container">
             <pre>
                 {linkList}
             </pre>

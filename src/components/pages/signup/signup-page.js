@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import IdentificationBody from '../../identification-body';
 import LinkList from '../../link-list';
+import PageTitle from '../../page-title';
 import './signup-page.css';
 
 
@@ -17,8 +18,11 @@ const SignupPage = () => {
 
     return (
         <Fragment>
-            <IdentificationBody title='Signup' actionText='Signup' />
-            <LinkList linkListObj={linkListObj} />
+            <menu className="links">
+                <LinkList linkListObj={linkListObj} />
+            </menu>
+            <PageTitle title={"Signup"}></PageTitle>
+            <IdentificationBody actionText='Signup' />
         </Fragment>
     );
 }

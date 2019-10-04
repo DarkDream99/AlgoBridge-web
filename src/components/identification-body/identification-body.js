@@ -9,7 +9,6 @@ import './identification-body.css';
 const IdentificationBody = ({title, actionText}) => {
     return (
         <>
-            <PageTitle title={title}></PageTitle>
 
             <Jumbotron className="identification-block">
                 <Form>
