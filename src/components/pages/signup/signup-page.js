@@ -1,25 +1,21 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {Button, Form, Jumbotron} from 'react-bootstrap';
-
+import {Link} from 'react-router-dom';
 import PageTitle from '../../page-title';
 
-import './login-page.css';
+import './signup-page.css';
 
 
-const LoginPage = () => {
+const SignupPage = () => {
     return (
         <>
-            <PageTitle title="Login" ></PageTitle>
+            <PageTitle title="Signup" ></PageTitle>
 
-            <Jumbotron className="login-block">
+            <Jumbotron className="signup-block">
                 <Form>
                     <Form.Group controlId="formEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="Enter email" />
-                        <Form.Text className="text-muted">
-                            We'll never share your email with anyone else.
-                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group controlId="formBasicPassword">
@@ -28,19 +24,18 @@ const LoginPage = () => {
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
-                        Login
+                        Signup
                 </Button>
                 </Form>
 
                 <div className="bottom-links">
                     <pre>
-                        <Link to='/'>Home</Link> | <Link to='/signup'>Signup</Link>
+                        <Link to='/'>Home</Link> | <Link to='/login'>Login</Link>
                     </pre>
                 </div>
             </Jumbotron>
         </>
     );
-};
+}
 
-export default LoginPage;
-
+export default SignupPage;

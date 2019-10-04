@@ -5,6 +5,7 @@ import App from './../app';
 import HomePage from '../pages/home';
 import LoginPage from '../pages/login';
 import LogoutPage from '../pages/logout';
+import SignupPage from '../pages/signup';
 
 
 describe('App tests', () => {
@@ -33,6 +34,15 @@ describe('App tests', () => {
             </MemoryRouter>
         );
         expect(component.find(LogoutPage)).toHaveLength(1);
+    });
+
+    it('Should show signup component', () => {
+        const component = mount(
+            <MemoryRouter initialEntries={['/signup']}>
+                <App/>
+            </MemoryRouter>
+        );
+        expect(component.find(SignupPage)).toHaveLength(1);
     });
 });
 
