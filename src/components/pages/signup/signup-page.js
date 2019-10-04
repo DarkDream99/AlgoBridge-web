@@ -1,16 +1,25 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import IdentificationBody from '../../identification-body';
+import LinkList from '../../link-list';
 import './signup-page.css';
 
 
 const SignupPage = () => {
-    const linkObj = {
-        href: "/login",
-        label: "Login"
-    }
+    const linkListObj = [
+        {
+            href: "/",
+            label: "Home",
+        },{
+            href: "/login",
+            label: "Login"
+        },
+    ]
 
     return (
-        <IdentificationBody title='Signup' actionText='Signup' linkObj={linkObj} />
+        <Fragment>
+            <IdentificationBody title='Signup' actionText='Signup' />
+            <LinkList linkListObj={linkListObj} />
+        </Fragment>
     );
 }
 

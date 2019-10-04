@@ -1,13 +1,12 @@
 import React from 'react';
 import {Button, Form, Jumbotron} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import PageTitle from '../page-title';
 import './identification-body.css';
 
 
-const IdentificationBody = ({title, actionText, linkObj}) => {
+const IdentificationBody = ({title, actionText}) => {
     return (
         <>
             <PageTitle title={title}></PageTitle>
@@ -28,12 +27,6 @@ const IdentificationBody = ({title, actionText, linkObj}) => {
                         {actionText}
                     </Button>
                 </Form>
-
-                <div className="bottom-links">
-                    <pre>
-                        <Link to='/'>Home</Link> | <Link to={linkObj.href}>{linkObj.label}</Link>
-                    </pre>
-                </div>
             </Jumbotron>
         </>
     ); 
@@ -42,7 +35,6 @@ const IdentificationBody = ({title, actionText, linkObj}) => {
 IdentificationBody.propTypes = {
     title: PropTypes.string.isRequired,
     actionText: PropTypes.string.isRequired,
-    linkObj: PropTypes.object.isRequired
 }
 
 export default IdentificationBody;
