@@ -10,7 +10,6 @@ import './app.css';
 
 
 const App = () => {
-
     return (
         <div className="app">
             <Header title="Algo Bridge" />

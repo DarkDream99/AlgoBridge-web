@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './identification-body.css';
 
 
-const IdentificationBody = ({actionText}) => {
+const IdentificationBody = ({actionText, action}) => {
     return (
         <Jumbotron className="identification-block">
             <Form>
@@ -19,7 +19,12 @@ const IdentificationBody = ({actionText}) => {
                     <Form.Control type="password" placeholder="Password" />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" onClick={
+                    (event) => {
+                        event.preventDefault();
+                        action();
+                    }
+                }>
                     {actionText}
                 </Button>
             </Form>

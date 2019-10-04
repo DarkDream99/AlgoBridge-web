@@ -13,7 +13,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const algoBrigdeService = new AlgoBridgeService();
 
-
 ReactDOM.render(
     <Provider store={store}>
         <ErrorBoundry>
