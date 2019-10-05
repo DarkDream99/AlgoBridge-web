@@ -7,13 +7,7 @@ import PageTitle from '../../page-title';
 import './login-page.css';
 import AlgoSpinner from "../../spinner";
 
-const LoginPage = (props) => {
-     const {
-         loading,
-         onLogin,
-         links: linkListObj,
-     } = props;
-
+const LoginPage = ({loading, onLogin, links: linkListObj}) => {
      let loader = null;
      if (loading) {
          loader = <AlgoSpinner/>;
@@ -44,7 +38,4 @@ const mapStateToProps = ({links}) => {
 };
 
 
-export default connect(mapStateToProps)(
-    LoginPage
-);
-
+export default connect(mapStateToProps)(LoginPage);

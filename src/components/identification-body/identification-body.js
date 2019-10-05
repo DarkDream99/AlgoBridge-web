@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Form, Jumbotron} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
+
 import './identification-body.css';
 
 
@@ -39,7 +40,7 @@ const IdentificationBody = ({actionText, action, loader}) => {
 IdentificationBody.propTypes = {
     actionText: PropTypes.string.isRequired,
     action: PropTypes.func.isRequired,
-    loader: PropTypes.elementType.isRequired,
+    loader: PropTypes.element,
 };
 
 export default IdentificationBody;
