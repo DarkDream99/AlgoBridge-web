@@ -1,33 +1,28 @@
 import React, {Component} from 'react';
 import LoginPage from '../../../components/pages/login/login-page';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
+import withLoadin from '../../../components/hoc/with-loading';
+import {compose} from "../../../utils";
 
 
 class LoginPageContainer extends Component {
-    state = {
-        loading: false,
-    };
-
-    changeLoading = (mode) => {
-        this.setState({
-            loading: mode,
-        });
-    };
-
     onLogin = (email='test1@gmail.com', password='test1') => {
-        const {algoBridgeService} = this.props;
-        this.changeLoading(true);
+        const {algoBridgeService, swapLoading} = this.props;
+        swapLoading(true);
         algoBridgeService.loginUser(email, password)
             .then((data) => {
                 console.log(data);
-                this.changeLoading(false);
+                swapLoading(false);
             });
     };
 
     render() {
-        const {loading} = this.state;
+        const {loading} = this.props;
         return <LoginPage onLogin={this.onLogin} loading={loading} />
     }
 }
 
-export default withAlgoBridgeService()(LoginPageContainer);
+export default compose(
+    withAlgoBridgeService(),
+    withLoadin(),
+)(LoginPageContainer);
