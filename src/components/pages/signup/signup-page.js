@@ -12,11 +12,11 @@ const SignupPage = ({links: linkListObj}) => {
             <menu className="links">
                 <LinkList linkListObj={linkListObj} />
             </menu>
-            <PageTitle title={"Signup"}></PageTitle>
+            <PageTitle title={"Signup"} />
             <IdentificationBody actionText='Signup' />
         </Fragment>
     );
-}
+};
 
 const mapStateToProps = ({links}) => {
     return {
@@ -25,6 +25,6 @@ const mapStateToProps = ({links}) => {
             links.login,
         ]
     }
-} 
+};
 
 export default connect(mapStateToProps)(SignupPage);

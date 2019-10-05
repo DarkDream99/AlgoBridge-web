@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './identification-body.css';
 
 
-const IdentificationBody = ({actionText, action}) => {
+const IdentificationBody = ({actionText, action, loader}) => {
     return (
         <Jumbotron className="identification-block">
             <Form>
@@ -28,12 +28,18 @@ const IdentificationBody = ({actionText, action}) => {
                     {actionText}
                 </Button>
             </Form>
+
+            <div style={{textAlign: 'center'}}>
+                {loader}
+            </div>
         </Jumbotron>
     ); 
-}
+};
 
 IdentificationBody.propTypes = {
     actionText: PropTypes.string.isRequired,
-}
+    action: PropTypes.func.isRequired,
+    loader: PropTypes.elementType.isRequired,
+};
 
 export default IdentificationBody;

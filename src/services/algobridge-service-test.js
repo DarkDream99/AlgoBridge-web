@@ -19,20 +19,22 @@ export default class AlgoBridgeService {
                 });
 
                 resolve(false);
-            }, 700);
+            }, 1700);
         });
     }
 
     signupUser = (email, password) => {
         return new Promise((resove) => {
-            this.users.forEach((user) => {
-                if (user.email === email && user.password === password) {
-                    resove(false);
-                }
-            });
+            setTimeout(() => {
+                this.users.forEach((user) => {
+                    if (user.email === email && user.password === password) {
+                        resove(false);
+                    }
+                });
 
-            this.users.push({email, password})
-            resove(true); 
+                this.users.push({email, password});
+                resove(true);
+            }, 1700);
         });
     }
 }
