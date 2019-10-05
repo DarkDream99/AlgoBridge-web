@@ -15,13 +15,13 @@ export default class AlgoBridgeService {
                 this.users.forEach((user) => {
                     if (user.email === email && user.password === password) {
                         resolve(true);
-                    } 
+                    }
                 });
 
                 resolve(false);
             }, 1700);
         });
-    }
+    };
 
     signupUser = (email, password) => {
         return new Promise((resove) => {

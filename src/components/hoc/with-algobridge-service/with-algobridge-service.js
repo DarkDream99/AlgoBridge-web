@@ -10,14 +10,14 @@ const withBookstoreService = () => (Wrapper) => {
                     (algoBrigdeService) => {
                         return (
                             <Wrapper {...props} 
-                                algoBrigdeService={algoBrigdeService} />
+                                algoBridgeService={algoBrigdeService} />
                         );
                     }
                 }
             </AlgoBridgeServiceConsumer> 
         );
     }
-}
+};
 
 export default withBookstoreService;
 

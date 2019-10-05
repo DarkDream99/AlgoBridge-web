@@ -2,7 +2,7 @@ import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 
 import HomePage from '../pages/home';
-import LoginPage from '../pages/login';
+import LoginPageContainer from '../../containers/pages/login-page-container';
 import LogoutPage from '../pages/logout';
 import SignupPage from '../pages/signup';
 import Header from '../header';
@@ -15,7 +15,7 @@ const App = () => {
             <Header title="Algo Bridge" />
             <Switch>
                 <Route path='/' component={HomePage} exact />
-                <Route path='/login' component={LoginPage} exact />
+                <Route path='/login' component={LoginPageContainer} exact />
                 <Route path='/signup' component={SignupPage} exact />
                 <Route path='/logout' component={LogoutPage} exact />
             </Switch>

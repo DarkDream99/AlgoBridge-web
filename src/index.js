@@ -11,12 +11,12 @@ import store from './store';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const algoBrigdeService = new AlgoBridgeService();
+const algoBridgeService = new AlgoBridgeService();
 
 ReactDOM.render(
     <Provider store={store}>
         <ErrorBoundry>
-            <AlgoBridgeServiceProvider value={algoBrigdeService}>
+            <AlgoBridgeServiceProvider value={algoBridgeService}>
                 <Router>
                     <App />
                 </Router>
