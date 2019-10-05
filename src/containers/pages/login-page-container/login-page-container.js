@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import LoginPage from '../../../components/pages/login/login-page';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import withLoadin from '../../../components/hoc/with-loading';
@@ -10,9 +11,11 @@ class LoginPageContainer extends Component {
         const {algoBridgeService, swapLoading} = this.props;
         swapLoading(true);
         algoBridgeService.loginUser(email, password)
-            .then((data) => {
-                console.log(data);
+            .then((ok) => {
                 swapLoading(false);
+                if (ok) {
+                    this.props.history.push('/user-home/');
+                }
             });
     };
 
@@ -23,6 +26,7 @@ class LoginPageContainer extends Component {
 }
 
 export default compose(
+    withRouter,
     withAlgoBridgeService(),
     withLoadin(),
 )(LoginPageContainer);
