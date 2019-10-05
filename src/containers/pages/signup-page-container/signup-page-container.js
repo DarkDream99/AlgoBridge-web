@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import SignupPage from "../../../components/pages/signup/signup-page";
 import withLoadin from '../../../components/hoc/with-loading';
-import {compose} from "../../../utils";
+import {compose} from "redux";
 
 
 class SignupPageContainer extends Component {
