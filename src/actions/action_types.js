@@ -1,0 +1,5 @@
+const ACTION_TYPES = {
+    LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+}
+
+export default ACTION_TYPES;

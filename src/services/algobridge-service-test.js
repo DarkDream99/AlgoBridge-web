@@ -1,9 +1,11 @@
 export default class AlgoBridgeService {
     users = [
         {
+            name: 'Tony',
             email: 'test1@gmail.com',
             password: '12345678',
         }, {
+            name: 'Bake',
             email: 'test2@gmail.com',
             password: '12345678',
         }
@@ -14,11 +16,11 @@ export default class AlgoBridgeService {
             setTimeout(() => {
                 this.users.forEach((user) => {
                     if (user.email === email && user.password === password) {
-                        resolve(true);
+                        resolve({ok: true, activeUser: user});
                     }
                 });
 
-                resolve(false);
+                resolve({ok: false});
             }, 1700);
         });
     };
@@ -28,12 +30,12 @@ export default class AlgoBridgeService {
             setTimeout(() => {
                 this.users.forEach((user) => {
                     if (user.email === email && user.password === password) {
-                        resove(false);
+                        resove({ok: false});
                     }
                 });
 
                 this.users.push({email, password});
-                resove(true);
+                resove({ok: true});
             }, 1700);
         });
     }
