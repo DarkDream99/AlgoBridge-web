@@ -2,10 +2,10 @@ export default class AlgoBridgeService {
     users = [
         {
             email: 'test1@gmail.com',
-            password: 'test1',
+            password: '12345678',
         }, {
             email: 'test2@gmail.com',
-            password: 'test2',
+            password: '12345678',
         }
     ];
 
