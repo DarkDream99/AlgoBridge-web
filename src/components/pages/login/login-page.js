@@ -7,7 +7,7 @@ import PageTitle from '../../page-title';
 import './login-page.css';
 import AlgoSpinner from "../../spinner";
 
-const LoginPage = ({loading, onLogin, links: linkListObj}) => {
+const LoginPage = ({loading, onLogin, links: linkListObj, errorMessage}) => {
      let loader = null;
      if (loading) {
          loader = <AlgoSpinner/>;
@@ -22,6 +22,7 @@ const LoginPage = ({loading, onLogin, links: linkListObj}) => {
              <IdentificationBody actionText='Login'
                                  action={onLogin}
                                  loader={loader}
+                                 errorMessage={errorMessage}
              />
          </Fragment>
      );

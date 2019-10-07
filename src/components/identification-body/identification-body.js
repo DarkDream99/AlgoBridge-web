@@ -1,14 +1,22 @@
 import React, {useState} from 'react';
 import {Button, Form, Jumbotron} from 'react-bootstrap';
 import PropTypes from 'prop-types';
-
+import ErrorIndicator from '../error-indicator';
 
 import './identification-body.css';
 
 
-const IdentificationBody = ({actionText, action, loader}) => {
+const IdentificationBody = ({actionText, action, loader, errorMessage}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    let errorBoard = null;
+    if (errorMessage)
+        errorBoard = (
+            <ErrorIndicator>
+                <div>{errorMessage}</div>
+            </ErrorIndicator>
+        );
 
     return (
         <Jumbotron className="identification-block">
@@ -40,6 +48,7 @@ const IdentificationBody = ({actionText, action, loader}) => {
             </Form>
 
             <div style={{textAlign: 'center'}}>
+                {errorBoard}
                 {loader}
             </div>
         </Jumbotron>
