@@ -1,8 +1,8 @@
 .header {
     text-align: center;
-    padding: 30px !important;
-    background-color: grey !important;
+    padding: 10px !important;
+    background-color: #343a40 !important;
     color: white;
-    font-size: 2em;
+    font-size: 1.2em;
     font-family: 'Grenze', serif;
 }

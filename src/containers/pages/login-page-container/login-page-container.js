@@ -35,11 +35,11 @@ class LoginPageContainer extends Component {
 
 const mapDispatchToProps = {
     loginDone
-}
+};
 
 const mapStateToProps = () => {
     return {}
-}
+};
 
 export default compose(
     withRouter,

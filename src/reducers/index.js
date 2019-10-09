@@ -17,7 +17,7 @@ const initialState = {
     },
     isLogin: false,
     activeUser: null,
-}
+};
 
 const reducer = (state=initialState, action) => {
     switch (action.type) {
@@ -30,7 +30,7 @@ const reducer = (state=initialState, action) => {
         default:
             return state;
     }
-}
+};
 
 export default reducer;
 
