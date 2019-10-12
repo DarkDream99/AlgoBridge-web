@@ -1,20 +1,23 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {compose} from "redux";
 
 
 const UserHome = ({activeUser}) => {
     return (
-        <div>
+        <>
             <div>User home</div>
             <div>Hello {activeUser.name}, email: {activeUser.email}</div>
-        </div>
+        </>
     )
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({activeUser}) => {
     return {
-        activeUser: state.activeUser 
+        activeUser: activeUser,
     }
 };  
 
-export default connect(mapStateToProps)(UserHome);
+export default compose(
+    connect(mapStateToProps)
+)(UserHome);

@@ -16,7 +16,10 @@ const initialState = {
         }
     },
     isLogin: false,
-    activeUser: null,
+    activeUser: {
+        name: 'anonymous',
+        email: 'empty email',
+    },
 };
 
 const reducer = (state=initialState, action) => {
