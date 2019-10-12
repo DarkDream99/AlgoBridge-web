@@ -1,5 +1,10 @@
 import ACTION_TYPES from '../actions/action_types';
 
+const defaultUser = {
+    name: 'anonymous',
+    email: 'empty email',
+};
+
 const initialState = {
     links: {
         home: {
@@ -16,10 +21,7 @@ const initialState = {
         }
     },
     isLogin: false,
-    activeUser: {
-        name: 'anonymous',
-        email: 'empty email',
-    },
+    activeUser: defaultUser,
 };
 
 const reducer = (state=initialState, action) => {
@@ -30,6 +32,14 @@ const reducer = (state=initialState, action) => {
                 isLogin: true,
                 activeUser: action.payload,
             };
+
+        case ACTION_TYPES.LOGOUT_SUCCESS:
+            return {
+                ...state,
+                isLogin: false,
+                activeUser: defaultUser,
+            };
+
         default:
             return state;
     }

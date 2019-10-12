@@ -6,7 +6,7 @@ const loginDone = (activeUser) => {
         type: ACTION_TYPES.LOGIN_SUCCESS, 
         payload: activeUser,
     };
-}
+};
 
 export default loginDone;
 

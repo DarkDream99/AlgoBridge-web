@@ -4,9 +4,11 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import './header.css';
+import {compose} from "redux";
+import {logoutDone} from "../../actions";
 
 
-const Header = ({title, isLogin, activeUser}) => {
+const Header = ({title, isLogin, activeUser, logoutDone}) => {
     let header = (
         <Jumbotron fluid className='header'>
             {title}
@@ -22,6 +24,7 @@ const Header = ({title, isLogin, activeUser}) => {
                     <Nav className="mr-auto">
                         <Nav.Link href="#home">My algos</Nav.Link>
                         <Nav.Link href="#link">Algo browser</Nav.Link>
+                        <Nav.Link href="#home">My learns</Nav.Link>
                         <NavDropdown title="Actions" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Create algorithm</NavDropdown.Item>
                         </NavDropdown>
@@ -30,7 +33,7 @@ const Header = ({title, isLogin, activeUser}) => {
                         <NavDropdown title={`Log in as ${activeUser.name}`}>
                             <NavDropdown.Item>Settings</NavDropdown.Item>
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item>Log out</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => logoutDone()}>Log out</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
@@ -54,4 +57,10 @@ const mapStateToProps = ({isLogin, activeUser}) => {
     }
 };
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = {
+    logoutDone,
+};
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+)(Header);
