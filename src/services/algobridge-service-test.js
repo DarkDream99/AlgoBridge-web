@@ -4,11 +4,22 @@ export default class AlgoBridgeService {
             name: 'Tony',
             email: 'test1@gmail.com',
             password: '12345678',
+            algos: [0, 1],
         }, {
             name: 'Bake',
             email: 'test2@gmail.com',
             password: '12345678',
+            algos: [],
         }
+    ];
+
+    algoMaker = (id, title, complexity) => {
+        return { id, title, complexity } 
+    }
+
+    algos = [
+        this.algoMaker(0, 'Bubble sorting', 'O(n^2)'),
+        this.algoMaker(1, 'QSort', 'O(n*log(n))'),
     ];
 
     loginUser = (email, password) => {
