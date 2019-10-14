@@ -18,6 +18,14 @@ const initialState = {
         signup: {
             label: 'Signup',
             href: '/signup',
+        },
+        userHome: {
+            label: 'Home',
+            href: '/user-home',
+        },
+        userAlgos: {
+            label: 'My algos',
+            href: '/user-algos',
         }
     },
     isLogin: false,

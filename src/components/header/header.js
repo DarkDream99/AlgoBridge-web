@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {Jumbotron, Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,7 +9,11 @@ import {compose} from "redux";
 import {logoutDone} from "../../actions";
 
 
-const Header = ({title, isLogin, activeUser, logoutDone}) => {
+const Header = (props) => {
+    const {
+        title, isLogin, links, activeUser,
+        logoutDone
+    } = props;
     let header = (
         <Jumbotron fluid className='header'>
             {title}
@@ -18,18 +23,22 @@ const Header = ({title, isLogin, activeUser, logoutDone}) => {
     if (isLogin && activeUser) {
         header = (
             <Navbar bg="dark" variant="dark" expand="lg" className='header'>
-                <Navbar.Brand href="#home">{title}</Navbar.Brand>
+                <Link to={links.userHome.href}>
+                    <Navbar.Brand>{title}</Navbar.Brand>
+                </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="#home">My algos</Nav.Link>
+                        <Link to={links.userAlgos.href}>
+                            <Navbar.Text>{links.userAlgos.label}</Navbar.Text>
+                        </Link>
                         <Nav.Link href="#link">Algo browser</Nav.Link>
                         <Nav.Link href="#home">My learns</Nav.Link>
                         <NavDropdown title="Actions" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Create algorithm</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    <Nav inline>
+                    <Nav inline="true">
                         <NavDropdown title={`Log in as ${activeUser.name}`}>
                             <NavDropdown.Item>Settings</NavDropdown.Item>
                             <NavDropdown.Divider/>
@@ -50,10 +59,11 @@ Header.propTypes = {
     title: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({isLogin, activeUser}) => {
+const mapStateToProps = ({isLogin, activeUser, links}) => {
     return {
         isLogin,
-        activeUser
+        activeUser,
+        links,
     }
 };
 
