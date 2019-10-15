@@ -56,14 +56,14 @@ export default class AlgoBridgeService {
     userAlgos = (activeUser) => {
         return new Promise((resolve) => {
             setTimeout(() => {
-                let resAlgos = [];
+                let userAlgos = [];
                 activeUser.algos.forEach((algoId) => {
                     const foundAlgo = this.algos.find((algo) => algo.id === algoId);
                     if (foundAlgo)
-                        resAlgos.push(foundAlgo);
+                        userAlgos.push(foundAlgo);
                 });
 
-                resolve({resAlgos});
+                resolve({userAlgos});
             }, 600);
         });
     }

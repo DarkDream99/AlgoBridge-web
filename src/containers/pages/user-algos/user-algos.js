@@ -1,20 +1,35 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
+import withLoading from '../../../components/hoc/with-loading';
 import UserAlgosPage from '../../../components/pages/user-algos';
 
 
-const UserAlgosContainer = (props) => {
-    const {activeUser, algoBridgeService, ...clearProps} = props; 
-    algoBridgeService.userAlgos(activeUser)
-    .then((res) => {
-        const algoProps = ['Title', 'Complexity'];
+class UserAlgosContainer extends Component {
+    state = {
+        userAlgos: [],
+    };
 
+    componentDidMount() {
+        const {activeUser, algoBridgeService, swapLoading} = this.props; 
+        swapLoading(true);
+        algoBridgeService.userAlgos(activeUser)
+            .then((res) => {
+                this.setState({
+                    userAlgos: res.userAlgos,
+                });
+                swapLoading(false);
+            });
+    }
+
+    render() {
+        const {activeUser, algoBridgeService, ...clearProps} = this.props; 
+        const algoProps = ['Title', 'Complexity'];
         return (
-            <UserAlgosPage {...clearProps} userAlgos={res.userAlgos} algoProps={algoProps} /> 
+            <UserAlgosPage {...clearProps} userAlgos={this.state.userAlgos} algoProps={algoProps} /> 
         );
-    });
+    }
 };
 
 const mapStateToProps = (state) => {
@@ -25,5 +40,6 @@ const mapStateToProps = (state) => {
 
 export default compose(
     withAlgoBridgeService(),
+    withLoading(),
     connect(mapStateToProps)
 )(UserAlgosContainer);

@@ -1,10 +1,11 @@
 import React from 'react';
 import {Table} from 'react-bootstrap';
 import PageTitle from '../../page-title';
+import AlgoSpinner from '../../spinner'; 
 import './user-algos.css';
 
 
-const UserAlgosPage = ({algoProps, userAlgos}) => {
+const UserAlgosPage = ({algoProps, userAlgos, loading}) => {
     const headers = algoProps.map((label) => {
         return (
             <th key={label}>{label}</th>
@@ -18,22 +19,29 @@ const UserAlgosPage = ({algoProps, userAlgos}) => {
                 <td>{algo.complexity}</td>
             </tr>
         );
-    }); 
+    });
+
+    let table = (
+        <Table striped bordered hover>
+            <thead>
+                <tr>
+                    {headers}
+                </tr>
+            </thead>
+
+            <tbody>
+                {body}
+            </tbody>
+        </Table>
+    );
+    if (loading) {
+        table = <AlgoSpinner />
+    }
+
     return (
         <div>
             <PageTitle title="My algos" />
-            
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        {headers}
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {body}
-                </tbody>
-            </Table>
+            {table}            
         </div>
     );
 };
