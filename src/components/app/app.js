@@ -8,6 +8,7 @@ import LogoutPage from '../pages/logout';
 import Header from '../header';
 import './app.css';
 import UserHome from '../pages/user-home';
+import UserAlgosContainer from '../../containers/pages/user-algos';
 import AuthRedirect from "../../containers/auth-redirect";
 
 
@@ -23,6 +24,7 @@ const App = () => {
 
                 <AuthRedirect>
                     <Route path='/user-home' component={UserHome} exact />
+                    <Route path='/user-algos' component={UserAlgosContainer} exact />
                 </AuthRedirect>
             </Switch>
         </div>
