@@ -13,15 +13,15 @@ export default class AlgoBridgeService {
         }
     ];
 
-    algoMaker = (id, title, complexity) => {
-        return { id, title, complexity } 
-    }
+    algoMaker = (id, title, memoryUp, memoryDown, speedUp, speedDown) => {
+        return { id, title, memoryUp, memoryDown, speedUp, speedDown }
+    };
 
     algos = [
-        this.algoMaker(0, 'Bubble sorting', 'O(n^2)'),
-        this.algoMaker(1, 'QSort', 'O(n*log(n))'),
-        this.algoMaker(2, 'Heap sort', 'O(n*log(n))'),
-        this.algoMaker(3, 'Radix sort', 'O(n)'),
+        this.algoMaker(0, 'Bubble sorting', 'O(n)', 'o(n)', 'O(n^2)', 'o(n^2)'),
+        this.algoMaker(1, 'QSort', 'O(n^2)', 'o(n^2)', 'O(n^2)', 'o(n*log(n))'),
+        this.algoMaker(2, 'Heap sort', 'O(n)', 'o(n)', 'O(n*log(n))', 'o(n*log(n))'),
+        this.algoMaker(3, 'Radix sort', 'O(n)', 'o(n)', 'O(n*m)', 'o(n*m)'),
     ];
 
     loginUser = (email, password) => {
@@ -51,7 +51,7 @@ export default class AlgoBridgeService {
                 resove({ok: true});
             }, 1700);
         });
-    }
+    };
 
     userAlgos = (activeUser) => {
         return new Promise((resolve) => {

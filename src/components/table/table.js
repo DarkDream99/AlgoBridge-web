@@ -3,15 +3,15 @@ import PropType from 'prop-types';
 import {Table as BootTable} from 'react-bootstrap';
 
 const Table = ({headers, rows}) => {
-    const headerCols = headers.map((label) => {
+    const headerCols = headers.map(([label, key]) => {
         return (
             <th key={label}>{label}</th>
         );
     });
 
     const rowsBody = rows.map((algo) => {
-        const rowCols = headers.map((colTitle) => {
-            return (<td key={colTitle}>{algo[colTitle.toLowerCase()]}</td>);
+        const rowCols = headers.map(([colTitle, colKey]) => {
+            return (<td key={colTitle}>{algo[colKey]}</td>);
         });
 
         return (

@@ -1,13 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {compose} from "redux";
+import PageTitle from "../../page-title";
 
 
 const UserHome = ({activeUser}) => {
     return (
         <>
-            <div>User home</div>
-            <div>Hello {activeUser.name}, email: {activeUser.email}</div>
+            <PageTitle title="Home" />
+            <div>email: {activeUser.email}</div>
         </>
     )
 };
