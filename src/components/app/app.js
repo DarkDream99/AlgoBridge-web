@@ -10,6 +10,7 @@ import './app.css';
 import UserHome from '../pages/user-home';
 import UserAlgosContainer from '../../containers/pages/user-algos';
 import AuthRedirect from "../../containers/auth-redirect";
+import NewAlgoPage from "../pages/new-algo";
 
 
 const App = () => {
@@ -25,6 +26,9 @@ const App = () => {
                 <AuthRedirect>
                     <Route path='/user-home' component={UserHome} exact />
                     <Route path='/user-algos' component={UserAlgosContainer} exact />
+                    <Route path='/algo/new' component={NewAlgoPage} exact />
+                    <Route path='/algo/:id' component={null} exact />
+                    <Route path='/algo/:id/edit' component={null} exact />
                 </AuthRedirect>
             </Switch>
         </div>
