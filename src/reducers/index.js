@@ -26,7 +26,11 @@ const initialState = {
         userAlgos: {
             label: 'My algos',
             href: '/user-algos',
-        }
+        },
+        createNewAlgo: {
+            label: 'Create new algorithm',
+            href: '/algo/new',
+        },
     },
     isLogin: false,
     activeUser: defaultUser,

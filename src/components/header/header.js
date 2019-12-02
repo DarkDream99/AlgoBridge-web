@@ -35,7 +35,11 @@ const Header = (props) => {
                         <Nav.Link href="#link">Algo browser</Nav.Link>
                         <Nav.Link href="#home">My learns</Nav.Link>
                         <NavDropdown title="Actions" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Create algorithm</NavDropdown.Item>
+                            <NavDropdown.Header>
+                                <Link to={links.createNewAlgo.href}>
+                                    {links.createNewAlgo.label}
+                                </Link>
+                            </NavDropdown.Header>
                         </NavDropdown>
                     </Nav>
                     <Nav inline="true">

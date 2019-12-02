@@ -25,8 +25,8 @@ class UserAlgosContainer extends Component {
 
     render() {
         const {activeUser, algoBridgeService, ...clearProps} = this.props; 
-        const algoProps = [['Title', 'title'], ['O(memory)', 'memoryUp'], ['o(memory)', 'memoryDown'],
-            ['O(speed)', 'speedUp'], ['o(speed)', 'speedDown']];
+        const algoProps = [['Title', 'title'], ['O(memory)', 'memoryUp'], ['O(speed)', 'speedUp'],
+            ['\u0398(speed)', 'speedMiddle']];
         return (
             <UserAlgosPage {...clearProps} userAlgos={this.state.userAlgos} algoProps={algoProps} /> 
         );

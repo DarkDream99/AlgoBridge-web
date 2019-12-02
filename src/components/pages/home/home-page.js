@@ -13,7 +13,7 @@ const HomePage = ({links: linkListObj}) => {
             <div>Hello on Algo Bridge</div>
         </>
     );
-}
+};
 
 const mapStateToProps = ({links}) => {
     return {
