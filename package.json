@@ -10,7 +10,6 @@
     "jest-environment-enzyme": "^7.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.10.1",
-    "react-ace-editor": "0.0.3",
     "react-bootstrap": "^1.0.0-beta.12",
     "react-dom": "^16.10.1",
     "react-redux": "^7.1.1",
