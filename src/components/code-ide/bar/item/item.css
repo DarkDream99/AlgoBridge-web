@@ -1,0 +1,8 @@
+.bar-item {
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.bar-item:hover {
+    color: white;
+}
