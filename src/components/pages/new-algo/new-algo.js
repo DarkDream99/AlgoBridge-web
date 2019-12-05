@@ -4,9 +4,23 @@ import PageTitle from "../../page-title";
 import {Button, Container, Form, Row} from "react-bootstrap";
 import RowLine from "../../code-ide/editor/row";
 import CodeBar from "../../code-ide/bar";
+import CodeInterface from "../../code-ide/interface";
 
+
+const func = {
+    title: "Functions",
+    values: ['abs', 'pow', 'sum'],
+    actions: [() => {alert('abs')}, () => {alert('pow')}, () => {alert('sum')}],
+};
+
+const oper = {
+    title: "Operations",
+    values: ['=', '/', '*'],
+    actions: [() => {alert('Assign')}, () => {alert('Div')}, () => {alert('Mult')}]
+};
 
 class NewAlgoPage extends Component {
+
     render() {
         return (
             <Form style={{
@@ -52,7 +66,9 @@ class NewAlgoPage extends Component {
                  <Form.Group as={Row} style={{
                 width: '100% !important',
             }}>
+                     <CodeInterface oper={oper} func={func} />
                      <CodeBar/>
+
                     <Container>
                         <Row>
                             <RowLine number={1} operations={null} comment="Yarik"/>
