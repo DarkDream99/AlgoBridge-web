@@ -7,16 +7,42 @@ import CodeBar from "../../code-ide/bar";
 import CodeInterface from "../../code-ide/interface";
 
 
-const func = {
-    title: "Functions",
-    values: ['abs', 'pow', 'sum'],
-    actions: [() => {alert('abs')}, () => {alert('pow')}, () => {alert('sum')}],
+const operation1 = {
+    type: "assign",
+    parameters: [
+        {type: "variable", parameters: ['abc']},
+        {type: "number", parameters: [7]},
+    ]
 };
 
-const oper = {
-    title: "Operations",
-    values: ['=', '/', '*'],
-    actions: [() => {alert('Assign')}, () => {alert('Div')}, () => {alert('Mult')}]
+const operation2 = {
+    type: "assign",
+    parameters: [
+        {type: "variable", parameters: ['var']},
+        {type: "number", parameters: [137]},
+    ]
+};
+
+const operation3 = {
+    type: "assign",
+    parameters: [
+        {type: "variable", parameters: ['var']},
+        {type: "variable", parameters: ['abc']},
+    ]
+};
+
+const operation4 = {
+    type: "for-loop",
+    parameters: [{
+        index: 'i',
+        start: 0,
+        end: 10,
+        step: 2
+    }]
+};
+
+const operation5 = {
+    type: "end-for-loop"
 };
 
 class NewAlgoPage extends Component {
@@ -63,24 +89,22 @@ class NewAlgoPage extends Component {
                     <Form.Label>Implementation</Form.Label>
                 </Form.Group>
 
-                 <Form.Group as={Row} style={{
-                width: '100% !important',
-            }}>
-                     <CodeInterface oper={oper} func={func} />
-                     <CodeBar/>
-
+                 <Form.Group as={Row}>
                     <Container>
                         <Row>
-                            <RowLine number={1} operations={null} comment="Yarik"/>
+                            <RowLine number={1} operation={operation1} comment=""/>
                         </Row>
                         <Row>
-                            <RowLine number={2} operations={null} comment="Zaebok"/>
+                            <RowLine number={2} operation={operation2} comment=""/>
                         </Row>
                          <Row>
-                            <RowLine number={3} operations={null} comment="Zaebok"/>
+                            <RowLine number={3} operation={operation3} comment=""/>
                         </Row>
                          <Row>
-                            <RowLine number={4} operations={null} comment="Zaebok"/>
+                            <RowLine number={4} operation={operation4} comment=""/>
+                        </Row>
+                        <Row>
+                            <RowLine number={5} operation={operation5} comment=""/>
                         </Row>
                     </Container>
                 </Form.Group>
@@ -92,6 +116,8 @@ class NewAlgoPage extends Component {
                             console.log("create new algorithm", event);
                         }
                     }>Create</Button>
+                    <Button>Run</Button>
+                    <Button>Visualize</Button>
                 </Form.Group>
             </Form>
         )
