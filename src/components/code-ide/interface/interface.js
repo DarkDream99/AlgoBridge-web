@@ -4,22 +4,20 @@ import "./interface.css";
 
 
 const CodeInterface = (props) => {
-    const {func, oper} = props;
+    const {groups} = props;
+    const content = groups.map((group) => (
+        <GroupInterfaceItem
+            key={group.title}
+            title={group.title}
+            values={group.values}
+            actions={group.actions}
+        />
+    ));
 
     return (
-        <>
-            <GroupInterfaceItem
-                title={func.title}
-                values={func.values}
-                actions={func.actions}
-            />
-
-            <GroupInterfaceItem
-                title={oper.title}
-                values={oper.values}
-                actions={oper.actions}
-            />
-        </>
+        <div style={{display: 'flex'}}>
+            {content}
+        </div>
     );
 };
 

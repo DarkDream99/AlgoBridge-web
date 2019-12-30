@@ -3,46 +3,76 @@ import './new-algo.css'
 import PageTitle from "../../page-title";
 import {Button, Container, Form, Row} from "react-bootstrap";
 import RowLine from "../../code-ide/editor/row";
-import CodeBar from "../../code-ide/bar";
-import CodeInterface from "../../code-ide/interface";
+import OperationConstructor from "../../code-ide/operation-constructor";
 
 
 const operation1 = {
     type: "assign",
-    parameters: [
-        {type: "variable", parameters: ['abc']},
-        {type: "number", parameters: [7]},
-    ]
+    parameter: {
+        left:  {type: "variable", parameter: {name: 'abc'}},
+        right: {type: "number", parameter: {val: 7}},
+    }
 };
 
 const operation2 = {
     type: "assign",
-    parameters: [
-        {type: "variable", parameters: ['var']},
-        {type: "number", parameters: [137]},
-    ]
+    parameter: {
+        left: {type: "variable", parameter: {name: 'var'}},
+        right: {type: "number", parameter: {val: 137}},
+    }
 };
 
 const operation3 = {
     type: "assign",
-    parameters: [
-        {type: "variable", parameters: ['var']},
-        {type: "variable", parameters: ['abc']},
-    ]
+    parameter: {
+        left: {type: "variable", parameter: {name: 'var'}},
+        right: {type: "variable", parameter: {name: 'abc'}},
+    }
 };
 
 const operation4 = {
     type: "for-loop",
-    parameters: [{
+    parameter: {
         index: 'i',
         start: 0,
         end: 10,
         step: 2
-    }]
+    }
 };
 
 const operation5 = {
     type: "end-for-loop"
+
+};
+
+const operation6 = {
+    type: "assign",
+    parameter: {
+        left: {type: 'variable', parameter: {name: 'var'}},
+        right: {type: 'array', parameter: {values: [5, 6, -3, 'abc']}},
+    }
+};
+
+const operation7 = {
+    type: "multiplication",
+    parameter: {
+        left: {type: 'number', parameter: {val: 7}},
+        right: {type: 'number', parameter: {val: 12}}
+    }
+};
+
+const operation8 = {
+    type: "assign",
+    parameter: {
+        left: {type: 'variable', parameter: {name: 'var'}},
+        right: {
+            type: 'multiplication',
+            parameter: {
+                left: {type: 'number', parameter: {val: 5}},
+                right: {type: 'number', parameter: {val: 8}}
+            }
+        }
+    }
 };
 
 class NewAlgoPage extends Component {
@@ -71,21 +101,6 @@ class NewAlgoPage extends Component {
                 </Form.Group>
 
                 <Form.Group as={Row}>
-                    <Form.Label>Up speed</Form.Label>
-                    <Form.Control type="text"/>
-                </Form.Group>
-
-                <Form.Group as={Row}>
-                    <Form.Label>Middle speed</Form.Label>
-                    <Form.Control type="text"/>
-                </Form.Group>
-
-                <Form.Group as={Row}>
-                    <Form.Label>Middle memory</Form.Label>
-                    <Form.Control type="text"/>
-                </Form.Group>
-
-                <Form.Group as={Row}>
                     <Form.Label>Implementation</Form.Label>
                 </Form.Group>
 
@@ -104,7 +119,13 @@ class NewAlgoPage extends Component {
                             <RowLine number={4} operation={operation4} comment=""/>
                         </Row>
                         <Row>
-                            <RowLine number={5} operation={operation5} comment=""/>
+                            <RowLine number={5} operation={operation6} nest={1} comment=""/>
+                        </Row>
+                        <Row>
+                            <RowLine number={6} operation={operation7} nest={1} comment=""/>
+                        </Row>
+                        <Row>
+                            <RowLine number={7} operation={operation5} comment=""/>
                         </Row>
                     </Container>
                 </Form.Group>
@@ -119,6 +140,8 @@ class NewAlgoPage extends Component {
                     <Button>Run</Button>
                     <Button>Visualize</Button>
                 </Form.Group>
+
+                <OperationConstructor operation={operation8}/>
             </Form>
         )
     }

@@ -4,30 +4,55 @@ import NumberOperation from "./number-operation";
 import VariableOperation from "./variable-operation";
 import ForLoopOperation from "./for-loop-operation";
 import EndForLoopOperation from "./for-loop-operation/end-for-loop-operation";
+import ArrayOperation from "./array-operation";
+import SumOperation from "./sum-operation";
+import SubtractionOperation from "./subtraction-operation";
+import MultiplicationOperation from "./multiplication-operation";
+import DivisionOperation from "./division-operation/division-operation";
 
 
 const Operation = (props) => {
-    const {type, parameters} = props;
+    const {type, parameter, childrenIds, mode} = props;
     let result = null;
 
     if (type === "assign") {
-        result = <AssignOperation left={parameters[0]} right={parameters[1]}/>;
+        result = <AssignOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
     if (type === "number") {
-        result = <NumberOperation val={parameters[0]}/>;
+        result = <NumberOperation {...parameter}/>;
     }
 
     if (type === "variable") {
-        result = <VariableOperation name={parameters[0]}/>
+        result = <VariableOperation {...parameter}/>
     }
 
     if (type === "for-loop") {
-        result = <ForLoopOperation {...parameters[0]}/>
+        result = <ForLoopOperation {...parameter}/>
     }
 
     if (type === "end-for-loop") {
         result = <EndForLoopOperation/>
+    }
+
+    if (type === "array") {
+        result = <ArrayOperation {...parameter} />
+    }
+
+    if (type === "sum") {
+        result = <SumOperation {...parameter}/>
+    }
+
+    if (type === "subtraction") {
+        result = <SubtractionOperation {...parameter}/>
+    }
+
+    if (type === "multiplication") {
+        result = <MultiplicationOperation {...parameter} childrenIds={childrenIds} mode={mode}/>
+    }
+
+    if (type === "division") {
+        result = <DivisionOperation {...parameter}/>
     }
 
     return (

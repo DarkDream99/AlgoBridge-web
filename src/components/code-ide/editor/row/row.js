@@ -6,7 +6,14 @@ import Operation from "../../operation";
 
 
 const RowLine = (props) => {
-    const {number, operation, comment} = props;
+    const {number, operation, nest, comment} = props;
+
+    let spaces = [];
+    if (nest) {
+        for (let i = 0; i < 4 * nest; ++i) {
+            spaces.push(<span key={i}>&#160;</span>);
+        }
+    }
 
     return (
         <Container>
@@ -14,8 +21,8 @@ const RowLine = (props) => {
                 <Col xs={1} className="line-right-border line-bottom-border row-line">
                     <Number value={number}/>
                 </Col>
-                <Col className="line-right-border line-bottom-border row-line">
-                    <Operation type={operation.type} parameters={operation.parameters} />
+                <Col className="line-right-border line-bottom-border row-line" style={{display: 'flex'}}>
+                    {spaces}<Operation {...operation} />
                 </Col>
                 <Col xs={1} className="line-bottom-border row-line">
                     <ButtonGroup>
