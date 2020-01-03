@@ -10,8 +10,7 @@ class OperationConstructor extends Component {
     state = {
         params: [],
         resultOperation: null,
-        selectedParam: 1,
-        nextIndex: 0,
+        selectedParamIndex: 1,
         showInputField: false,
         inputLabel: "",
         inputError: "",
@@ -61,15 +60,50 @@ class OperationConstructor extends Component {
         this.setState({inputError: ""});
 
         let isValid = true;
+        let newOperation = null;
         switch (this.state.inputType) {
             case "number":
                 isValid = isValidNumber(value);
+                newOperation = {
+                    type: "number",
+                    parameter: {val: value}
+                };
                 break;
             default:
                 break;
         }
 
         if (isValid) {
+            var startIndex = this.state.selectedParamIndex;
+            var selectedParam = this.state.params.find((element, index, array) => {
+                return element.index === startIndex;
+            });
+            newOperation.index = selectedParam.index;
+            selectedParam.operation = newOperation;
+            selectedParam.childrenIds = [];
+
+            let nextOperation = Object.assign({}, selectedParam.operation);
+            // TODO add params if neccessery
+            while (startIndex) {
+                const parentIndex = selectedParam.parentIndex;
+
+                selectedParam = this.state.params.find((element, index, array) => {
+                    return element.index === parentIndex;
+                });
+
+                if (selectedParam.operation.parameter.left && selectedParam.operation.parameter.left.index === startIndex) {
+                    selectedParam.operation.parameter.left = nextOperation;
+                }
+                if (selectedParam.operation.parameter.right && selectedParam.operation.parameter.right.index === startIndex) {
+                    selectedParam.operation.parameter.right = nextOperation;
+                }
+                nextOperation = Object.assign({}, selectedParam.operation);
+                startIndex = parentIndex;
+            }
+            this.setState({resultOperation: nextOperation});
+            this.nextIndex = 0;
+            this.setState({params: this._updateParams(nextOperation)});
+
             this._handleCloseInputField();
         } else {
             this.setState({inputError: "Incorrect value"});
@@ -83,6 +117,7 @@ class OperationConstructor extends Component {
     _updateParams = (operation, parentIndex=null, params=[]) => {
         if (operation) {
             const index = this.nextIndex;
+            operation.index = index;
             params.push({
                 index,
                 operation,
@@ -104,7 +139,7 @@ class OperationConstructor extends Component {
     };
 
     setSelectedParam = (newIndex) => {
-        this.setState({selectedParam: newIndex});
+        this.setState({selectedParamIndex: newIndex});
     };
 
     render() {
@@ -113,7 +148,7 @@ class OperationConstructor extends Component {
                 key={param.index}
                 {...param}
                 setSelectedParam={this.setSelectedParam}
-                isSelected={this.state.selectedParam === param.index}
+                isSelected={this.state.selectedParamIndex === param.index}
             />
         ));
 
@@ -121,8 +156,8 @@ class OperationConstructor extends Component {
             <div>
                 <InputField
                     show={this.state.showInputField}
-                    handleClose={this._handleCloseInputField}
-                    handleSave={this._handleSaveInputField}
+                    handleClose={() => this._handleCloseInputField()}
+                    handleSave={(value) => this._handleSaveInputField(value)}
                     label={this.state.inputLabel}
                     error={this.state.inputError}
                 />
