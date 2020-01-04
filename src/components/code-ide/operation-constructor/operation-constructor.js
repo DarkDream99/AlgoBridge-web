@@ -3,7 +3,7 @@ import Operation from "../operation";
 import ParameterField from "./parameter-field";
 import CodeInterface from "../interface";
 import InputField from "./input-field";
-import {isValidNumber} from "../../../validators";
+import {isValidVariable, isValidNumber} from "../../../validators";
 
 
 class OperationConstructor extends Component {
@@ -29,6 +29,12 @@ class OperationConstructor extends Component {
             title: 'Variables',
             values: ['Create new'],
             actions: [() => {
+                this.setState({
+                    inputLabel: "Enter name:",
+                    showInputField: true,
+                    inputType: "variable",
+                    inputError: "",
+                });
             }],
         }, {
             title: 'Operands',
@@ -85,7 +91,7 @@ class OperationConstructor extends Component {
         const emptyOperand = {type: "empty", parameter: {}};
         var leftOperand = null;
         var rightOperand = null;
-
+        
         switch (this.state.inputType) {
             case "number":
                 isValid = isValidNumber(value);
@@ -93,6 +99,13 @@ class OperationConstructor extends Component {
                     type: "number",
                     parameter: {val: value}
                 };
+                break;
+            case "variable":
+                isValid = isValidVariable(value);
+                newOperation = {
+                    type: "variable",
+                    parameter: {name: value}
+                }
                 break;
             case "assign":
                 isValid = true;
