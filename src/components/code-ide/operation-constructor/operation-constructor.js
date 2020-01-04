@@ -17,6 +17,13 @@ class OperationConstructor extends Component {
         inputType: "",
     };
 
+    emptyInput = {
+        inputLabel: "",
+        showInputField: false,
+        inputType: "",
+        inputError: "",
+    }
+
     testGroups = [
         {
             title: 'Variables',
@@ -27,10 +34,25 @@ class OperationConstructor extends Component {
             title: 'Operands',
             values: ['Assign', 'Sum', 'Subtraction', 'Multiplication', 'Division'],
             actions: [() => {
+                this.setState({...this.emptyInput, inputType: 'assign'}, () => {
+                    this._handleSaveInputField();
+                });
             }, () => {
+                this.setState({...this.emptyInput, inputType: 'sum'}, () => {
+                    this._handleSaveInputField();
+                })
             }, () => {
+                this.setState({...this.emptyInput, inputType: 'subtraction'}, () => {
+                    this._handleSaveInputField();
+                })
             }, () => {
+                this.setState({...this.emptyInput, inputType: 'multiplication'}, () => {
+                    this._handleSaveInputField();
+                })
             }, () => {
+                this.setState({...this.emptyInput, inputType: 'division'}, () => {
+                    this._handleSaveInputField();
+                })
             }],
         }, {
             title: 'Primitives',
@@ -55,12 +77,15 @@ class OperationConstructor extends Component {
         this.state.params = this._updateParams(props.operation);
     }
 
-    _handleSaveInputField = (value) => {
-        console.log(value);
+    _handleSaveInputField = (value="") => {
         this.setState({inputError: ""});
 
         let isValid = true;
         let newOperation = null;
+        const emptyOperand = {type: "empty", parameter: {}};
+        var leftOperand = null;
+        var rightOperand = null;
+
         switch (this.state.inputType) {
             case "number":
                 isValid = isValidNumber(value);
@@ -69,8 +94,67 @@ class OperationConstructor extends Component {
                     parameter: {val: value}
                 };
                 break;
-            default:
+            case "assign":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "assign",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand,
+                    }
+                }
                 break;
+            case "sum":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "sum",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand,
+                    }
+                }
+                break;
+            case "subtraction":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "subtraction",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand,
+                    }
+                }
+                break;
+            case "multiplication":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "multiplication",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand,
+                    }
+                }
+                break;
+            case "division":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "division",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand,
+                    }
+                }
+                break;
+            default:
         }
 
         if (isValid) {
@@ -83,7 +167,6 @@ class OperationConstructor extends Component {
             selectedParam.childrenIds = [];
 
             let nextOperation = Object.assign({}, selectedParam.operation);
-            // TODO add params if neccessery
             while (startIndex) {
                 const parentIndex = selectedParam.parentIndex;
 

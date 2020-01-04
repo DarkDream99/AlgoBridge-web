@@ -40,11 +40,11 @@ const Operation = (props) => {
     }
 
     if (type === "sum") {
-        result = <SumOperation {...parameter}/>
+        result = <SumOperation {...parameter} childrenIds={childrenIds} mode={mode} />
     }
 
     if (type === "subtraction") {
-        result = <SubtractionOperation {...parameter}/>
+        result = <SubtractionOperation {...parameter} childrenIds={childrenIds} mode={mode} />
     }
 
     if (type === "multiplication") {
@@ -52,7 +52,7 @@ const Operation = (props) => {
     }
 
     if (type === "division") {
-        result = <DivisionOperation {...parameter}/>
+        result = <DivisionOperation {...parameter} childrenIds={childrenIds} mode={mode} />
     }
 
     return (
