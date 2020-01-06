@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Button} from "react-bootstrap";
 import Operation from "../operation";
 import ParameterField from "./parameter-field";
 import CodeInterface from "../interface";
@@ -238,6 +239,11 @@ class OperationConstructor extends Component {
         this.setState({selectedParamIndex: newIndex});
     };
 
+    _handleSaveOperation = () => {
+        const {handleSaveOperation} = this.props;
+        handleSaveOperation(this.state.resultOperation);
+    };
+
     render() {
         const params = this.state.params.map((param) => (
             <ParameterField
@@ -248,6 +254,7 @@ class OperationConstructor extends Component {
             />
         ));
 
+        const {handleClose} = this.props;
         return (
             <div>
                 <InputField
@@ -260,6 +267,16 @@ class OperationConstructor extends Component {
                 <CodeInterface groups={this.testGroups}/>
                 <div><Operation {...this.state.resultOperation}/></div>
                 {params}
+                <Button 
+                    variant="success" 
+                    onClick={() => this._handleSaveOperation()}>
+                        Save
+                </Button>
+                <Button
+                    variant="secondary"
+                    onClick={() => handleClose()}>
+                        Cancel
+                </Button>
             </div>
         );
     }

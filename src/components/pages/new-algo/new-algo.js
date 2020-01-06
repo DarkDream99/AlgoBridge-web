@@ -76,8 +76,76 @@ const operation8 = {
 };
 
 class NewAlgoPage extends Component {
+    state = {
+        mode: 'normal',
+        operations: [operation1, operation2, operation3, operation4, operation5, operation6, operation7, operation8],
+        selectedRow: -1,
+    };
+
+    handleSaveRowOperation = (newOperation) => {
+        const updatedOperations = [
+            ...this.state.operations.slice(0, this.state.selectedRow),
+            newOperation,
+            ...this.state.operations.slice(this.state.selectedRow + 1)
+        ];
+        this.setState(
+            {
+                'operations': updatedOperations,
+                'selectedRow': -1,
+            }
+        );
+    };
+
+    handleSelectRow = (index) => {
+       this.setState({'selectedRow': index}); 
+    };
+
+    handleUnselectRow = () => {
+        this.setState({'selectedRow': -1});
+    };
 
     render() {
+        const operationRows = this.state.operations.map((item, index) => {
+            return (
+                <Row key={index} onClick={() => this.handleSelectRow(index)}>
+                    <RowLine number={index} operation={item} comment=""/>
+                </Row>
+            );
+        });
+
+        let code = "";
+        if (this.state.selectedRow === -1) {
+            code = (
+                <>
+                <Form.Group as={Row}>
+                    <Container>
+                        {operationRows}
+                    </Container>
+                </Form.Group>
+
+                <Form.Group>
+                    <Button variant="success" type="submit" onClick={
+                        (event) => {
+                            event.preventDefault();
+                            console.log("create new algorithm", event);
+                        }
+                    }>Create</Button>
+                    <Button>Run</Button>
+                    <Button>Visualize</Button>
+                </Form.Group>
+                </>
+            );
+        } else {
+            const selectedOperation = this.state.operations[this.state.selectedRow];
+            code = (
+                <OperationConstructor 
+                    operation={selectedOperation}
+                    handleSaveOperation={(updatedOperation) => this.handleSaveRowOperation(updatedOperation)}
+                    handleClose={() => this.handleUnselectRow()}
+                />
+            );
+        }
+
         return (
             <Form style={{
                 width: '60%',
@@ -104,44 +172,7 @@ class NewAlgoPage extends Component {
                     <Form.Label>Implementation</Form.Label>
                 </Form.Group>
 
-                 <Form.Group as={Row}>
-                    <Container>
-                        <Row>
-                            <RowLine number={1} operation={operation1} comment=""/>
-                        </Row>
-                        <Row>
-                            <RowLine number={2} operation={operation2} comment=""/>
-                        </Row>
-                         <Row>
-                            <RowLine number={3} operation={operation3} comment=""/>
-                        </Row>
-                         <Row>
-                            <RowLine number={4} operation={operation4} comment=""/>
-                        </Row>
-                        <Row>
-                            <RowLine number={5} operation={operation6} nest={1} comment=""/>
-                        </Row>
-                        <Row>
-                            <RowLine number={6} operation={operation7} nest={1} comment=""/>
-                        </Row>
-                        <Row>
-                            <RowLine number={7} operation={operation5} comment=""/>
-                        </Row>
-                    </Container>
-                </Form.Group>
-
-                <Form.Group>
-                    <Button variant="success" type="submit" onClick={
-                        (event) => {
-                            event.preventDefault();
-                            console.log("create new algorithm", event);
-                        }
-                    }>Create</Button>
-                    <Button>Run</Button>
-                    <Button>Visualize</Button>
-                </Form.Group>
-
-                <OperationConstructor operation={operation8}/>
+                {code}
             </Form>
         )
     }

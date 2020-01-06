@@ -4,7 +4,7 @@ import React from "react";
 const ArrayOperation = (props) => {
     const {values} = props;
     const arrItems = values.map((item) => {
-        return <span>{item}, </span>
+        return <span key={item}>{item}, </span>
     });
 
     return (
