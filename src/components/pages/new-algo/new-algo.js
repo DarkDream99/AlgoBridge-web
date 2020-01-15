@@ -33,16 +33,16 @@ const operation3 = {
 const operation4 = {
     type: "for-loop",
     parameter: {
-        index: 'i',
-        start: 0,
-        end: 10,
-        step: 2
+        index: {type: "variable", parameter: {name: 'i'}},
+        start: {type: "number", parameter: {val: 0}},
+        end: {type: "number", parameter: {val: 10}},
+        step: {type: "number", parameter: {val: 2}}
     }
 };
 
 const operation5 = {
-    type: "end-for-loop"
-
+    type: "end-for-loop",
+    parameter: {}
 };
 
 const operation6 = {

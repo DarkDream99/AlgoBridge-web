@@ -28,7 +28,7 @@ const Operation = (props) => {
     }
 
     if (type === "for-loop") {
-        result = <ForLoopOperation {...parameter}/>
+        result = <ForLoopOperation {...parameter} childrenIds={childrenIds} mode={mode} />
     }
 
     if (type === "end-for-loop") {

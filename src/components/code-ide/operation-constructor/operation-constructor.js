@@ -72,7 +72,16 @@ class OperationConstructor extends Component {
                     inputError: "",
                 });
             }, () => {
+                // TODO Add array handler
             }],
+        }, {
+            title: 'Constructions',
+            values: ['Loop', 'End loop', 'Method'],
+            actions: [() => {
+                this.setState({...this.emptyInput, inputType: 'for-loop'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {}, () => {}]
         }
     ];
 
@@ -168,6 +177,22 @@ class OperationConstructor extends Component {
                     }
                 }
                 break;
+            case "for-loop":
+                isValid = true;
+                let index = Object.assign({}, emptyOperand);
+                let start = Object.assign({}, emptyOperand);
+                let end = Object.assign({}, emptyOperand);
+                let step = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "for-loop",
+                    parameter: {
+                        index: index,
+                        start: start,
+                        end: end,
+                        step: step
+                    }
+                }
+                break;
             default:
         }
 
@@ -194,6 +219,19 @@ class OperationConstructor extends Component {
                 if (selectedParam.operation.parameter.right && selectedParam.operation.parameter.right.index === startIndex) {
                     selectedParam.operation.parameter.right = nextOperation;
                 }
+                if (selectedParam.operation.parameter.index && selectedParam.operation.parameter.index.index === startIndex) {
+                    selectedParam.operation.parameter.index = nextOperation;
+                }
+                if (selectedParam.operation.parameter.start && selectedParam.operation.parameter.start.index === startIndex) {
+                    selectedParam.operation.parameter.start = nextOperation;
+                }
+                if (selectedParam.operation.parameter.end && selectedParam.operation.parameter.end.index === startIndex) {
+                    selectedParam.operation.parameter.end = nextOperation;
+                }
+                if (selectedParam.operation.parameter.step && selectedParam.operation.parameter.step.index === startIndex) {
+                    selectedParam.operation.parameter.step = nextOperation;
+                }
+
                 nextOperation = Object.assign({}, selectedParam.operation);
                 startIndex = parentIndex;
             }
@@ -231,6 +269,10 @@ class OperationConstructor extends Component {
             this.nextIndex += 1;
             params = this._updateParams(operation.parameter.left, index, params);
             params = this._updateParams(operation.parameter.right, index, params);
+            params = this._updateParams(operation.parameter.index, index, params);
+            params = this._updateParams(operation.parameter.start, index, params);
+            params = this._updateParams(operation.parameter.end, index, params);
+            params = this._updateParams(operation.parameter.step, index, params);
         }
         return params;
     };
