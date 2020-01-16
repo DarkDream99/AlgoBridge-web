@@ -76,9 +76,13 @@ class OperationConstructor extends Component {
             }],
         }, {
             title: 'Constructions',
-            values: ['Loop', 'End loop', 'Method'],
+            values: ['Loop', 'End loop', 'Method', 'Function'],
             actions: [() => {
                 this.setState({...this.emptyInput, inputType: 'for-loop'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'end-for-loop'}, () => {
                     this._handleSaveInputField();
                 });
             }, () => {}, () => {}]
@@ -192,6 +196,13 @@ class OperationConstructor extends Component {
                         step: step
                     }
                 }
+                break;
+            case "end-for-loop":
+                isValid = true;
+                newOperation = {
+                    type: "end-for-loop",
+                    parameter: {}
+                };
                 break;
             default:
         }
