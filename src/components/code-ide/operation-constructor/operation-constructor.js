@@ -224,23 +224,11 @@ class OperationConstructor extends Component {
                     return element.index === parentIndex;
                 });
 
-                if (selectedParam.operation.parameter.left && selectedParam.operation.parameter.left.index === startIndex) {
-                    selectedParam.operation.parameter.left = nextOperation;
-                }
-                if (selectedParam.operation.parameter.right && selectedParam.operation.parameter.right.index === startIndex) {
-                    selectedParam.operation.parameter.right = nextOperation;
-                }
-                if (selectedParam.operation.parameter.index && selectedParam.operation.parameter.index.index === startIndex) {
-                    selectedParam.operation.parameter.index = nextOperation;
-                }
-                if (selectedParam.operation.parameter.start && selectedParam.operation.parameter.start.index === startIndex) {
-                    selectedParam.operation.parameter.start = nextOperation;
-                }
-                if (selectedParam.operation.parameter.end && selectedParam.operation.parameter.end.index === startIndex) {
-                    selectedParam.operation.parameter.end = nextOperation;
-                }
-                if (selectedParam.operation.parameter.step && selectedParam.operation.parameter.step.index === startIndex) {
-                    selectedParam.operation.parameter.step = nextOperation;
+                for (let parameterKey in selectedParam.operation.parameter) {
+                    let parameter = selectedParam.operation.parameter[parameterKey];
+                    if (parameter.index === startIndex) {
+                        selectedParam.operation.parameter[parameterKey] = nextOperation;
+                    }
                 }
 
                 nextOperation = Object.assign({}, selectedParam.operation);
@@ -278,12 +266,9 @@ class OperationConstructor extends Component {
             }
 
             this.nextIndex += 1;
-            params = this._updateParams(operation.parameter.left, index, params);
-            params = this._updateParams(operation.parameter.right, index, params);
-            params = this._updateParams(operation.parameter.index, index, params);
-            params = this._updateParams(operation.parameter.start, index, params);
-            params = this._updateParams(operation.parameter.end, index, params);
-            params = this._updateParams(operation.parameter.step, index, params);
+            ['left', 'right', 'index', 'start', 'end', 'step'].forEach((parameterKey) => {
+                params = this._updateParams(operation.parameter[parameterKey], index, params);
+            });
         }
         return params;
     };

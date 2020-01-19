@@ -12,11 +12,11 @@ const ForLoopOperation = (props) => {
                 for 
                 &nbsp;
                 <Operation type={index.type} parameter={index.parameter} />
-                :&nbsp; 
+                &nbsp; from &nbsp; 
                 <Operation type={start.type} parameter={start.parameter} />
-                ..
+                &nbsp; to &nbsp;
                 <Operation type={end.type} parameter={end.parameter} />
-                ,&nbsp;step= 
+                &nbsp; with step= 
                 <Operation type={step.type} parameter={step.parameter} />
             </>
         );
