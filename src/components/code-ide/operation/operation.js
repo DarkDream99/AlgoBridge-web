@@ -8,7 +8,8 @@ import ArrayOperation from "./array-operation";
 import SumOperation from "./sum-operation";
 import SubtractionOperation from "./subtraction-operation";
 import MultiplicationOperation from "./multiplication-operation";
-import DivisionOperation from "./division-operation/division-operation";
+import DivisionOperation from "./division-operation";
+import FunctionOperation from "./function-operation"
 
 
 const Operation = (props) => {
@@ -24,35 +25,39 @@ const Operation = (props) => {
     }
 
     if (type === "variable") {
-        result = <VariableOperation {...parameter}/>
+        result = <VariableOperation {...parameter}/>;
     }
 
     if (type === "for-loop") {
-        result = <ForLoopOperation {...parameter} childrenIds={childrenIds} mode={mode} />
+        result = <ForLoopOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
     if (type === "end-for-loop") {
-        result = <EndForLoopOperation/>
+        result = <EndForLoopOperation/>;
     }
 
     if (type === "array") {
-        result = <ArrayOperation {...parameter} />
+        result = <ArrayOperation {...parameter} />;
     }
 
     if (type === "sum") {
-        result = <SumOperation {...parameter} childrenIds={childrenIds} mode={mode} />
+        result = <SumOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
     if (type === "subtraction") {
-        result = <SubtractionOperation {...parameter} childrenIds={childrenIds} mode={mode} />
+        result = <SubtractionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
     if (type === "multiplication") {
-        result = <MultiplicationOperation {...parameter} childrenIds={childrenIds} mode={mode}/>
+        result = <MultiplicationOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
     if (type === "division") {
-        result = <DivisionOperation {...parameter} childrenIds={childrenIds} mode={mode} />
+        result = <DivisionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
+    }
+
+    if (type === "function") {
+        result = <FunctionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;   
     }
 
     return (

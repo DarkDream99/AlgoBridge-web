@@ -6,6 +6,23 @@ import RowLine from "../../code-ide/editor/row";
 import OperationConstructor from "../../code-ide/operation-constructor";
 
 
+const funcs = [
+    {
+        name: 'abs',
+        paramsCount: 1,
+        description: '',
+    }, {
+        name: 'divmod',
+        paramsCount: 3,
+        description: 
+`divmode(num, mod) -> number
+
+num - context number
+mod - module
+num % mod`
+    }
+];
+
 const operation1 = {
     type: "assign",
     parameter: {
@@ -54,10 +71,12 @@ const operation6 = {
 };
 
 const operation7 = {
-    type: "multiplication",
+    type: "function",
     parameter: {
-        left: {type: 'number', parameter: {val: 7}},
-        right: {type: 'number', parameter: {val: 12}}
+        name: "abc",
+        param1: {type: 'variable', parameter: {name: 'var'}},
+        param2: {type: 'number', parameter: {val: -30}},
+        param3: {type: 'variable', parameter: {name: 'boc'}},
     }
 };
 
@@ -136,9 +155,10 @@ class NewAlgoPage extends Component {
                 </>
             );
         } else {
-            const selectedOperation = this.state.operations[this.state.selectedRow];
+            const selectedOperation = JSON.parse(JSON.stringify(this.state.operations[this.state.selectedRow]));
             code = (
                 <OperationConstructor 
+                    funcs={funcs}
                     operation={selectedOperation}
                     handleSaveOperation={(updatedOperation) => this.handleSaveRowOperation(updatedOperation)}
                     handleClose={() => this.handleUnselectRow()}

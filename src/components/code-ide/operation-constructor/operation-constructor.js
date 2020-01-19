@@ -4,6 +4,7 @@ import Operation from "../operation";
 import ParameterField from "./parameter-field";
 import CodeInterface from "../interface";
 import InputField from "./input-field";
+import FunctionSelector from "./function-selector";
 import {isValidVariable, isValidNumber} from "../../../validators";
 
 
@@ -13,10 +14,16 @@ class OperationConstructor extends Component {
         resultOperation: null,
         selectedParamIndex: 1,
         showInputField: false,
+        showFunctionSelector: false,
         inputLabel: "",
         inputError: "",
         inputType: "",
     };
+
+    INTERMEDIATE_CHILDREN = [
+        'left', 'right', 'index', 'start', 'end', 'step',
+        'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7'
+    ];
 
     emptyInput = {
         inputLabel: "",
@@ -76,7 +83,7 @@ class OperationConstructor extends Component {
             }],
         }, {
             title: 'Constructions',
-            values: ['Loop', 'End loop', 'Method', 'Function'],
+            values: ['Loop', 'End loop', 'Function'],
             actions: [() => {
                 this.setState({...this.emptyInput, inputType: 'for-loop'}, () => {
                     this._handleSaveInputField();
@@ -85,7 +92,14 @@ class OperationConstructor extends Component {
                 this.setState({...this.emptyInput, inputType: 'end-for-loop'}, () => {
                     this._handleSaveInputField();
                 });
-            }, () => {}, () => {}]
+            }, () => {
+                this.setState({
+                    inputType: "function",
+                    showFunctionSelector: true,
+                    inputLabel: "Select function:",
+                    inputError: "",
+                });
+            }]
         }
     ];
 
@@ -204,10 +218,29 @@ class OperationConstructor extends Component {
                     parameter: {}
                 };
                 break;
+            case "function":
+                isValid = true;
+                const name = value.name;
+                const paramsCount = value.paramsCount;
+                let params = {};
+
+                for (let i = 1; i <= paramsCount; ++i) {
+                    params[`param${i}`] = Object.assign({}, emptyOperand);
+                }
+
+                newOperation = {
+                    type: "function",
+                    parameter: {
+                        name: name,
+                        ...params,
+                    }
+                }
             default:
+                break;
         }
 
         if (isValid) {
+            // Update operation values from down to top
             var startIndex = this.state.selectedParamIndex;
             var selectedParam = this.state.params.find((element, index, array) => {
                 return element.index === startIndex;
@@ -230,6 +263,12 @@ class OperationConstructor extends Component {
                         selectedParam.operation.parameter[parameterKey] = nextOperation;
                     }
                 }
+                for (let parameterKey in selectedParam.operation.parameter.params) {
+                    let parameter = selectedParam.operation.parameter.params[parameterKey];
+                    if (parameter.index === startIndex) {
+                        selectedParam.operation.parameter.params[parameterKey] = nextOperation;
+                    }
+                }
 
                 nextOperation = Object.assign({}, selectedParam.operation);
                 startIndex = parentIndex;
@@ -245,10 +284,11 @@ class OperationConstructor extends Component {
     };
 
     _handleCloseInputField = () => {
-        this.setState({showInputField: false})
+        this.setState({showInputField: false,  showFunctionSelector: false});
     };
 
     _updateParams = (operation, parentIndex=null, params=[]) => {
+        // Update operation params from down to top
         if (operation) {
             const index = this.nextIndex;
             operation.index = index;
@@ -266,9 +306,14 @@ class OperationConstructor extends Component {
             }
 
             this.nextIndex += 1;
-            ['left', 'right', 'index', 'start', 'end', 'step'].forEach((parameterKey) => {
+            this.INTERMEDIATE_CHILDREN.forEach((parameterKey) => {
                 params = this._updateParams(operation.parameter[parameterKey], index, params);
             });
+            for (let paramKey in operation.parameter.params) {
+                params = this._updateParams(
+                    operation.parameter.params[paramKey], index, params
+                );
+            }
         }
         return params;
     };
@@ -292,13 +337,21 @@ class OperationConstructor extends Component {
             />
         ));
 
-        const {handleClose} = this.props;
+        const {handleClose, funcs} = this.props;
         return (
             <div>
                 <InputField
                     show={this.state.showInputField}
                     handleClose={() => this._handleCloseInputField()}
                     handleSave={(value) => this._handleSaveInputField(value)}
+                    label={this.state.inputLabel}
+                    error={this.state.inputError}
+                />
+                <FunctionSelector 
+                    funcs={funcs}
+                    show={this.state.showFunctionSelector}
+                    handleClose={() => this._handleCloseInputField()}
+                    handleSave={(selectedFunc) => this._handleSaveInputField(selectedFunc)}
                     label={this.state.inputLabel}
                     error={this.state.inputError}
                 />
