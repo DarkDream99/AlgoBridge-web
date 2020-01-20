@@ -8,25 +8,25 @@ const ForLoopOperation = (props) => {
     let content = "";
     if (mode === 'standard' || !mode) {
         content = (
-            <>
-                for 
+            <div style={{ display: 'flex' }}>
+                FOR 
                 &nbsp;
                 <Operation type={index.type} parameter={index.parameter} />
-                &nbsp; from &nbsp; 
+                &nbsp; FROM &nbsp; 
                 <Operation type={start.type} parameter={start.parameter} />
-                &nbsp; to &nbsp;
+                &nbsp; TO &nbsp;
                 <Operation type={end.type} parameter={end.parameter} />
-                &nbsp; with step= 
+                &nbsp; WITH STEP= 
                 <Operation type={step.type} parameter={step.parameter} />
-            </>
+            </div>
         );
     } else if (mode === 'parameter') {
         content = (
             <div>
-                for &#123; {childrenIds[0]} &#125;: 
-                    &#123; {childrenIds[1]} &#125;..
-                    &#123; {childrenIds[2]} &#125;, 
-                step=&#123; {childrenIds[3]} &#125;    
+                FOR &#123; {childrenIds[0]} &#125; FROM 
+                    &#123; {childrenIds[1]} &#125; TO
+                    &#123; {childrenIds[2]} &#125; WITH 
+                STEP=&#123; {childrenIds[3]} &#125; 
             </div>
         );
     }

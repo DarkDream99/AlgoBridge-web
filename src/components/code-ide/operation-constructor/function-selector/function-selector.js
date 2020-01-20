@@ -18,7 +18,7 @@ class FunctionSelector extends Component {
 
         this.setState({selectedFunction: selectedFunc});
     }
-    
+
     render() {
         const {funcs, label, error, show, handleClose} = this.props;
         let errorField = "";
@@ -66,7 +66,7 @@ class FunctionSelector extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     {errorField}
-                    {funcsPreview}        
+                    {funcsPreview} 
                     <hr />
                     {funcPreview}
                 </Modal.Body>

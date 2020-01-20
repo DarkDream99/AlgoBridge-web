@@ -83,8 +83,16 @@ class OperationConstructor extends Component {
             }],
         }, {
             title: 'Constructions',
-            values: ['Loop', 'End loop', 'Function'],
+            values: ['Condition', 'End condition', 'Loop', 'End loop', 'Function'],
             actions: [() => {
+                this.setState({...this.emptyInput, inputType: 'condition'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'end-condition'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
                 this.setState({...this.emptyInput, inputType: 'for-loop'}, () => {
                     this._handleSaveInputField();
                 });
@@ -235,6 +243,22 @@ class OperationConstructor extends Component {
                         ...params,
                     }
                 }
+            case "condition":
+                isValid = true;
+                newOperation = {
+                    type: "condition",
+                    parameter: {
+                        param1: Object.assign({}, emptyOperand),
+                    }
+                }
+                break;
+            case "end-condition":
+                isValid = true;
+                newOperation = {
+                    type: "end-condition",
+                    parameter: {}
+                }
+                break;
             default:
                 break;
         }

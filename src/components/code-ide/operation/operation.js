@@ -10,6 +10,8 @@ import SubtractionOperation from "./subtraction-operation";
 import MultiplicationOperation from "./multiplication-operation";
 import DivisionOperation from "./division-operation";
 import FunctionOperation from "./function-operation"
+import ConditionOperation from "./condition-operation";
+import EndConditionOperation from "./condition-operation/end-condition-operation";
 
 
 const Operation = (props) => {
@@ -57,7 +59,15 @@ const Operation = (props) => {
     }
 
     if (type === "function") {
-        result = <FunctionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;   
+        result = <FunctionOperation {...parameter} childrenIds={childrenIds} mode={mode} />; 
+    }
+
+    if (type === "condition") {
+        result = <ConditionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
+    }
+
+    if (type === "end-condition") {
+        result = <EndConditionOperation/>;
     }
 
     return (

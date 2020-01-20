@@ -2,7 +2,7 @@ import React from "react";
 
 
 const EndForLoopOperation = () => {
-    return <div>end for</div>
+    return <div>END FOR</div>
 };
 
 export default EndForLoopOperation;
