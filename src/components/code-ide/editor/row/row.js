@@ -8,7 +8,7 @@ import Operation from "../../operation";
 const RowLine = (props) => {
     const {
         number, operation, nest, comment, handleAddRow, handleSelectRow,
-        handleRemoveRow
+        handleRemoveRow, handleMoveRowUp, handleMoveRowDown,
     } = props;
 
     let spaces = [];
@@ -34,8 +34,8 @@ const RowLine = (props) => {
                     <ButtonGroup>
                         <Button onClick={() => handleAddRow()}>&#9769;</Button>
                         <Button onClick={() => handleRemoveRow()}>&#10005;</Button>
-                        <Button>&#8657;</Button>
-                        <Button>&#8659;</Button>
+                        <Button onClick={() => handleMoveRowUp()}>&#8657;</Button>
+                        <Button onClick={() => handleMoveRowDown()}>&#8659;</Button>
                     </ButtonGroup>
                 </Col>
             </Row>

@@ -97,7 +97,7 @@ const operation8 = {
 class NewAlgoPage extends Component {
     state = {
         mode: 'normal',
-        operations: [operation1, operation2, operation3, operation4, operation5, operation6, operation7, operation8],
+        operations: [{type: 'empty', parameter: {}}],
         selectedRow: -1,
     };
 
@@ -134,9 +134,38 @@ class NewAlgoPage extends Component {
     };
 
     handleRemoveRow = (index) => {
+        if (this.state.operations.length === 1)
+            return;
+
         const updatedOperations = [
             ...this.state.operations.slice(0, index),
             ...this.state.operations.slice(index + 1)
+        ];
+        this.setState({operations: updatedOperations, selectedRow: -1});
+    }
+
+    handleMoveRowUp = (index) => {
+        if (index === 0)
+            return;
+
+        const updatedOperations = [
+            ...this.state.operations.slice(0, index-1),
+            this.state.operations[index],
+            this.state.operations[index-1],
+            ...this.state.operations.slice(index + 1)
+        ];
+        this.setState({operations: updatedOperations, selectedRow: -1});
+    }
+
+    handleMoveRowDown = (index) => {
+        if (index === this.state.operations.length - 1)
+            return;
+
+        const updatedOperations = [
+            ...this.state.operations.slice(0, index),
+            this.state.operations[index+1],
+            this.state.operations[index],
+            ...this.state.operations.slice(index + 2)
         ];
         this.setState({operations: updatedOperations, selectedRow: -1});
     }
@@ -151,6 +180,8 @@ class NewAlgoPage extends Component {
                         comment=""
                         handleAddRow={() => this.handleAddRow(index)}
                         handleRemoveRow={() => this.handleRemoveRow(index)}
+                        handleMoveRowUp={() => this.handleMoveRowUp(index)}
+                        handleMoveRowDown={() => this.handleMoveRowDown(index)}
                         handleSelectRow={() => this.handleSelectRow(index)}
                     />
                 </Row>
