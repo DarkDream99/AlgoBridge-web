@@ -46,9 +46,32 @@ class OperationConstructor extends Component {
             }],
         }, {
             title: 'Operands',
-            values: ['Assign', 'Sum', 'Subtraction', 'Multiplication', 'Division'],
+            values: [
+                'Assign', 'Larger', 'Larger or Equal', 'Less', 'Less or Equal',
+                'Equals', 'Sum', 'Subtraction', 'Multiplication', 'Division'
+            ],
             actions: [() => {
                 this.setState({...this.emptyInput, inputType: 'assign'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'larger'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'larger-equal'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'less'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'less-equal'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'equal'}, () => {
                     this._handleSaveInputField();
                 });
             }, () => {
@@ -155,6 +178,66 @@ class OperationConstructor extends Component {
                     }
                 }
                 break;
+            case "larger":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "larger",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand
+                    }
+                }
+                break;
+            case "larger-equal":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "larger-equal",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand
+                    }
+                }
+                break;
+            case "less":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "less",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand
+                    }
+                }
+                break;
+            case "less-equal":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "less-equal",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand
+                    }
+                }
+                break;
+            case "equal":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "equal",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand
+                    }
+                }
+                break;
             case "sum":
                 isValid = true;
                 leftOperand = Object.assign({}, emptyOperand);
@@ -243,6 +326,7 @@ class OperationConstructor extends Component {
                         ...params,
                     }
                 }
+                break;
             case "condition":
                 isValid = true;
                 newOperation = {

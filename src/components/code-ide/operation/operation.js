@@ -12,6 +12,11 @@ import DivisionOperation from "./division-operation";
 import FunctionOperation from "./function-operation"
 import ConditionOperation from "./condition-operation";
 import EndConditionOperation from "./condition-operation/end-condition-operation";
+import LargerOperation from "./larger-operation";
+import LargerEqualOperation from "./larger-equal-operation";
+import LessOperation from "./less-operation";
+import LessEqualOperation from "./less-equal-operation";
+import EqualOperation from "./equal-operation";
 
 
 const Operation = (props) => {
@@ -20,6 +25,26 @@ const Operation = (props) => {
 
     if (type === "assign") {
         result = <AssignOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
+    }
+
+    if (type === "larger") {
+        result = <LargerOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
+    }
+
+    if (type === "larger-equal") {
+        result = <LargerEqualOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
+    }
+
+    if (type === "less") {
+        result = <LessOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
+    }
+
+    if (type === "less-equal") {
+        result = <LessEqualOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
+    }
+
+    if (type === "equal") {
+        result = <EqualOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
     if (type === "number") {
