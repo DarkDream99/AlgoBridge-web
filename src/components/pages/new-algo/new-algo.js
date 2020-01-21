@@ -130,8 +130,16 @@ class NewAlgoPage extends Component {
             emptyOperation,
             ...this.state.operations.slice(index+1)
         ];
-        this.setState({operations: updatedOperations, selectedRow: -1})
+        this.setState({operations: updatedOperations, selectedRow: -1});
     };
+
+    handleRemoveRow = (index) => {
+        const updatedOperations = [
+            ...this.state.operations.slice(0, index),
+            ...this.state.operations.slice(index + 1)
+        ];
+        this.setState({operations: updatedOperations, selectedRow: -1});
+    }
 
     render() {
         const operationRows = this.state.operations.map((item, index) => {
@@ -142,6 +150,7 @@ class NewAlgoPage extends Component {
                         operation={item} 
                         comment=""
                         handleAddRow={() => this.handleAddRow(index)}
+                        handleRemoveRow={() => this.handleRemoveRow(index)}
                         handleSelectRow={() => this.handleSelectRow(index)}
                     />
                 </Row>

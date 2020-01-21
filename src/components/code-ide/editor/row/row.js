@@ -7,7 +7,8 @@ import Operation from "../../operation";
 
 const RowLine = (props) => {
     const {
-        number, operation, nest, comment, handleAddRow, handleSelectRow
+        number, operation, nest, comment, handleAddRow, handleSelectRow,
+        handleRemoveRow
     } = props;
 
     let spaces = [];
@@ -32,7 +33,7 @@ const RowLine = (props) => {
                 <Col xs={1} className="line-bottom-border row-line">
                     <ButtonGroup>
                         <Button onClick={() => handleAddRow()}>&#9769;</Button>
-                        <Button>&#10005;</Button>
+                        <Button onClick={() => handleRemoveRow()}>&#10005;</Button>
                         <Button>&#8657;</Button>
                         <Button>&#8659;</Button>
                     </ButtonGroup>
