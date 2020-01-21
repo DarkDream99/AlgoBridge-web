@@ -6,7 +6,9 @@ import Operation from "../../operation";
 
 
 const RowLine = (props) => {
-    const {number, operation, nest, comment} = props;
+    const {
+        number, operation, nest, comment, handleAddRow, handleSelectRow
+    } = props;
 
     let spaces = [];
     if (nest) {
@@ -21,12 +23,15 @@ const RowLine = (props) => {
                 <Col xs={1} className="line-right-border line-bottom-border row-line">
                     <Number value={number}/>
                 </Col>
-                <Col className="line-right-border line-bottom-border row-line" style={{display: 'flex'}}>
+                <Col className="line-right-border line-bottom-border row-line"
+                    style={{display: 'flex'}}
+                    onClick={() => handleSelectRow()}
+                >
                     {spaces}<Operation {...operation} />
                 </Col>
                 <Col xs={1} className="line-bottom-border row-line">
                     <ButtonGroup>
-                        <Button>&#9769;</Button>
+                        <Button onClick={() => handleAddRow()}>&#9769;</Button>
                         <Button>&#10005;</Button>
                         <Button>&#8657;</Button>
                         <Button>&#8659;</Button>

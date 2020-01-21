@@ -123,11 +123,27 @@ class NewAlgoPage extends Component {
         this.setState({'selectedRow': -1});
     };
 
+    handleAddRow = (index) => {
+        const emptyOperation = {type: 'empty', parameter: {}};
+        const updatedOperations = [
+            ...this.state.operations.slice(0, index+1),
+            emptyOperation,
+            ...this.state.operations.slice(index+1)
+        ];
+        this.setState({operations: updatedOperations, selectedRow: -1})
+    };
+
     render() {
         const operationRows = this.state.operations.map((item, index) => {
             return (
-                <Row key={index} onClick={() => this.handleSelectRow(index)}>
-                    <RowLine number={index} operation={item} comment=""/>
+                <Row key={index}>
+                    <RowLine 
+                        number={index} 
+                        operation={item} 
+                        comment=""
+                        handleAddRow={() => this.handleAddRow(index)}
+                        handleSelectRow={() => this.handleSelectRow(index)}
+                    />
                 </Row>
             );
         });
