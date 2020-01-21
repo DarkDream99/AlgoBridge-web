@@ -17,6 +17,8 @@ import LargerEqualOperation from "./larger-equal-operation";
 import LessOperation from "./less-operation";
 import LessEqualOperation from "./less-equal-operation";
 import EqualOperation from "./equal-operation";
+import AndLogicOperation from "./and-logic-operation";
+import OrLogicOperation from "./or-logic-operation";
 
 
 const Operation = (props) => {
@@ -47,6 +49,14 @@ const Operation = (props) => {
         result = <EqualOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
+    if (type === "and-logic") {
+        result = <AndLogicOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
+    }
+
+    if (type === "or-logic") {
+        result = <OrLogicOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
+    }
+    
     if (type === "number") {
         result = <NumberOperation {...parameter}/>;
     }

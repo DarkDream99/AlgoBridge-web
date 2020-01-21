@@ -48,7 +48,8 @@ class OperationConstructor extends Component {
             title: 'Operands',
             values: [
                 'Assign', 'Larger', 'Larger or Equal', 'Less', 'Less or Equal',
-                'Equals', 'Sum', 'Subtraction', 'Multiplication', 'Division'
+                'Equals', 'And', 'Or', 'Sum', 'Subtraction', 'Multiplication',
+                'Division'
             ],
             actions: [() => {
                 this.setState({...this.emptyInput, inputType: 'assign'}, () => {
@@ -72,6 +73,14 @@ class OperationConstructor extends Component {
                 });
             }, () => {
                 this.setState({...this.emptyInput, inputType: 'equal'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'and-logic'}, () => {
+                    this._handleSaveInputField();
+                });
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'or-logic'}, () => {
                     this._handleSaveInputField();
                 });
             }, () => {
@@ -232,6 +241,30 @@ class OperationConstructor extends Component {
                 rightOperand = Object.assign({}, emptyOperand);
                 newOperation = {
                     type: "equal",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand
+                    }
+                }
+                break;
+            case "and-logic":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "and-logic",
+                    parameter: {
+                        left: leftOperand,
+                        right: rightOperand
+                    }
+                }
+                break;
+            case "or-logic":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "or-logic",
                     parameter: {
                         left: leftOperand,
                         right: rightOperand
