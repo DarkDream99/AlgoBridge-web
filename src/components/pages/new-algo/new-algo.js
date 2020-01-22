@@ -23,76 +23,76 @@ num % mod`
     }
 ];
 
-const operation1 = {
-    type: "assign",
-    parameter: {
-        left:  {type: "variable", parameter: {name: 'abc'}},
-        right: {type: "number", parameter: {val: 7}},
-    }
-};
+// const operation1 = {
+//     type: "assign",
+//     parameter: {
+//         left:  {type: "variable", parameter: {name: 'abc'}},
+//         right: {type: "number", parameter: {val: 7}},
+//     }
+// };
 
-const operation2 = {
-    type: "assign",
-    parameter: {
-        left: {type: "variable", parameter: {name: 'var'}},
-        right: {type: "number", parameter: {val: 137}},
-    }
-};
+// const operation2 = {
+//     type: "assign",
+//     parameter: {
+//         left: {type: "variable", parameter: {name: 'var'}},
+//         right: {type: "number", parameter: {val: 137}},
+//     }
+// };
 
-const operation3 = {
-    type: "assign",
-    parameter: {
-        left: {type: "variable", parameter: {name: 'var'}},
-        right: {type: "variable", parameter: {name: 'abc'}},
-    }
-};
+// const operation3 = {
+//     type: "assign",
+//     parameter: {
+//         left: {type: "variable", parameter: {name: 'var'}},
+//         right: {type: "variable", parameter: {name: 'abc'}},
+//     }
+// };
 
-const operation4 = {
-    type: "for-loop",
-    parameter: {
-        index: {type: "variable", parameter: {name: 'i'}},
-        start: {type: "number", parameter: {val: 0}},
-        end: {type: "number", parameter: {val: 10}},
-        step: {type: "number", parameter: {val: 2}}
-    }
-};
+// const operation4 = {
+//     type: "for-loop",
+//     parameter: {
+//         index: {type: "variable", parameter: {name: 'i'}},
+//         start: {type: "number", parameter: {val: 0}},
+//         end: {type: "number", parameter: {val: 10}},
+//         step: {type: "number", parameter: {val: 2}}
+//     }
+// };
 
-const operation5 = {
-    type: "end-for-loop",
-    parameter: {}
-};
+// const operation5 = {
+//     type: "end-for-loop",
+//     parameter: {}
+// };
 
-const operation6 = {
-    type: "assign",
-    parameter: {
-        left: {type: 'variable', parameter: {name: 'var'}},
-        right: {type: 'array', parameter: {values: [5, 6, -3, 'abc']}},
-    }
-};
+// const operation6 = {
+//     type: "assign",
+//     parameter: {
+//         left: {type: 'variable', parameter: {name: 'var'}},
+//         right: {type: 'array', parameter: {values: [5, 6, -3, 'abc']}},
+//     }
+// };
 
-const operation7 = {
-    type: "function",
-    parameter: {
-        name: "abc",
-        param1: {type: 'variable', parameter: {name: 'var'}},
-        param2: {type: 'number', parameter: {val: -30}},
-        param3: {type: 'variable', parameter: {name: 'boc'}},
-    }
-};
+// const operation7 = {
+//     type: "function",
+//     parameter: {
+//         name: "abc",
+//         param1: {type: 'variable', parameter: {name: 'var'}},
+//         param2: {type: 'number', parameter: {val: -30}},
+//         param3: {type: 'variable', parameter: {name: 'boc'}},
+//     }
+// };
 
-const operation8 = {
-    type: "assign",
-    parameter: {
-        left: {type: 'variable', parameter: {name: 'var'}},
-        right: {
-            type: 'multiplication',
-            parameter: {
-                left: {type: 'number', parameter: {val: 5}},
-                right: {type: 'number', parameter: {val: 8}}
-            }
-        }
-    }
-};
+// const operation8 = {
+//     type: "assign",
+//     parameter: {
+//         left: {type: 'variable', parameter: {name: 'var'}},
+//         right: {
+//             type: 'multiplication',
+//             parameter: {
+//                 left: {type: 'number', parameter: {val: 5}},
+//                 right: {type: 'number', parameter: {val: 8}}
+//             }
+//         }
+//     }
+// };
 
 class NewAlgoPage extends Component {
     state = {

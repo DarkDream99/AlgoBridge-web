@@ -12,7 +12,7 @@ class OperationConstructor extends Component {
     state = {
         params: [],
         resultOperation: null,
-        selectedParamIndex: 1,
+        selectedParamIndex: 0,
         showInputField: false,
         showFunctionSelector: false,
         inputLabel: "",

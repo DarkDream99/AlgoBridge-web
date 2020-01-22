@@ -24,13 +24,13 @@ const App = () => {
                 <Route path='/signup' component={SignupPageContainer} exact />
                 <Route path='/logout' component={LogoutPage} exact />
 
-                {/*<AuthRedirect>*/}
+                <AuthRedirect>
                     <Route path='/user-home' component={UserHome} exact />
                     <Route path='/user-algos' component={UserAlgosContainer} exact />
                     <Route path='/algo/new' component={NewAlgoPage} exact />
                     <Route path='/algo/:id/edit' component={null} exact />
-                    <Route path='/algo/:id' component={ShowAlgoPage} exact />
-                {/*</AuthRedirect>*/}
+                    <Route path='/algo/:id/show' component={ShowAlgoPage} exact />
+                </AuthRedirect>
             </Switch>
         </div>
     );
