@@ -29,7 +29,7 @@ const App = () => {
                     <Route path='/user-algos' component={UserAlgosContainer} exact />
                     <Route path='/algo/new' component={NewAlgoPage} exact />
                     <Route path='/algo/:id/edit' component={null} exact />
-                    <Route path='/algo/:id' component={ShowAlgoPage} exact />
+                    <Route path='/algo/:id/show' component={ShowAlgoPage} exact />
                 </AuthRedirect>
             </Switch>
         </div>
