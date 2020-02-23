@@ -1,10 +1,10 @@
 import ACTION_TYPES from './action_types';
 
 
-const loginDone = (activeUser) => {
+const loginDone = (authToken) => {
     return {
         type: ACTION_TYPES.LOGIN_SUCCESS, 
-        payload: activeUser,
+        authToken: authToken,
     };
 };
 

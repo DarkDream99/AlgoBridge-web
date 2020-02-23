@@ -11,8 +11,7 @@ import {logoutDone} from "../../actions";
 
 const Header = (props) => {
     const {
-        title, isLogin, links, activeUser,
-        logoutDone
+        title, links, logoutDone
     } = props;
     let header = (
         <Jumbotron fluid className='header'>
@@ -20,7 +19,9 @@ const Header = (props) => {
         </Jumbotron>
     );
 
-    if (isLogin && activeUser) {
+    const authToken = window.localStorage.getItem('authToken')
+    const activeUser = JSON.parse(window.localStorage.getItem('activeUser'))
+    if (authToken && activeUser) {
         header = (
             <Navbar bg="dark" variant="dark" expand="lg" className='header'>
                 <Link to={links.userHome.href}>
@@ -43,7 +44,7 @@ const Header = (props) => {
                         </NavDropdown>
                     </Nav>
                     <Nav inline="true">
-                        <NavDropdown title={`Log in as ${activeUser.name}`}>
+                        <NavDropdown title={`Log in as ${activeUser.username}`}>
                             <NavDropdown.Item>Settings</NavDropdown.Item>
                             <NavDropdown.Divider/>
                             <NavDropdown.Item onClick={() => logoutDone()}>Log out</NavDropdown.Item>
@@ -63,10 +64,8 @@ Header.propTypes = {
     title: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({isLogin, activeUser, links}) => {
+const mapStateToProps = ({links}) => {
     return {
-        isLogin,
-        activeUser,
         links,
     }
 };

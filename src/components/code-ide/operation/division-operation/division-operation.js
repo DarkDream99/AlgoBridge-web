@@ -23,6 +23,7 @@ const DivisionOperation = (props) => {
             </>
         );
     }
+
     return (
         <div style={{
             display: 'flex',

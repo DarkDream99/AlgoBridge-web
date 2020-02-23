@@ -8,12 +8,13 @@ import {BrowserRouter as Router} from 'react-router-dom';
 
 import App from './components/app';
 import ErrorBoundry from './components/error-boundry';
-import {AlgoBridgeService} from './services';
+import {AlgoBridgeServiceTest, AlgoBridgeService} from './services';
 import {AlgoBridgeServiceProvider} from './components/service-context';
 import store from './store';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const algoBridgeServiceTest = new AlgoBridgeServiceTest();
 const algoBridgeService = new AlgoBridgeService();
 
 ReactDOM.render(

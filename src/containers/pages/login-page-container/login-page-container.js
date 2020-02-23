@@ -4,27 +4,36 @@ import {compose} from 'redux';
 import {connect} from 'react-redux';
 import LoginPage from '../../../components/pages/login/login-page';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
-import withLoadin from '../../../components/hoc/with-loading';
+import withLoading from '../../../components/hoc/with-loading';
 import withErrorIndicator from '../../../components/hoc/with-error-indicator';
 import {loginDone} from '../../../actions'; 
 
 
 class LoginPageContainer extends Component {
-    onLogin = (email='test1@gmail.com', password='test1') => {
+    onLogin = (username='test1', password='test1') => {
         const {algoBridgeService, swapLoading, setError} = this.props;
         swapLoading(true);
         setError('');
         
-        algoBridgeService.loginUser(email, password)
+        algoBridgeService.loginUser(username, password)
             .then((res) => {
                 swapLoading(false);
-                if (res.ok) {
-                    this.props.loginDone(res.activeUser);
-                    this.props.history.push('/user-home/');
+                if (res.token.length > 0) {
+                    window.localStorage.setItem('authToken', res.token);
+                    this.props.algoBridgeService.userInfo(res.token).then(
+                        (result) => {
+                            window.localStorage.setItem('activeUser', JSON.stringify(result.user));
+                            this.props.history.push('/user-home/');
+                        }
+                    ).catch((error) => {
+                        console.log(error);
+                    });
                 } else {
-                    setError('Email or password is not correct. Check and try again.');
+                    setError('Username or password is not correct. Check and try again.');
                 }
-            })
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
     };
 
     render() {
@@ -44,7 +53,7 @@ const mapStateToProps = () => {
 export default compose(
     withRouter,
     withAlgoBridgeService(),
-    withLoadin(),
+    withLoading(),
     withErrorIndicator(),
     connect(mapStateToProps, mapDispatchToProps)
 )(LoginPageContainer);

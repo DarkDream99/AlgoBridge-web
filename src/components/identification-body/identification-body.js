@@ -7,7 +7,7 @@ import './identification-body.css';
 
 
 const IdentificationBody = ({actionText, action, loader, errorMessage}) => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     let errorBoard = null;
@@ -22,10 +22,10 @@ const IdentificationBody = ({actionText, action, loader, errorMessage}) => {
         <Jumbotron className="identification-block">
             <Form>
                 <Form.Group controlId="formEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" 
-                        value={email} 
-                        onChange={(event) => setEmail(event.target.value)}
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control placeholder="Enter username" 
+                        value={username} 
+                        onChange={(event) => setUsername(event.target.value)}
                     />
                 </Form.Group>
 
@@ -40,7 +40,7 @@ const IdentificationBody = ({actionText, action, loader, errorMessage}) => {
                 <Button variant="primary" type="submit" onClick={
                     (event) => {
                         event.preventDefault();
-                        action(email, password);
+                        action(username, password);
                     }
                 }>
                     {actionText}
