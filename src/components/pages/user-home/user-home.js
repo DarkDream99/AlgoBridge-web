@@ -15,7 +15,7 @@ const UserHome = ({activeUser}) => {
 
 const mapStateToProps = ({activeUser}) => {
     return {
-        activeUser: activeUser,
+        activeUser: JSON.parse(window.localStorage.getItem('activeUser')),
     }
 };  
 

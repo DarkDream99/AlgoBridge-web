@@ -1,4 +1,7 @@
-import AlgoBridgeService from './algobridge-service-test';
+import AlgoBridgeServiceTest from './algobridge-service-test';
+import AlgoBridgeService from './algobridge-service';
+
 export {
-    AlgoBridgeService,
+    AlgoBridgeServiceTest,
+    AlgoBridgeService
 }

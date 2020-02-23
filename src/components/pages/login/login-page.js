@@ -7,6 +7,7 @@ import PageTitle from '../../page-title';
 import './login-page.css';
 import AlgoSpinner from "../../spinner";
 
+
 const LoginPage = ({loading, onLogin, links: linkListObj, errorMessage}) => {
      let loader = null;
      if (loading) {

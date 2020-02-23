@@ -5,10 +5,10 @@ import {Redirect} from "react-router";
 
 
 const AuthRedirect = (props) => {
-    const {linkLogin, isLogin} = props;
+    const {linkLogin, authToken, activeUser} = props;
     let template = <Redirect to={linkLogin} />;
 
-    if (isLogin) {
+    if (authToken && activeUser) {
         template = (
             <>
                 {props.children}
@@ -23,7 +23,8 @@ const AuthRedirect = (props) => {
 
 const mapStateToProps = ({isLogin, links}) => {
     return {
-        isLogin: isLogin,
+        authToken: window.localStorage.getItem('authToken'),
+        activeUser: JSON.parse(window.localStorage.getItem('activeUser')),
         linkLogin: links.login.href,
     }
 };

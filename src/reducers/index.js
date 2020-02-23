@@ -32,17 +32,16 @@ const initialState = {
             href: '/algo/new',
         },
     },
-    isLogin: false,
-    activeUser: defaultUser,
 };
 
 const reducer = (state=initialState, action) => {
     switch (action.type) {
         case ACTION_TYPES.LOGIN_SUCCESS:
+            window.localStorage.setItem('authToken', action.authToken);
             return {
                 ...state,
                 isLogin: true,
-                activeUser: action.payload,
+                activeUser: defaultUser,
             };
 
         case ACTION_TYPES.LOGOUT_SUCCESS:

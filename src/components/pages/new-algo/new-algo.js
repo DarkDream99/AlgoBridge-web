@@ -203,6 +203,7 @@ class NewAlgoPage extends Component {
                         (event) => {
                             event.preventDefault();
                             console.log("create new algorithm", event);
+                            console.log(JSON.stringify(this.state.operations))
                         }
                     }>Create</Button>
                     <Button>Run</Button>
