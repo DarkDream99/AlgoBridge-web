@@ -25,7 +25,6 @@ export default class AlgoBridgeService {
     };
 
     userInfo = (authToken) => {
-        debugger;
         return fetch(
             API_URL + USER_INFO_URL,
             {
