@@ -1,6 +1,5 @@
 import React, {Component, useState} from 'react';
-import {Route, Switch} from 'react-router-dom';
-import {withRouter} from 'react-router-dom';
+import {Route, Switch, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 
 import HomePage from '../pages/home';
