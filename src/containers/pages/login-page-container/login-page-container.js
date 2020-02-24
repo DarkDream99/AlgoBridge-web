@@ -19,10 +19,9 @@ class LoginPageContainer extends Component {
             .then((res) => {
                 swapLoading(false);
                 if (res.token && res.token.length > 0) {
-                    window.localStorage.setItem('authToken', res.token);
                     this.props.algoBridgeService.userInfo(res.token).then(
                         (result) => {
-                            window.localStorage.setItem('activeUser', JSON.stringify(result.user));
+                            this.props.login(res.token, result.user);
                             this.props.history.push('/user-home/');
                         }
                     ).catch((error) => {

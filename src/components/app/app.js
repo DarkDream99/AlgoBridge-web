@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {Component, useState} from 'react';
 import {Route, Switch} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
+import {compose} from 'redux';
 
 import HomePage from '../pages/home';
 import LoginPageContainer from '../../containers/pages/login-page-container';
@@ -14,26 +16,66 @@ import NewAlgoPage from "../pages/new-algo";
 import ShowAlgoPage from "../pages/show-algo";
 
 
-const App = () => {
-    return (
-        <div className="app">
-            <Header title="Algo Bridge" />
-            <Switch>
-                <Route path='/' component={HomePage} exact />
-                <Route path='/login' component={LoginPageContainer} exact />
-                <Route path='/signup' component={SignupPageContainer} exact />
-                <Route path='/logout' component={LogoutPage} exact />
+class App extends Component {
+    state = {
+        isLogin: false
+    };
 
-                <AuthRedirect>
-                    <Route path='/user-home' component={UserHome} exact />
-                    <Route path='/user-algos' component={UserAlgosContainer} exact />
-                    <Route path='/algo/new' component={NewAlgoPage} exact />
-                    <Route path='/algo/:id/edit' component={null} exact />
-                    <Route path='/algo/:id/show' component={ShowAlgoPage} exact />
-                </AuthRedirect>
-            </Switch>
-        </div>
-    );
+    constructor(props) {
+        super(props);
+        if (!this.state.isLogin && window.localStorage.getItem('authToken')) {
+            this.state.isLogin = true;
+        }
+    }
+
+    logIn = (authToken, activeUser) => {
+        window.localStorage.setItem('authToken', authToken);
+        window.localStorage.setItem('activeUser', JSON.stringify(activeUser));
+
+        this.setState({
+            isLogin: true,
+        });
+    }
+
+    logOut = () => {
+        this.setState({
+            isLogin: false,
+        }, () => {
+            window.localStorage.removeItem('authToken');
+            window.localStorage.removeItem('activeUser');
+            this.props.history.push('/');
+        });
+    }
+
+    render = () => {
+        return (
+            <div className="app">
+                <Header
+                    title="Algo Bridge"
+                    isLogin={this.state.isLogin}
+                    logout={() => this.logOut()}
+                />
+                <Switch>
+                    <Route path='/' component={HomePage} exact />
+                    <Route path='/login' exact>
+                        <LoginPageContainer login={(authToken, activeUser) => this.logIn(authToken, activeUser)} /> 
+                    </Route>
+                    <Route path='/signup' component={SignupPageContainer} exact />
+                    <Route path='/logout' component={LogoutPage} exact />
+
+                    <AuthRedirect>
+                        <Route path='/user-home' component={UserHome} exact />
+                        <Route path='/user-algos' component={UserAlgosContainer} exact />
+                        <Route path='/algo/new' component={NewAlgoPage} exact />
+                        <Route path='/algo/:id/edit' component={null} exact />
+                        <Route path='/algo/:id/show' component={ShowAlgoPage} exact />
+                    </AuthRedirect>
+                </Switch>
+            </div>
+        );
+    }
 };
 
-export default App;
+export default compose(
+    withRouter
+)(App);
