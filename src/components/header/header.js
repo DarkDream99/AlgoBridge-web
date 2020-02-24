@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {Jumbotron, Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -36,9 +36,9 @@ const Header = (props) => {
                         <Nav.Link href="#home">My learns</Nav.Link>
                         <NavDropdown title="Actions" id="basic-nav-dropdown">
                             <NavDropdown.Header>
-                                <Link to={links.createNewAlgo.href}>
+                                <NavDropdown.Item onClick={() => {props.history.push(links.createNewAlgo.href)}}>
                                     {links.createNewAlgo.label}
-                                </Link>
+                                </NavDropdown.Item>
                             </NavDropdown.Header>
                         </NavDropdown>
                     </Nav>
@@ -72,5 +72,6 @@ const mapStateToProps = ({links}) => {
 const mapDispatchToProps = {};
 
 export default compose(
+    withRouter,
     connect(mapStateToProps, mapDispatchToProps),
 )(Header);
