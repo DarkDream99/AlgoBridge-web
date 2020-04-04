@@ -57,7 +57,7 @@ class App extends Component {
                 <Switch>
                     <Route path='/' component={HomePage} exact />
                     <Route path='/login' exact>
-                        <LoginPageContainer login={(authToken, activeUser) => this.logIn(authToken, activeUser)} /> 
+                        <LoginPageContainer login={(authToken, activeUser) => this.logIn(authToken, activeUser)} />
                     </Route>
                     <Route path='/signup' component={SignupPageContainer} exact />
                     <Route path='/logout' component={LogoutPage} exact />

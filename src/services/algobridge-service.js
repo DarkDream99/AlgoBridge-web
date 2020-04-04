@@ -1,5 +1,4 @@
-const API_URL = 'https://algobridge-api.herokuapp.com/';
-// const API_URL = ' http://127.0.0.1:8000/';
+const API_URL = process.env.REACT_APP_API_URL;
 const LOGIN_URL = 'api-token-auth/';
 const USER_INFO_URL = 'user-info/';
 
@@ -18,7 +17,7 @@ export default class AlgoBridgeService {
                         password: password
                     }
                 )
-            }   
+            }
         ).then((response) => {
             return response.json();
         });

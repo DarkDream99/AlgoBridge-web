@@ -14,6 +14,7 @@ import store from './store';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 const algoBridgeServiceTest = new AlgoBridgeServiceTest();
 const algoBridgeService = new AlgoBridgeService();
 
@@ -26,7 +27,6 @@ ReactDOM.render(
                 </Router>
             </AlgoBridgeServiceProvider>
         </ErrorBoundry>
-    </Provider>, 
+    </Provider>,
     document.getElementById('root')
 );
-
