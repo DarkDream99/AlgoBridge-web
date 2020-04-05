@@ -6,7 +6,7 @@ import LoginPage from '../../../components/pages/login/login-page';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import withLoading from '../../../components/hoc/with-loading';
 import withErrorIndicator from '../../../components/hoc/with-error-indicator';
-import {loginDone} from '../../../actions'; 
+import {loginDone} from '../../../actions';
 
 
 class LoginPageContainer extends Component {
@@ -14,7 +14,7 @@ class LoginPageContainer extends Component {
         const {algoBridgeService, swapLoading, setError} = this.props;
         swapLoading(true);
         setError('');
-        
+
         algoBridgeService.loginUser(username, password)
             .then((res) => {
                 swapLoading(false);

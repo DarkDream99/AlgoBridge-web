@@ -1,6 +1,7 @@
 const API_URL = process.env.REACT_APP_API_URL;
 const LOGIN_URL = 'api-token-auth/';
 const USER_INFO_URL = 'user-info/';
+const RUN_IMPLEMENTATION = 'interpreter/run_implementation/';
 
 
 export default class AlgoBridgeService {
@@ -26,6 +27,22 @@ export default class AlgoBridgeService {
     userInfo = (authToken) => {
         return fetch(
             API_URL + USER_INFO_URL,
+            {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + authToken
+                }
+            }
+        ).then((response) => {
+            return response.json();
+        });
+    }
+
+    runImplementation = (operations) => {
+        let authToken = window.localStorage.getItem('authToken');
+        return fetch(
+            API_URL + RUN_IMPLEMENTATION + `?operations=${operations}`,
             {
                 method: 'get',
                 headers: {

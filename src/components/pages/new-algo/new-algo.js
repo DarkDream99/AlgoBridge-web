@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
+import {compose} from 'redux';
+
 import './new-algo.css'
 import PageTitle from "../../page-title";
 import {Button, Container, Form, Row} from "react-bootstrap";
 import RowLine from "../../code-ide/editor/row";
 import OperationConstructor from "../../code-ide/operation-constructor";
+import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 
 
 const funcs = [
@@ -14,7 +17,7 @@ const funcs = [
     }, {
         name: 'divmod',
         paramsCount: 3,
-        description: 
+        description:
 `divmode(num, mod) -> number
 
 num - context number
@@ -97,6 +100,8 @@ num % mod`
 class NewAlgoPage extends Component {
     state = {
         mode: 'normal',
+        error: '',
+        output: '',
         operations: [{type: 'empty', parameter: {}}],
         selectedRow: -1,
     };
@@ -116,7 +121,7 @@ class NewAlgoPage extends Component {
     };
 
     handleSelectRow = (index) => {
-       this.setState({'selectedRow': index}); 
+       this.setState({'selectedRow': index});
     };
 
     handleUnselectRow = () => {
@@ -171,12 +176,13 @@ class NewAlgoPage extends Component {
     }
 
     render() {
+        const {algoBridgeService} = this.props;
         const operationRows = this.state.operations.map((item, index) => {
             return (
                 <Row key={index}>
-                    <RowLine 
-                        number={index} 
-                        operation={item} 
+                    <RowLine
+                        number={index}
+                        operation={item}
                         comment=""
                         handleAddRow={() => this.handleAddRow(index)}
                         handleRemoveRow={() => this.handleRemoveRow(index)}
@@ -203,10 +209,34 @@ class NewAlgoPage extends Component {
                         (event) => {
                             event.preventDefault();
                             console.log("create new algorithm", event);
-                            console.log(JSON.stringify(this.state.operations))
+                            console.log(JSON.stringify(this.operations));
                         }
                     }>Create</Button>
-                    <Button>Run</Button>
+                    <Button onClick={
+                        (event) => {
+                            algoBridgeService.runImplementation(JSON.stringify(this.state.operations))
+                                .then((result) => {
+                                    if (Array.isArray(result)) {
+                                        let vars = result;
+                                        let wileVars = "";
+                                        vars.forEach((item) => {
+                                            wileVars += JSON.stringify(item) + '\n';
+                                        });
+                                        this.setState({
+                                            output: wileVars,
+                                            error: ""
+                                        });
+                                    } else {
+                                        this.setState({
+                                            error: result['error'],
+                                            output: ""
+                                        });
+                                    }
+                                }).catch((error) => {
+                                    console.error('Error:', error);
+                                });
+                        }
+                    }>Run</Button>
                     <Button>Visualize</Button>
                 </Form.Group>
                 </>
@@ -214,7 +244,7 @@ class NewAlgoPage extends Component {
         } else {
             const selectedOperation = JSON.parse(JSON.stringify(this.state.operations[this.state.selectedRow]));
             code = (
-                <OperationConstructor 
+                <OperationConstructor
                     funcs={funcs}
                     operation={selectedOperation}
                     handleSaveOperation={(updatedOperation) => this.handleSaveRowOperation(updatedOperation)}
@@ -250,9 +280,20 @@ class NewAlgoPage extends Component {
                 </Form.Group>
 
                 {code}
+
+                <Form.Group as={Row}>
+                    <Form.Label>Errors</Form.Label>
+                    <Form.Control id="code-running-error" as="textarea" rows={3} readOnly value={this.state.error} />
+                </Form.Group>
+                <Form.Group as={Row}>
+                    <Form.Label>Output</Form.Label>
+                    <Form.Control id="code-output" as="textarea" rows={6} readOnly value={this.state.output} />
+                </Form.Group>
             </Form>
         )
     }
 }
 
-export default NewAlgoPage;
+export default compose(
+    withAlgoBridgeService()
+)(NewAlgoPage);

@@ -31,7 +31,7 @@ const LoginPage = ({loading, onLogin, links: linkListObj, errorMessage}) => {
 
 
 const mapStateToProps = ({links}) => {
-    return { 
+    return {
         links: [
             links.home,
             links.signup,
