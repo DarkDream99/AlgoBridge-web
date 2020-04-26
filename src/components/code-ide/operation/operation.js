@@ -74,7 +74,7 @@ const Operation = (props) => {
     }
 
     if (type === "array") {
-        result = <ArrayOperation {...parameter} />;
+        result = <ArrayOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
     if (type === "sum") {

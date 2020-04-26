@@ -23,6 +23,14 @@ const funcs = [
 num - context number
 mod - module
 num % mod`
+    }, {
+        name: 'set_item_by_index',
+        paramsCount: 3,
+        description: ''
+    }, {
+        name: 'get_item_by_index',
+        paramsCount: 2,
+        description: ''
     }
 ];
 

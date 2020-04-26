@@ -22,7 +22,8 @@ class OperationConstructor extends Component {
 
     INTERMEDIATE_CHILDREN = [
         'left', 'right', 'index', 'start', 'end', 'step',
-        'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7'
+        'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7',
+        'items_count',
     ];
 
     emptyInput = {
@@ -111,7 +112,9 @@ class OperationConstructor extends Component {
                     inputError: "",
                 });
             }, () => {
-                // TODO Add array handler
+                this.setState({...this.emptyInput, inputType: "array"}, () => {
+                    this._handleSaveInputField();
+                });
             }],
         }, {
             title: 'Constructions',
@@ -168,6 +171,14 @@ class OperationConstructor extends Component {
                     parameter: {val: value}
                 };
                 break;
+            case "array":
+                isValid = true
+                let items_count = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "array",
+                    parameter: {items_count: items_count}
+                }
+                break
             case "variable":
                 isValid = isValidVariable(value);
                 newOperation = {
