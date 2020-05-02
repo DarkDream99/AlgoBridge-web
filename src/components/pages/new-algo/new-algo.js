@@ -11,19 +11,6 @@ import withAlgoBridgeService from '../../../components/hoc/with-algobridge-servi
 
 const funcs = [
     {
-        name: 'abs',
-        paramsCount: 1,
-        description: '',
-    }, {
-        name: 'divmod',
-        paramsCount: 3,
-        description:
-`divmode(num, mod) -> number
-
-num - context number
-mod - module
-num % mod`
-    }, {
         name: 'set_item_by_index',
         paramsCount: 3,
         description: ''
@@ -106,13 +93,21 @@ num % mod`
 // };
 
 class NewAlgoPage extends Component {
-    state = {
-        mode: 'normal',
-        error: '',
-        output: '',
-        operations: [{type: 'empty', parameter: {}}],
-        selectedRow: -1,
-    };
+    constructor(props) {
+        super(props)
+        const {algoBridgeService} = this.props;
+        this.algoBridgeService = algoBridgeService;
+        this.titleRef = React.createRef();
+        this.descriptionRef = React.createRef();
+
+        this.state = {
+            mode: 'normal',
+            error: '',
+            output: '',
+            operations: [{type: 'empty', parameter: {}}],
+            selectedRow: -1,
+        };
+    }
 
     handleSaveRowOperation = (newOperation) => {
         const updatedOperations = [
@@ -183,8 +178,45 @@ class NewAlgoPage extends Component {
         this.setState({operations: updatedOperations, selectedRow: -1});
     }
 
+    handleRunImplementation = (event) => {
+        this.algoBridgeService.runImplementation(JSON.stringify(this.state.operations))
+        .then((result) => {
+            if (Array.isArray(result)) {
+                let vars = result;
+                let wileVars = "";
+                vars.forEach((item) => {
+                    wileVars += JSON.stringify(item) + '\n';
+                });
+                this.setState({
+                    output: wileVars,
+                    error: ""
+                });
+            } else {
+                this.setState({
+                    error: result['error'],
+                    output: ""
+                });
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    handleCreateAlgo = (event) => {
+        event.preventDefault();
+        let title = this.titleRef.current.value;
+        let description = this.descriptionRef.current.value;
+        let operations = JSON.stringify(this.state.operations);
+
+        this.algoBridgeService.createAlgo(title, description, operations)
+        .then((result) => {
+            console.log(result);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     render() {
-        const {algoBridgeService} = this.props;
         const operationRows = this.state.operations.map((item, index) => {
             return (
                 <Row key={index}>
@@ -213,38 +245,8 @@ class NewAlgoPage extends Component {
                 </Form.Group>
 
                 <Form.Group>
-                    <Button variant="success" type="submit" onClick={
-                        (event) => {
-                            event.preventDefault();
-                            console.log("create new algorithm", event);
-                            console.log(JSON.stringify(this.operations));
-                        }
-                    }>Create</Button>
-                    <Button onClick={
-                        (event) => {
-                            algoBridgeService.runImplementation(JSON.stringify(this.state.operations))
-                                .then((result) => {
-                                    if (Array.isArray(result)) {
-                                        let vars = result;
-                                        let wileVars = "";
-                                        vars.forEach((item) => {
-                                            wileVars += JSON.stringify(item) + '\n';
-                                        });
-                                        this.setState({
-                                            output: wileVars,
-                                            error: ""
-                                        });
-                                    } else {
-                                        this.setState({
-                                            error: result['error'],
-                                            output: ""
-                                        });
-                                    }
-                                }).catch((error) => {
-                                    console.error('Error:', error);
-                                });
-                        }
-                    }>Run</Button>
+                    <Button variant="success" onClick={(event) => this.handleCreateAlgo(event)}>Create</Button>
+                    <Button onClick={(event) => this.handleRunImplementation(event)}>Run</Button>
                     <Button>Visualize</Button>
                 </Form.Group>
                 </>
@@ -270,18 +272,20 @@ class NewAlgoPage extends Component {
 
                 <Form.Group as={Row}>
                     <Form.Label>Title of the algorithm</Form.Label>
-                    <Form.Control type="text" placeholder="Enter algorithm's title" />
+                    <Form.Control type="text" placeholder="Enter algorithm's title" ref={this.titleRef} />
                 </Form.Group>
 
                 <Form.Group as={Row}>
                     <Form.Label>Short description</Form.Label>
-                    <Form.Control as="textarea" rows={3}/>
+                    <Form.Control as="textarea" rows={3} ref={this.descriptionRef}/>
                 </Form.Group>
 
+                {/*
                 <Form.Group as={Row}>
                     <Form.Label>Whole description</Form.Label>
                     <Form.Control type="file" accept=".pdf"/>
                 </Form.Group>
+                */}
 
                 <Form.Group as={Row}>
                     <Form.Label>Implementation</Form.Label>

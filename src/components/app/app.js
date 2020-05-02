@@ -13,6 +13,7 @@ import UserAlgosContainer from '../../containers/pages/user-algos';
 import AuthRedirect from "../../containers/auth-redirect";
 import NewAlgoPage from "../pages/new-algo";
 import ShowAlgoPage from "../pages/show-algo";
+import ShowAlgoPageContainer from "../../containers/pages/show-algo-page-container";
 
 
 class App extends Component {
@@ -67,7 +68,7 @@ class App extends Component {
                         <Route path='/user-algos' component={UserAlgosContainer} exact />
                         <Route path='/algo/new' component={NewAlgoPage} exact />
                         <Route path='/algo/:id/edit' component={null} exact />
-                        <Route path='/algo/:id/show' component={ShowAlgoPage} exact />
+                        <Route path='/algo/:id/show' component={ShowAlgoPageContainer} exact />
                     </AuthRedirect>
                 </Switch>
             </div>

@@ -29,18 +29,12 @@ const Header = (props) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Link to={links.userAlgos.href}>
-                            <Navbar.Text>{links.userAlgos.label}</Navbar.Text>
-                        </Link>
-                        <Nav.Link href="#link">Algo browser</Nav.Link>
-                        <Nav.Link href="#home">My learns</Nav.Link>
-                        <NavDropdown title="Actions" id="basic-nav-dropdown">
-                            <NavDropdown.Header>
-                                <NavDropdown.Item onClick={() => {props.history.push(links.createNewAlgo.href)}}>
-                                    {links.createNewAlgo.label}
-                                </NavDropdown.Item>
-                            </NavDropdown.Header>
-                        </NavDropdown>
+                        <Nav.Link onClick={() => {props.history.push(links.userAlgos.href)}}>
+                            {links.userAlgos.label}
+                        </Nav.Link>
+                        <Nav.Link onClick={() => {props.history.push(links.createNewAlgo.href)}}>
+                            {links.createNewAlgo.label}
+                        </Nav.Link>
                     </Nav>
                     <Nav inline="true">
                         <NavDropdown title={`Log in as ${activeUser.username}`}>

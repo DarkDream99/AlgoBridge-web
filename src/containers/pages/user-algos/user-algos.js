@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {compose} from 'redux';
-import {connect} from 'react-redux';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import withLoading from '../../../components/hoc/with-loading';
 import UserAlgosPage from '../../../components/pages/user-algos';
@@ -12,35 +11,28 @@ class UserAlgosContainer extends Component {
     };
 
     componentDidMount() {
-        const {activeUser, algoBridgeService, swapLoading} = this.props; 
+        const {algoBridgeService, swapLoading} = this.props;
         swapLoading(true);
-        algoBridgeService.userAlgos(activeUser)
-            .then((res) => {
+        algoBridgeService.userAlgos()
+            .then((algos) => {
                 this.setState({
-                    userAlgos: res.userAlgos,
+                    userAlgos: algos,
                 });
                 swapLoading(false);
             });
     }
 
     render() {
-        const {activeUser, algoBridgeService, ...clearProps} = this.props; 
-        const algoProps = [['Title', 'title'], ['O(memory)', 'memoryUp'], ['O(speed)', 'speedUp'],
-            ['\u0398(speed)', 'speedMiddle']];
+        const {algoBridgeService, ...clearProps} = this.props;
+        const algoProps = [['Title', 'title']];
         return (
-            <UserAlgosPage {...clearProps} userAlgos={this.state.userAlgos} algoProps={algoProps} /> 
+            <UserAlgosPage {...clearProps} userAlgos={this.state.userAlgos} algoProps={algoProps} />
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        activeUser: state.activeUser,
-    }
-};
 
 export default compose(
     withAlgoBridgeService(),
     withLoading(),
-    connect(mapStateToProps)
 )(UserAlgosContainer);

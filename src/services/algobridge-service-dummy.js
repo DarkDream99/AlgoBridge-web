@@ -1,4 +1,4 @@
-export default class AlgoBridgeServiceTest {
+export default class AlgoBridgeServiceDummy {
     users = [
         {
             name: 'Tony',

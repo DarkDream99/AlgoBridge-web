@@ -1,7 +1,8 @@
 const API_URL = process.env.REACT_APP_API_URL;
 const LOGIN_URL = 'api-token-auth/';
 const USER_INFO_URL = 'user-info/';
-const RUN_IMPLEMENTATION = 'interpreter/run_implementation/';
+const RUN_IMPLEMENTATION_URL = 'interpreter/run_implementation/';
+const ALGOS_URL = 'algos/';
 
 
 export default class AlgoBridgeService {
@@ -42,7 +43,7 @@ export default class AlgoBridgeService {
     runImplementation = (operations) => {
         let authToken = window.localStorage.getItem('authToken');
         return fetch(
-            API_URL + RUN_IMPLEMENTATION + `?operations=${operations}`,
+            API_URL + RUN_IMPLEMENTATION_URL + `?operations=${operations}`,
             {
                 method: 'get',
                 headers: {
@@ -52,6 +53,82 @@ export default class AlgoBridgeService {
             }
         ).then((response) => {
             return response.json();
+        });
+    }
+
+    createAlgo = (title, description, operations) => {
+        let authToken = window.localStorage.getItem('authToken');
+        let statusCode = 200;
+        return fetch(
+            API_URL + ALGOS_URL,
+            {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + authToken
+                },
+                body: JSON.stringify({
+                    title: title,
+                    description: description,
+                    implementation: operations
+                })
+            }
+        ).then((responseBase) => {
+            statusCode = responseBase.status;
+            return responseBase.json();
+        }).then((responseData) => {
+            responseData['statusCode'] = statusCode;
+            return new Promise((resove) => {
+                resove(responseData);
+            })
+        });
+    }
+
+    userAlgos = () => {
+        let authToken = window.localStorage.getItem('authToken');
+        let statusCode = 200;
+
+        return fetch(
+            API_URL + ALGOS_URL,
+            {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + authToken
+                },
+            }
+        ).then((responseBase) => {
+            statusCode = responseBase.status;
+            return responseBase.json();
+        }).then((responseData) => {
+            responseData['statusCode'] = statusCode;
+            return new Promise((resove) => {
+                resove(responseData);
+            })
+        });
+    }
+
+    userAlgo = (id) => {
+        let authToken = window.localStorage.getItem('authToken');
+        let statusCode = 200;
+
+        return fetch(
+            API_URL + ALGOS_URL + `${id}/`,
+            {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + authToken
+                }
+            }
+        ).then((responseBase) => {
+            statusCode = responseBase.status;
+            return responseBase.json();
+        }).then((responseData) => {
+            responseData['statusCode'] = statusCode;
+            return new Promise((resove) => {
+                resove(responseData);
+            });
         });
     }
 
@@ -69,23 +146,4 @@ export default class AlgoBridgeService {
             }, 1700);
         });
     };
-
-    userAlgos = (activeUser) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                let userAlgos = [];
-                activeUser.algos.forEach((algoId) => {
-                    const foundAlgo = this.algos.find((algo) => algo.id === algoId);
-                    if (foundAlgo)
-                        userAlgos.push(foundAlgo);
-                });
-
-                resolve({userAlgos});
-            }, 600);
-        });
-    }
-
-    runAlgo = (operations, inputs="") => {
-        return null;
-    }
 }
