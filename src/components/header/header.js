@@ -11,7 +11,7 @@ import {logoutDone} from "../../actions";
 
 const Header = (props) => {
     const {
-        title, links, isLogin, logout
+        title, links, isLogin, logout, history
     } = props;
     let header = (
         <Jumbotron fluid className='header'>
@@ -29,10 +29,10 @@ const Header = (props) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link onClick={() => {props.history.push(links.userAlgos.href)}}>
+                        <Nav.Link onClick={() => {history.push(links.userAlgos.href)}}>
                             {links.userAlgos.label}
                         </Nav.Link>
-                        <Nav.Link onClick={() => {props.history.push(links.createNewAlgo.href)}}>
+                        <Nav.Link onClick={() => {history.push(links.createNewAlgo.href)}}>
                             {links.createNewAlgo.label}
                         </Nav.Link>
                     </Nav>

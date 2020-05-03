@@ -77,7 +77,7 @@ export default class AlgoBridgeService {
             statusCode = responseBase.status;
             return responseBase.json();
         }).then((responseData) => {
-            responseData['statusCode'] = statusCode;
+            responseData['status'] = statusCode;
             return new Promise((resove) => {
                 resove(responseData);
             })
@@ -129,6 +129,52 @@ export default class AlgoBridgeService {
             return new Promise((resove) => {
                 resove(responseData);
             });
+        });
+    }
+
+    updateAlgo = (id, title, description, implementation) => {
+        let authToken = window.localStorage.getItem('authToken');
+        let statusCode = 200;
+
+        return fetch(
+            API_URL + ALGOS_URL + `${id}/`,
+            {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + authToken
+                },
+                body: JSON.stringify({
+                    title: title,
+                    description: description,
+                    implementation: implementation
+                })
+            }
+        ).then((responseBase) => {
+            statusCode = responseBase.status;
+            return responseBase.json();
+        }).then((responseData) => {
+            responseData['statusCode'] = statusCode;
+            return new Promise((resove) => {
+                resove(responseData);
+            });
+        });
+    }
+
+    deleteAlgo = (id) => {
+        let authToken = window.localStorage.getItem('authToken');
+
+        return fetch(
+            API_URL + ALGOS_URL + `${id}/`,
+            {
+                method: 'delete',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + authToken
+                },
+            }
+        ).then((responseBase) => {
+            return responseBase;
         });
     }
 

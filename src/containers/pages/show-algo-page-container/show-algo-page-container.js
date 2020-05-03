@@ -3,7 +3,6 @@ import {compose} from 'redux';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import withLoading from '../../../components/hoc/with-loading';
 import ShowAlgoPage from '../../../components/pages/show-algo';
-import UserAlgosPage from '../../../components/pages/user-algos';
 
 
 class ShowAlgoPageContainer extends Component {
@@ -62,6 +61,7 @@ class ShowAlgoPageContainer extends Component {
         const {algoBridgeService, ...clearProps} = this.props; 
         return (
             <ShowAlgoPage
+                id={this.algoId}
                 title={this.state.title}
                 description={this.state.description}
                 handleRunImplementation={(event, operations) => this.handleRunImplementation(event, operations)}

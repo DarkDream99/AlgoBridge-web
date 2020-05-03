@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {compose} from 'redux';
+import {withRouter} from 'react-router-dom';
 
 import './new-algo.css'
 import PageTitle from "../../page-title";
@@ -208,9 +209,13 @@ class NewAlgoPage extends Component {
         let description = this.descriptionRef.current.value;
         let operations = JSON.stringify(this.state.operations);
 
+        const {history} = this.props;
         this.algoBridgeService.createAlgo(title, description, operations)
         .then((result) => {
-            console.log(result);
+            if (result.status === 201) {
+                let algoId = result.algo_id;
+                history.push(`/algo/${algoId}/show`);
+            }
         }).catch((error) => {
             console.log(error);
         });
@@ -307,5 +312,6 @@ class NewAlgoPage extends Component {
 }
 
 export default compose(
-    withAlgoBridgeService()
+    withAlgoBridgeService(),
+    withRouter,
 )(NewAlgoPage);

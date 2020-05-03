@@ -8,7 +8,7 @@ import './show-algo.css'
 
 
 const ShowAlgoPage = (props) => {
-    const {title, description, implementation, output, error, handleRunImplementation} = props;
+    const {id, title, description, implementation, output, error, handleRunImplementation} = props;
 
     let operations = implementation.length ? JSON.parse(implementation) : [];
     const operationRows = operations.map((operation, index) => {
@@ -35,7 +35,7 @@ const ShowAlgoPage = (props) => {
             margin: 'auto',
         }}>
             <PageTitle title="Show the algorithm"/>
-            <Link to={null}>Edit</Link>
+            <Link to={`/algo/${id}/edit`}>Edit</Link>
 
             <Form.Group as={Row}>
                 <Form.Label>Title of the algorithm</Form.Label>
