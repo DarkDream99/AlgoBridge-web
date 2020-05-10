@@ -5,6 +5,7 @@ import './home-page.css';
 
 
 const HomePage = ({links: linkListObj}) => {
+
     return (
         <>
             <menu className='menu'>

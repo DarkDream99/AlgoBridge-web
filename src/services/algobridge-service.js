@@ -40,10 +40,10 @@ export default class AlgoBridgeService {
         });
     }
 
-    runImplementation = (operations) => {
+    runImplementation = (operations, runType) => {
         let authToken = window.localStorage.getItem('authToken');
         return fetch(
-            API_URL + RUN_IMPLEMENTATION_URL + `?operations=${operations}`,
+            API_URL + RUN_IMPLEMENTATION_URL + `?operations=${operations}&type=${runType}`,
             {
                 method: 'get',
                 headers: {
