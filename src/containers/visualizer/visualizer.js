@@ -16,25 +16,27 @@ class VisualizerContainer extends Component {
 
         this.state = {
             boardRef: React.createRef(),
-            operation: props.visualOperation,
         };
     }
 
     componentDidMount() {
-        const {isActive} = this.props;
+        const {isActive, visualOperation} = this.props;
         if (isActive) {
             this.state.boardRef.current.scrollIntoView();
-            this.showOperation();
+            this.showOperation(visualOperation);
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {isActive, isClear} = this.props;
+        const {isActive, isClear, visualOperation} = this.props;
+
+        if (prevState.operation === visualOperation)
+            return;
 
         if (isActive) {
             d3.select(`#${this.operationId}`).remove();
-            window.scrollTo(0, this.state.boardRef.current.offsetTop);
-            this.showOperation();
+            this.state.boardRef.current.scrollIntoView();
+            this.showOperation(visualOperation);
         }
 
         if (isClear) {
@@ -221,9 +223,7 @@ class VisualizerContainer extends Component {
         }
     }
 
-    showOperation = () => {
-        const {operation} = this.state; 
-
+    showOperation = (operation) => {
         switch (operation.type) {
             case 'simple_assign':
                 this.showSimpleAssign(operation);

@@ -3,13 +3,13 @@ import React from 'react';
 import VisualizerContainer from '../../containers/visualizer';
 
 
-const VisualizeIDE = ({visualOperations, activeRow, displayedRowsCount, handleNextOperation, handleRestartOperations}) => {
+const VisualizeIDE = ({visualOperations, visualOperationIndex, activeRow, displayedRowsCount, handleNextOperation, handleRestartOperations}) => {
     const actualVisualOperationIndexes = {};
 
     for (let index = 0; index < visualOperations.length; ++index) {
         const operation = visualOperations[index];
         actualVisualOperationIndexes[operation.row] = index;
-        if (index > activeRow) {
+        if (index > visualOperationIndex) {
             break;
         }
     }

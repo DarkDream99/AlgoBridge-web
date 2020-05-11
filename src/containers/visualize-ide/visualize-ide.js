@@ -56,6 +56,7 @@ class VisualizeIDEContainer extends Component {
             <VisualizeIDE 
                 visualOperations={visualOperations}
                 activeRow={activeOperationIndex > -1 ? visualOperations[activeOperationIndex].row : -1}
+                visualOperationIndex={activeOperationIndex}
                 displayedRowsCount={displayedRowsCount}
                 handleNextOperation={() => this.handleNextOperation()}
                 handleRestartOperations={() => this.handleRestartOperations()}
