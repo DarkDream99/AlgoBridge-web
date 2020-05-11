@@ -1,5 +1,4 @@
 import React from 'react';
-import * as d3 from 'd3';
 
 
 const Visualizer = (props) => {
@@ -19,7 +18,8 @@ const Visualizer = (props) => {
 
     return (
         <>
-            <div style={{ height: '120px', width: '60%' }}>
+            <div style={{ height: '120px', width: '1200px' }}>
+                <span>{rowNumber}</span>
                 <svg id={svgId} viewBox="0 0 600 100" style={ activeStyle } ref={borderRef}></svg>
             </div>
         

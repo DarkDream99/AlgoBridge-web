@@ -138,14 +138,6 @@ class VisualizerContainer extends Component {
             .text(name)
     }
 
-    handleClear = () => {
-        this.removeItem({
-            position: {x: 30, y: 50},
-            height: 50,
-            containerId: this.operationId
-        });
-    }
-
     showSimpleAssign = ({name, value}) => {
         let board = d3.select(`#${this.state.boardRef.current.id}`);
         board.append('g').attr('id', this.operationId);
@@ -244,44 +236,12 @@ class VisualizerContainer extends Component {
         }
     }
 
-    handleEvent = () => {
-        // let border = d3.select(`#${this.state.borderRef.current.id}`);
-        // let time = border.transition().duration(750);
-        // let text = border.selectAll('text');
-
-        // text
-        //     .data(['1500'], item => item)
-        //     .join(
-        //         enter => enter.append("text")
-        //             .attr("y", -7)
-        //             .attr("dy", "0.35em")
-        //             .attr("x", (item, index) => index * 15)
-        //             .text(item => item),
-        //         update => update,
-        //         exit => exit
-        //             .call(
-        //                 text => text.transition(time)
-        //                 .remove()
-        //                 .attr("y", 71)
-        //             )
-        //     )
-        //     .call(text => text.transition(time)
-        //         .attr("y", 35)
-        //         .attr("x", (item, index) => index * 15)
-        //     );
-
-        // this.showSimpleAssign(this.state.operation)
-        this.showAssignFromVariable(this.state.operation)
-    }
-
     render() {
         return (
             <Visualizer
                 borderRef={this.state.boardRef}
                 rowNumber={this.props.rowNumber}
                 isActive={this.props.isActive}
-                handleEvent={() => this.handleEvent()}
-                handleClear={() => this.handleClear()}
             />
         );
     }

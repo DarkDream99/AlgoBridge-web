@@ -9,9 +9,7 @@ class VisualizeIDEContainer extends Component {
         super(props);
 
         this.state = {
-            visualOperations: [
-                // {row: 3, type: 'assign_from_variable', nameA: 'var_nero', valueA: '333', nameB: 'var_coc', valueB: '150'},
-            ],
+            visualOperations: [],
             activeOperationIndex: -1,
             displayedRowsCount: 0, 
         }
