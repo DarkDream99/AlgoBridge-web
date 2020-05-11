@@ -3,6 +3,7 @@ import {compose} from 'redux';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import withLoading from '../../../components/hoc/with-loading';
 import ShowAlgoPage from '../../../components/pages/show-algo';
+import VisualizeIDEContainer from '../../visualize-ide';
 
 
 class ShowAlgoPageContainer extends Component {
@@ -12,7 +13,7 @@ class ShowAlgoPageContainer extends Component {
         this.state = {
             title: '',
             description: '',
-            implementation: [],
+            implementation: '[]',
             output: '',
             error: '',
         };
@@ -58,17 +59,19 @@ class ShowAlgoPageContainer extends Component {
     }
 
     render() {
-        const {algoBridgeService, ...clearProps} = this.props; 
         return (
-            <ShowAlgoPage
-                id={this.algoId}
-                title={this.state.title}
-                description={this.state.description}
-                handleRunImplementation={(event, operations) => this.handleRunImplementation(event, operations)}
-                implementation={this.state.implementation}
-                output={this.state.output}
-                error={this.state.error}
-            />
+            <>
+                <ShowAlgoPage
+                    id={this.algoId}
+                    title={this.state.title}
+                    description={this.state.description}
+                    handleRunImplementation={(event, operations) => this.handleRunImplementation(event, operations)}
+                    implementation={this.state.implementation}
+                    output={this.state.output}
+                    error={this.state.error}
+                />
+                <VisualizeIDEContainer operations={this.state.implementation} />
+            </>
         );
     }
 }
