@@ -16,25 +16,27 @@ class VisualizerContainer extends Component {
 
         this.state = {
             boardRef: React.createRef(),
-            operation: props.visualOperation,
         };
     }
 
     componentDidMount() {
-        const {isActive} = this.props;
+        const {isActive, visualOperation} = this.props;
         if (isActive) {
             this.state.boardRef.current.scrollIntoView();
-            this.showOperation();
+            this.showOperation(visualOperation);
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {isActive, isClear} = this.props;
+        const {isActive, isClear, visualOperation} = this.props;
+
+        if (prevState.operation === visualOperation)
+            return;
 
         if (isActive) {
             d3.select(`#${this.operationId}`).remove();
-            window.scrollTo(0, this.state.boardRef.current.offsetTop);
-            this.showOperation();
+            this.state.boardRef.current.scrollIntoView();
+            this.showOperation(visualOperation);
         }
 
         if (isClear) {
@@ -138,17 +140,28 @@ class VisualizerContainer extends Component {
             .text(name)
     }
 
-    showSimpleAssign = ({name, value}) => {
+    showSimpleAssign = ({name, oldValue, newValue}) => {
         let board = d3.select(`#${this.state.boardRef.current.id}`);
         board.append('g').attr('id', this.operationId);
+
+        if (oldValue !== '') {
+            this.showItem({
+                position: {x: -180, y: 20},
+                width: 50,
+                height: 50,
+                label: oldValue,
+                containerId: this.operationId,
+                itemId: this.valueAId,
+            });
+        }
 
         this.showItem({
             position: {x: -100, y: 20},
             width: 50,
             height: 50,
-            label: value,
+            label: newValue,
             containerId: this.operationId,
-            itemId: this.valueAId,
+            itemId: this.valueBId,
         });
 
         this.showVariable({
@@ -161,16 +174,24 @@ class VisualizerContainer extends Component {
         this.moveItem({
             position: {x: -100, y: 20},
             height: 50,
-            containerId: this.valueAId,
+            containerId: this.valueBId,
             deltaPosition: {x: -80, y: 0}
         });
+
+        if (oldValue !== '') {
+            this.removeItem({
+                position: {x: -65, y: 20},
+                height: 50,
+                containerId: this.valueAId,
+            });
+        }
     }
 
     showAssignFromVariable = ({nameA, valueA, nameB, valueB}) => {
         let board = d3.select(`#${this.state.boardRef.current.id}`);
         board.append('g').attr('id', this.operationId);
 
-        if (valueA) {
+        if (valueA !== '') {
             this.showItem({
                 position: {x: -180, y: 20},
                 width: 50,
@@ -212,7 +233,7 @@ class VisualizerContainer extends Component {
             deltaPosition: {x: -115, y: 0}
         });
 
-        if (valueA) {
+        if (valueA !== '') {
             this.removeItem({
                 position: {x: -65, y: 20},
                 height: 50,
@@ -221,9 +242,7 @@ class VisualizerContainer extends Component {
         }
     }
 
-    showOperation = () => {
-        const {operation} = this.state; 
-
+    showOperation = (operation) => {
         switch (operation.type) {
             case 'simple_assign':
                 this.showSimpleAssign(operation);
