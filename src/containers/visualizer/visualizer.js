@@ -140,17 +140,28 @@ class VisualizerContainer extends Component {
             .text(name)
     }
 
-    showSimpleAssign = ({name, value}) => {
+    showSimpleAssign = ({name, oldValue, newValue}) => {
         let board = d3.select(`#${this.state.boardRef.current.id}`);
         board.append('g').attr('id', this.operationId);
+
+        if (oldValue !== '') {
+            this.showItem({
+                position: {x: -180, y: 20},
+                width: 50,
+                height: 50,
+                label: oldValue,
+                containerId: this.operationId,
+                itemId: this.valueAId,
+            });
+        }
 
         this.showItem({
             position: {x: -100, y: 20},
             width: 50,
             height: 50,
-            label: value,
+            label: newValue,
             containerId: this.operationId,
-            itemId: this.valueAId,
+            itemId: this.valueBId,
         });
 
         this.showVariable({
@@ -163,16 +174,24 @@ class VisualizerContainer extends Component {
         this.moveItem({
             position: {x: -100, y: 20},
             height: 50,
-            containerId: this.valueAId,
+            containerId: this.valueBId,
             deltaPosition: {x: -80, y: 0}
         });
+
+        if (oldValue !== '') {
+            this.removeItem({
+                position: {x: -65, y: 20},
+                height: 50,
+                containerId: this.valueAId,
+            });
+        }
     }
 
     showAssignFromVariable = ({nameA, valueA, nameB, valueB}) => {
         let board = d3.select(`#${this.state.boardRef.current.id}`);
         board.append('g').attr('id', this.operationId);
 
-        if (valueA) {
+        if (valueA !== '') {
             this.showItem({
                 position: {x: -180, y: 20},
                 width: 50,
@@ -214,7 +233,7 @@ class VisualizerContainer extends Component {
             deltaPosition: {x: -115, y: 0}
         });
 
-        if (valueA) {
+        if (valueA !== '') {
             this.removeItem({
                 position: {x: -65, y: 20},
                 height: 50,
