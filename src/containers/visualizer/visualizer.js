@@ -14,6 +14,10 @@ class VisualizerContainer extends Component {
         this.valueBId = `simple-assign-value-b-row-${props.visualOperation.row}`;
         this.varBId = `simple-assign-variable-b-row-${props.visualOperation.row}`;
 
+        this.RED_COLOR = 'red';
+        this.GREEN_COLOR = 'green';
+        this.BLACK_COLOR = 'black';
+
         this.state = {
             boardRef: React.createRef(),
         };
@@ -44,10 +48,34 @@ class VisualizerContainer extends Component {
         }
     }
 
-    rectGenerator = (x, y, width, height) => {
-        let rect = d3.path();
-        rect.rect(x, y, width, height);
-        return rect;
+    showLine = ({containerId, startPosition, endPosition, color, width}) => {
+        let container = d3.select(`#${containerId}`);
+    
+        if (!color) {
+            color = this.BLACK_COLOR;
+        }
+        if (!width) {
+            width = 2
+        }
+
+        container.append('line')
+            .attr('x1', startPosition.x).attr('y1', startPosition.y)
+            .attr('x2', endPosition.x).attr('y2', endPosition.y)
+            .attr('stroke', color).attr('stroke-width', width);
+    }
+
+    showText = ({containerId, position, size, text}) => {
+        let container = d3.select(`#${containerId}`);
+
+        if (!text) {
+            text = '0.35em';
+        }
+
+        container.append('text')
+            .attr('x', position.x)
+            .attr('y', position.y)
+            .attr('dy', size)
+            .text(text)
     }
 
     showItem = ({position, width, height, label, itemId, containerId}) => {
@@ -116,28 +144,33 @@ class VisualizerContainer extends Component {
     }
 
     showVariable = ({position, width, height, name, containerId}) => {
-        let container = d3.select(`#${containerId}`);
+        this.showLine({
+            containerId: containerId,
+            startPosition: {x: position.x, y: position.y},
+            endPosition: {x: position.x + width, y: position.y},
+            color: this.RED_COLOR, width: 2
+        });
 
-        container.append('line')
-            .attr('x1', position.x).attr('y1', position.y)
-            .attr('x2', position.x + width).attr('y2', position.y)
-            .attr('style', 'stroke:rgb(255,0,0); stroke-width:2')
+        this.showLine({
+            containerId: containerId,
+            startPosition: {x: position.x, y: position.y},
+            endPosition: {x: position.x - 10, y: position.y - height},
+            color: this.RED_COLOR, width: 2
+        });
 
-        container.append('line')
-            .attr('x1', position.x).attr('y1', position.y)
-            .attr('x2', position.x - 10).attr('y2', position.y - height)
-            .attr('style', 'stroke:rgb(255,0,0); stroke-width:2')
+        this.showLine({
+            containerId: containerId,
+            startPosition: {x: position.x + width, y: position.y},
+            endPosition: {x: position.x + width + 10, y: position.y - height},
+            color: this.RED_COLOR, width: 2
+        });
 
-        container.append('line')
-            .attr('x1', position.x + width).attr('y1', position.y)
-            .attr('x2', position.x + width + 10).attr('y2', position.y - height)
-            .attr('style', 'stroke:rgb(255,0,0); stroke-width:2')
-
-        container.append('text')
-            .attr('x', position.x + 5)
-            .attr('y', position.y + 10)
-            .attr('dy', '0.35em')
-            .text(name)
+        this.showText({
+            containerId: containerId,
+            position: {x: position.x + 5, y: position.y + 10},
+            size: '0.35em',
+            text: name
+        });
     }
 
     showSimpleAssign = ({name, oldValue, newValue}) => {
@@ -242,6 +275,49 @@ class VisualizerContainer extends Component {
         }
     }
 
+    showCondition = ({row, value, isCorrect}) => {
+        let board = d3.select(`#${this.state.boardRef.current.id}`);
+        board.append('g').attr('id', this.operationId);
+
+        this.showItem({
+            position: {x: 0, y: 20},
+            width: 60, height: 60,
+            label: value,
+            containerId: this.operationId,
+            itemId: this.valueAId
+        });
+
+        this.showLine({
+            containerId: this.operationId,
+            startPosition: {x: 0, y: 37},
+            endPosition: {x: -30, y: 37},
+            color: this.BLACK_COLOR
+        });
+
+        this.showLine({
+            containerId: this.operationId,
+            startPosition: {x: 60, y: 37},
+            endPosition: {x: 90, y: 37},
+            color: this.BLACK_COLOR
+        });
+
+        if (isCorrect === '+') {
+            this.showLine({
+                containerId: this.operationId,
+                startPosition: {x: 90, y: 37},
+                endPosition: {x: 90, y: 90},
+                color: this.GREEN_COLOR, width: 5
+            });
+        } else {
+            this.showLine({
+                containerId: this.operationId,
+                startPosition: {x: -30, y: 37},
+                endPosition: {x: -30, y: 90},
+                color: this.RED_COLOR, width: 5
+            });
+        }
+    }
+
     showOperation = (operation) => {
         switch (operation.type) {
             case 'simple_assign':
@@ -249,6 +325,9 @@ class VisualizerContainer extends Component {
                 break;
             case 'assign_from_variable':
                 this.showAssignFromVariable(operation);
+                break;
+            case 'condition':
+                this.showCondition(operation);
                 break;
             default:
                 break;
