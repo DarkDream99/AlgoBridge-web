@@ -83,6 +83,7 @@ class VisualizerContainer extends Component {
         border.append('g').attr('id', itemId);
 
         let itemContainer = d3.select(`#${itemId}`);
+        const d3time = itemContainer.transition().duration(750);
         itemContainer
             .append('rect')
                 .attr('x', position.x)
@@ -91,8 +92,7 @@ class VisualizerContainer extends Component {
                 .attr('height', height)
                 .attr('fill', 'orange')
                 .attr('stroke', 'black')
-            .transition()
-            .duration(750)
+            .transition(d3time)
             .attr('y', position.y);
 
         itemContainer
@@ -101,46 +101,109 @@ class VisualizerContainer extends Component {
                 .attr('dy', '0.35em')
                 .attr('x', position.x + 5)
                 .text(label)
-            .transition()
-            .duration(750)
+            .transition(d3time)
             .attr('y', position.y + (height / 2))
     }
 
     moveItem = ({position, height, containerId, deltaPosition}) => {
         let container = d3.select(`#${containerId}`);
+        const d3time = container.transition().duration(400);
 
         container.select('rect')
-            .transition().delay(700).duration(400)
+            .transition(d3time).delay(700)
             .attr('y', position.y + deltaPosition.y)
             .attr('x', position.x + deltaPosition.x)
 
         container.select('text')
-            .transition().delay(700).duration(400)
+            .transition(d3time).delay(700)
             .attr('y', position.y + (height / 2) + deltaPosition.y)
             .attr('x', position.x + deltaPosition.x + 5)
     }
 
     removeItem = ({position, height, containerId}) => {
         let container = d3.select(`#${containerId}`);
+        const d3time = container.transition().duration(700);
 
         container.selectAll('rect')
-            .transition().duration(400).delay(400)
+            .attr('x', (value, index) => position.x + index * 50)
+            .transition(d3time)
             .attr('y', position.y + 50)
             .remove();
 
         container.selectAll('text')
-            .transition().duration(400).delay(400)
+            .attr('x', (value, index) => position.x + index * 50)
+            .transition(d3time)
             .attr('y', position.y + (height / 2) + 50)
             .remove();
 
         container.selectAll('line')
-            .transition().duration(400).delay(400)
+            .transition(d3time)
             .attr('y1', position.y + (height / 2) + 80)
             .attr('y2', position.y + (height / 2) + 80)
             .remove();
 
         container.selectAll('g').transition().delay(800).remove();
         container.transition().delay(800).remove();
+    }
+
+    showArray = ({position, width, height, containerId, array, itemId}) => {
+        let container = d3.select(`#${containerId}`);
+        const d3time = container.transition().duration(750);
+        const itemContainer = container.append('g').attr('id', itemId);
+
+        itemContainer.selectAll('rect')
+            .data(array, array => array)
+            .join(
+                enter => enter.append('rect')
+                    .attr('x', position.x)
+                    .call(enter => enter.transition(d3time)
+                        .attr('x', (value, index) => index * width)
+                    )
+                    .attr('y', position.y)
+                    .attr('width', width)
+                    .attr('height', height)
+                    .attr('fill', 'orange')
+                    .attr('stroke', 'black'),
+                update => update.attr('fill', 'orange'),
+                exit => exit
+                    .attr('fill', 'red')
+                    .call( exit => exit.transition(d3time)
+                        .remove()
+                    )
+            );
+
+        itemContainer.selectAll('text')
+            .data(array, array => array)
+            .join(
+                enter => enter.append('text')
+                    .attr('x', position.x)
+                    .call(enter => enter.transition(d3time)
+                        .attr('x', (value, index) => index * width + 5)
+                    )
+                    .attr('y', position.y)
+                    .attr('dy', '1.35em')
+                    .text((value, index) => value),
+                update => update.attr('fill', 'orange'),
+                exit => exit
+                    .call( exit => exit.transition(d3time)
+                        .remove()
+                    )
+            );
+    }
+
+    moveArray = ({position, height, containerId, deltaPosition}) => {
+        let container = d3.select(`#${containerId}`);
+        const d3time = container.transition().duration(400);
+
+        container.selectAll('rect')
+            .transition(d3time).delay(700)
+            .attr('y', position.y + deltaPosition.y)
+            .attr('x', (value, index) => position.x + index * 50 + deltaPosition.x)
+
+        container.selectAll('text')
+            .transition(d3time).delay(700)
+            .attr('y', position.y + deltaPosition.y)
+            .attr('x', (value, index) => position.x + index * 50 + deltaPosition.x + 5)
     }
 
     showVariable = ({position, width, height, name, containerId}) => {
@@ -177,43 +240,88 @@ class VisualizerContainer extends Component {
         let board = d3.select(`#${this.state.boardRef.current.id}`);
         board.append('g').attr('id', this.operationId);
 
+        let oldValueSource;
+        let oldCount = 1;
         if (oldValue !== '') {
+            oldValueSource = JSON.parse(oldValue);
+            if (Array.isArray(oldValueSource)) {
+                oldCount = Math.max(oldValueSource.length, oldCount);
+            }
+            if (Array.isArray(oldValueSource)) {
+                this.showArray({
+                    position: {x: -180, y: 20},
+                    width: 50, height: 50,
+                    containerId: this.operationId,
+                    array: oldValueSource,
+                    itemId: this.valueAId
+                });
+            } else {
+                this.showItem({
+                    position: {x: -180, y: 20},
+                    width: 50,
+                    height: 50,
+                    label: oldValue,
+                    containerId: this.operationId,
+                    itemId: this.valueAId,
+                });
+            }
+        }
+
+        const newValueSource = JSON.parse(newValue);
+
+        if (Array.isArray(newValueSource)) {
+            this.showArray({
+                position: {x: -180 + oldCount * 90, y: 20},
+                width: 50, height: 50,
+                containerId: this.operationId,
+                array: newValueSource,
+                itemId: this.valueBId
+            });
+        } else {
             this.showItem({
-                position: {x: -180, y: 20},
+                position: {x: -180 + oldCount * 90, y: 20},
                 width: 50,
                 height: 50,
-                label: oldValue,
+                label: newValue,
                 containerId: this.operationId,
-                itemId: this.valueAId,
+                itemId: this.valueBId,
             });
         }
 
-        this.showItem({
-            position: {x: -100, y: 20},
-            width: 50,
-            height: 50,
-            label: newValue,
-            containerId: this.operationId,
-            itemId: this.valueBId,
-        });
+        let newCount = 1;
+        if (Array.isArray(newValueSource)) {
+            newCount = Math.max(newCount, newValueSource.length);
+        }
+
+        const countItems = Math.max(newCount, oldCount);
+        const width = 60;
 
         this.showVariable({
             position: {x: -185, y: 75},
-            width: 60, height: 60,
+            width: width * countItems, height: 60,
             name: name,
             containerId: this.operationId,
         });
 
-        this.moveItem({
-            position: {x: -100, y: 20},
-            height: 50,
-            containerId: this.valueBId,
-            deltaPosition: {x: -80, y: 0}
-        });
+        if (Array.isArray(newValueSource)) {
+            this.moveArray({
+                position: {x: -180 + oldCount * 90, y: 20},
+                height: 50,
+                containerId: this.valueBId,
+                deltaPosition: {x: -oldCount * 90, y: 0}
+            });
+        } else {
+            this.moveItem({
+                position: {x: -180 + oldCount * 90, y: 20},
+                height: 50,
+                containerId: this.valueBId,
+                deltaPosition: {x: -oldCount * 90, y: 0}
+            });
+        }
 
         if (oldValue !== '') {
             this.removeItem({
-                position: {x: -65, y: 20},
+                position: {x: -185, y: 20},
                 height: 50,
                 containerId: this.valueAId,
             });
@@ -268,7 +376,7 @@ class VisualizerContainer extends Component {
 
         if (valueA !== '') {
             this.removeItem({
-                position: {x: -65, y: 20},
+                position: {x: -180, y: 20},
                 height: 50,
                 containerId: this.valueAId,
             });
