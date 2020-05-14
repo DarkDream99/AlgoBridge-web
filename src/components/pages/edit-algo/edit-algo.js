@@ -13,6 +13,7 @@ const EditAlgoPage = (props) => {
         handleRunImplementation, handleChangeTitle, handleChangeDescription,
         handleAddRow, handleRemoveRow, handleMoveRowUp, handleMoveRowDown,
         handleSelectRow, handleUnselectRow, handleSaveRowOperation,
+        handleChangeRowOperationFromDrag,
         handleSaveAlgo, handleDeleteAlgo,
     } = props;
 
@@ -28,6 +29,9 @@ const EditAlgoPage = (props) => {
                     handleMoveRowUp={() => handleMoveRowUp(index)}
                     handleMoveRowDown={() => handleMoveRowDown(index)}
                     handleSelectRow={() => handleSelectRow(index)}
+                    handleChangeRowOperationFromDrag={
+                        (newOperation, indexFrom, indexTo) => handleChangeRowOperationFromDrag(newOperation, indexFrom, indexTo)
+                    }
                 />
             </Row>
         );
@@ -46,7 +50,6 @@ const EditAlgoPage = (props) => {
                 <Form.Group>
                     <Button variant="success" onClick={() => handleSaveAlgo()}>Save</Button>
                     <Button onClick={(event) => handleRunImplementation(operations)}>Run</Button>
-                    <Button>Visualize</Button>
                     <Button variant="danger" onClick={(event) => handleDeleteAlgo()}>Delete</Button>
                 </Form.Group>
             </>

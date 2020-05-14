@@ -8,7 +8,8 @@ import Operation from "../../operation";
 const RowLine = (props) => {
     const {
         number, operation, nest, comment, handleAddRow, handleSelectRow,
-        handleRemoveRow, handleMoveRowUp, handleMoveRowDown, disabled
+        handleRemoveRow, handleMoveRowUp, handleMoveRowDown, disabled,
+        handleChangeRowOperationFromDrag
     } = props;
 
     let spaces = [];
@@ -32,6 +33,44 @@ const RowLine = (props) => {
         );
     }
 
+    const dragStartHandler = (ev) => {
+        ev.dataTransfer.setData('text/plain', JSON.stringify({operation: operation, startRow: number}));
+    }
+
+    const dragOverHandler = (ev) => {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = 'move';
+    }
+
+    const dropHandler = (ev) => {
+        ev.preventDefault();
+        const data = JSON.parse(ev.dataTransfer.getData('text/plain'));
+        const newOperation = data['operation'];
+        const startRow = data['startRow'];
+        handleChangeRowOperationFromDrag(newOperation, startRow, number);
+    }
+
+    let operationRow = null;
+    if (!disabled) {
+        operationRow = (
+            <div draggable='true' style={{ width: '100%' }} onDragStart={(ev) => dragStartHandler(ev)}>
+                {spaces}
+                <Operation
+                    {...operation}
+                    dragOverHandler={(ev) => dragOverHandler(ev)}
+                    dropHandler={(ev => dropHandler(ev))}
+                    mode='standard'
+                />
+            </div>
+        );
+    } else {
+        operationRow = (
+            <div>
+                {spaces}<Operation {...operation} />
+            </div>
+        )
+    }
+
     return (
         <Container>
             <Row>
@@ -42,7 +81,7 @@ const RowLine = (props) => {
                     style={{display: 'flex'}}
                     onClick={() => handleSelectRow()}
                 >
-                    {spaces}<Operation {...operation} />
+                    {operationRow}
                 </Col>
                 {navButtons}
             </Row>

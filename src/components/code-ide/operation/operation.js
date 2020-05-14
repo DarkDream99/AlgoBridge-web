@@ -22,7 +22,7 @@ import OrLogicOperation from "./or-logic-operation";
 
 
 const Operation = (props) => {
-    const {type, parameter, childrenIds, mode} = props;
+    const {type, parameter, childrenIds, mode, dragOverHandler, dropHandler} = props;
     let result = null;
 
     if (type === "assign") {
@@ -56,7 +56,7 @@ const Operation = (props) => {
     if (type === "or-logic") {
         result = <OrLogicOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
-    
+
     if (type === "number") {
         result = <NumberOperation {...parameter}/>;
     }
@@ -94,7 +94,7 @@ const Operation = (props) => {
     }
 
     if (type === "function") {
-        result = <FunctionOperation {...parameter} childrenIds={childrenIds} mode={mode} />; 
+        result = <FunctionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
     if (type === "condition") {
@@ -105,6 +105,15 @@ const Operation = (props) => {
         result = <EndConditionOperation/>;
     }
 
+    if (type === "empty" && mode === 'standard') {
+        result = (
+            <div
+                onDrop={(ev) => dropHandler(ev)}
+                onDragOver={(ev) => dragOverHandler(ev)}
+                style={{ width: '100%', height: '100%' }}
+            />
+        );
+    }
     return (
         result
     )

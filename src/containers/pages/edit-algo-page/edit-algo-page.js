@@ -58,6 +58,22 @@ class EditAlgoPageContainer extends Component {
         });
     };
 
+    handleChangeRowOperationFromDrag = (newOperation, indexFrom, indexTo) => {
+        let updatedOperations = [
+            ...this.state.operations.slice(0, indexFrom),
+            {type: 'empty', parameter: {}},
+            ...this.state.operations.slice(indexFrom + 1)
+        ];
+        updatedOperations = [
+            ...updatedOperations.slice(0, indexTo),
+            newOperation,
+            ...updatedOperations.slice(indexTo + 1)
+        ];
+        this.setState({
+            operations: updatedOperations,
+        });
+    }
+
     handleSelectRow = (index) => {
        this.setState({selectedRow: index});
     };
@@ -210,6 +226,9 @@ class EditAlgoPageContainer extends Component {
                 handleSelectRow={(index) => this.handleSelectRow(index)}
                 handleUnselectRow={(index) => this.handleUnselectRow(index)}
                 handleSaveRowOperation={(newOperation) => this.handleSaveRowOperation(newOperation)}
+                handleChangeRowOperationFromDrag={
+                    (newOperation, indexFrom, indexTo) => this.handleChangeRowOperationFromDrag(newOperation, indexFrom, indexTo)
+                }
                 handleSaveAlgo={() => this.handleSaveAlgo()}
                 handleDeleteAlgo={() => this.handleDeleteAlgo()}
                 operations={this.state.operations}

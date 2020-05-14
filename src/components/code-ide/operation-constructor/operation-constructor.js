@@ -162,7 +162,7 @@ class OperationConstructor extends Component {
         const emptyOperand = {type: "empty", parameter: {}};
         var leftOperand = null;
         var rightOperand = null;
-        
+
         switch (this.state.inputType) {
             case "number":
                 isValid = isValidNumber(value);
@@ -499,7 +499,7 @@ class OperationConstructor extends Component {
                     label={this.state.inputLabel}
                     error={this.state.inputError}
                 />
-                <FunctionSelector 
+                <FunctionSelector
                     funcs={funcs}
                     show={this.state.showFunctionSelector}
                     handleClose={() => this._handleCloseInputField()}
@@ -508,10 +508,10 @@ class OperationConstructor extends Component {
                     error={this.state.inputError}
                 />
                 <CodeInterface groups={this.testGroups}/>
-                <div><Operation {...this.state.resultOperation}/></div>
+                <div><Operation {...this.state.resultOperation} /></div>
                 {params}
-                <Button 
-                    variant="success" 
+                <Button
+                    variant="success"
                     onClick={() => this._handleSaveOperation()}>
                         Save
                 </Button>
