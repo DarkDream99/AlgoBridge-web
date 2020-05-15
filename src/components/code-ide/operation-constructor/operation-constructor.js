@@ -1,10 +1,11 @@
 import React, {Component} from "react";
-import {Button} from "react-bootstrap";
 import Operation from "../operation";
 import ParameterField from "./parameter-field";
 import CodeInterface from "../interface";
 import InputField from "./input-field";
 import FunctionSelector from "./function-selector";
+import Button from '../../gui/button';
+import ButtonGroup from '../../gui/button-group';
 import {isValidVariable, isValidNumber} from "../../../validators";
 
 
@@ -490,6 +491,17 @@ class OperationConstructor extends Component {
         ));
 
         const {handleClose, funcs} = this.props;
+        const manageOperationButtons = (
+            <ButtonGroup buttons={[
+                <Button classes="success" action={() => this._handleSaveOperation()}>
+                    Save
+                </Button>,
+                <Button action={() => handleClose()}>
+                    Cancel
+                </Button>
+            ]}/>
+        );
+
         return (
             <div>
                 <InputField
@@ -510,16 +522,7 @@ class OperationConstructor extends Component {
                 <CodeInterface groups={this.testGroups}/>
                 <div><Operation {...this.state.resultOperation} /></div>
                 {params}
-                <Button
-                    variant="success"
-                    onClick={() => this._handleSaveOperation()}>
-                        Save
-                </Button>
-                <Button
-                    variant="secondary"
-                    onClick={() => handleClose()}>
-                        Cancel
-                </Button>
+                {manageOperationButtons}
             </div>
         );
     }

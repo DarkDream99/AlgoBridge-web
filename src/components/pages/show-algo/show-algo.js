@@ -4,9 +4,9 @@ import {Form, Row} from "react-bootstrap";
 import PageTitle from "../../page-title";
 import RowLine from "../../code-ide/editor/row";
 import Button from "../../gui/button";
+import ButtonGroup from "../../gui/button-group";
 
 import './show-algo.css'
-import '../../../styles/css/button.css'
 
 
 const ShowAlgoPage = (props) => {
@@ -30,6 +30,13 @@ const ShowAlgoPage = (props) => {
             </Row>
         );
     });
+
+    const manageAlgoButtonsGroup = (
+        <ButtonGroup buttons={[
+            <Button key='run' action={() => handleRunImplementation(operations)}>Run</Button>,
+            <Button key='visual'>Visualize</Button>
+        ]} />
+    );
 
     return (
         <Form style={{
@@ -56,8 +63,7 @@ const ShowAlgoPage = (props) => {
             {operationRows}
 
             <Form.Group>
-                <Button action={() => handleRunImplementation(operations)}>Run</Button>
-                <Button>Visualize</Button>
+                {manageAlgoButtonsGroup}
             </Form.Group>
 
             <Form.Group as={Row}>

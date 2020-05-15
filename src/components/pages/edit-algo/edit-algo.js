@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {Container, Form, Row} from "react-bootstrap";
 
 import Button from "../../gui/button";
+import ButtonGroup from "../../gui/button-group";
 import OperationConstructor from "../../code-ide/operation-constructor";
 import PageTitle from "../../page-title";
 import RowLine from "../../code-ide/editor/row";
@@ -39,6 +40,13 @@ const EditAlgoPage = (props) => {
     });
 
     let code = "";
+    const manageAlgoButtonsGroup = (
+        <ButtonGroup buttons={[
+            <Button action={() => handleSaveAlgo()} classes="success">Save</Button>,
+            <Button action={() => handleRunImplementation(operations)}>Run</Button>,
+            <Button action={() => handleDeleteAlgo()} classes="danger">Delete</Button>
+        ]} /> 
+    );
     if (selectedRow === -1) {
         code = (
             <>
@@ -48,11 +56,7 @@ const EditAlgoPage = (props) => {
                     </Container>
                 </Form.Group>
 
-                <Form.Group>
-                    <Button action={() => handleSaveAlgo()} classes="success">Save</Button>
-                    <Button action={() => handleRunImplementation(operations)}>Run</Button>
-                    <Button action={() => handleDeleteAlgo()} classes="danger">Delete</Button>
-                </Form.Group>
+                {manageAlgoButtonsGroup}
             </>
         );
     } else {

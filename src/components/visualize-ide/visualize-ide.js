@@ -1,6 +1,8 @@
 import React from 'react';
 
 import VisualizerContainer from '../../containers/visualizer';
+import Button from '../gui/button';
+import ButtonGroup from '../gui/button-group';
 
 
 const VisualizeIDE = ({visualOperations, visualOperationIndex, activeRow, displayedRowsCount, handleNextOperation, handleRestartOperations}) => {
@@ -40,12 +42,18 @@ const VisualizeIDE = ({visualOperations, visualOperationIndex, activeRow, displa
         }
     }
 
+    const manageVisualButtonsGroup = (
+        <ButtonGroup buttons={[
+            <Button key='next' action={() => handleNextOperation()}>Next</Button>,
+            <Button key='restart' action={() => handleRestartOperations()}>Restart</Button>
+        ]}/>
+    );
+
     return (
         <>
             {visualizers}
             <div>
-                <button onClick={() => handleNextOperation()}>Next</button>
-                <button onClick={() => handleRestartOperations()}>Restart</button>
+                {manageVisualButtonsGroup}
             </div>
         </>
     );

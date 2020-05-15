@@ -4,9 +4,11 @@ import {withRouter} from 'react-router-dom';
 
 import './new-algo.css'
 import PageTitle from "../../page-title";
-import {Button, Container, Form, Row} from "react-bootstrap";
+import {Container, Form, Row} from "react-bootstrap";
 import RowLine from "../../code-ide/editor/row";
 import OperationConstructor from "../../code-ide/operation-constructor";
+import Button from "../../gui/button";
+import GroupButton from "../../gui/button-group";
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 
 
@@ -22,76 +24,6 @@ const funcs = [
     }
 ];
 
-// const operation1 = {
-//     type: "assign",
-//     parameter: {
-//         left:  {type: "variable", parameter: {name: 'abc'}},
-//         right: {type: "number", parameter: {val: 7}},
-//     }
-// };
-
-// const operation2 = {
-//     type: "assign",
-//     parameter: {
-//         left: {type: "variable", parameter: {name: 'var'}},
-//         right: {type: "number", parameter: {val: 137}},
-//     }
-// };
-
-// const operation3 = {
-//     type: "assign",
-//     parameter: {
-//         left: {type: "variable", parameter: {name: 'var'}},
-//         right: {type: "variable", parameter: {name: 'abc'}},
-//     }
-// };
-
-// const operation4 = {
-//     type: "for-loop",
-//     parameter: {
-//         index: {type: "variable", parameter: {name: 'i'}},
-//         start: {type: "number", parameter: {val: 0}},
-//         end: {type: "number", parameter: {val: 10}},
-//         step: {type: "number", parameter: {val: 2}}
-//     }
-// };
-
-// const operation5 = {
-//     type: "end-for-loop",
-//     parameter: {}
-// };
-
-// const operation6 = {
-//     type: "assign",
-//     parameter: {
-//         left: {type: 'variable', parameter: {name: 'var'}},
-//         right: {type: 'array', parameter: {values: [5, 6, -3, 'abc']}},
-//     }
-// };
-
-// const operation7 = {
-//     type: "function",
-//     parameter: {
-//         name: "abc",
-//         param1: {type: 'variable', parameter: {name: 'var'}},
-//         param2: {type: 'number', parameter: {val: -30}},
-//         param3: {type: 'variable', parameter: {name: 'boc'}},
-//     }
-// };
-
-// const operation8 = {
-//     type: "assign",
-//     parameter: {
-//         left: {type: 'variable', parameter: {name: 'var'}},
-//         right: {
-//             type: 'multiplication',
-//             parameter: {
-//                 left: {type: 'number', parameter: {val: 5}},
-//                 right: {type: 'number', parameter: {val: 8}}
-//             }
-//         }
-//     }
-// };
 
 class NewAlgoPage extends Component {
     constructor(props) {
@@ -203,8 +135,7 @@ class NewAlgoPage extends Component {
         });
     }
 
-    handleCreateAlgo = (event) => {
-        event.preventDefault();
+    handleCreateAlgo = () => {
         let title = this.titleRef.current.value;
         let description = this.descriptionRef.current.value;
         let operations = JSON.stringify(this.state.operations);
@@ -239,21 +170,24 @@ class NewAlgoPage extends Component {
             );
         });
 
+        const manageAlgoButtons = (
+            <GroupButton buttons={[
+                <Button action={() => this.handleCreateAlgo()} classes="success">Create</Button>,
+                <Button action={() => this.handleRunImplementation()}>Run</Button>
+            ]} />
+        );
+
         let code = "";
         if (this.state.selectedRow === -1) {
             code = (
                 <>
-                <Form.Group as={Row}>
-                    <Container>
-                        {operationRows}
-                    </Container>
-                </Form.Group>
+                    <Form.Group as={Row}>
+                        <Container>
+                            {operationRows}
+                        </Container>
+                    </Form.Group>
 
-                <Form.Group>
-                    <Button variant="success" onClick={(event) => this.handleCreateAlgo(event)}>Create</Button>
-                    <Button onClick={(event) => this.handleRunImplementation(event)}>Run</Button>
-                    <Button>Visualize</Button>
-                </Form.Group>
+                    {manageAlgoButtons}
                 </>
             );
         } else {
@@ -284,13 +218,6 @@ class NewAlgoPage extends Component {
                     <Form.Label>Short description</Form.Label>
                     <Form.Control as="textarea" rows={3} ref={this.descriptionRef}/>
                 </Form.Group>
-
-                {/*
-                <Form.Group as={Row}>
-                    <Form.Label>Whole description</Form.Label>
-                    <Form.Control type="file" accept=".pdf"/>
-                </Form.Group>
-                */}
 
                 <Form.Group as={Row}>
                     <Form.Label>Implementation</Form.Label>
