@@ -20,7 +20,7 @@ class ShowAlgoPageContainer extends Component {
     }
 
     componentDidMount() {
-        const {algoBridgeService, swapLoading} = this.props; 
+        const {algoBridgeService, swapLoading} = this.props;
         swapLoading(true);
         algoBridgeService.userAlgo(this.algoId)
             .then((algo) => {
@@ -33,8 +33,8 @@ class ShowAlgoPageContainer extends Component {
             });
     }
 
-    handleRunImplementation = (event, operations) => {
-        const {algoBridgeService} = this.props; 
+    handleRunImplementation = (operations) => {
+        const {algoBridgeService} = this.props;
         algoBridgeService.runImplementation(JSON.stringify(operations))
         .then((result) => {
             if (Array.isArray(result)) {

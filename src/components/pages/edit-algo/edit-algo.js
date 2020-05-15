@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Button, Container, Form, Row} from "react-bootstrap";
+import {Container, Form, Row} from "react-bootstrap";
 
+import Button from "../../gui/button";
 import OperationConstructor from "../../code-ide/operation-constructor";
 import PageTitle from "../../page-title";
 import RowLine from "../../code-ide/editor/row";
@@ -48,9 +49,9 @@ const EditAlgoPage = (props) => {
                 </Form.Group>
 
                 <Form.Group>
-                    <Button variant="success" onClick={() => handleSaveAlgo()}>Save</Button>
-                    <Button onClick={(event) => handleRunImplementation(operations)}>Run</Button>
-                    <Button variant="danger" onClick={(event) => handleDeleteAlgo()}>Delete</Button>
+                    <Button action={() => handleSaveAlgo()} classes="success">Save</Button>
+                    <Button action={() => handleRunImplementation(operations)}>Run</Button>
+                    <Button action={() => handleDeleteAlgo()} classes="danger">Delete</Button>
                 </Form.Group>
             </>
         );

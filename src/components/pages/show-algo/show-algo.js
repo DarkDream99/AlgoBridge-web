@@ -1,10 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Button, Form, Row} from "react-bootstrap";
+import {Form, Row} from "react-bootstrap";
 import PageTitle from "../../page-title";
 import RowLine from "../../code-ide/editor/row";
+import Button from "../../gui/button";
 
 import './show-algo.css'
+import '../../../styles/css/button.css'
 
 
 const ShowAlgoPage = (props) => {
@@ -54,7 +56,7 @@ const ShowAlgoPage = (props) => {
             {operationRows}
 
             <Form.Group>
-                <Button onClick={(event) => handleRunImplementation(event, operations)}>Run</Button>
+                <Button action={() => handleRunImplementation(operations)}>Run</Button>
                 <Button>Visualize</Button>
             </Form.Group>
 
