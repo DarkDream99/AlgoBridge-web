@@ -4,13 +4,19 @@ import LinkList from '../../link-list';
 import './home-page.css';
 
 
-const HomePage = ({links: linkListObj}) => {
+const HomePage = ({links}) => {
+    let menu = null;
+    if (!window.localStorage.getItem('authToken')) {
+        menu = (
+            <menu className='menu'>
+                <LinkList links={links} />
+            </menu>
+        )
+    }
 
     return (
         <>
-            <menu className='menu'>
-                <LinkList linkListObj={linkListObj} />
-            </menu>
+            {menu}
             <div>Hello on Algo Bridge</div>
         </>
     );
@@ -20,8 +26,8 @@ const mapStateToProps = ({links}) => {
     return {
         links: [
             links.login,
-            links.signup,
-        ]
+            links.register,
+        ],
     } 
 };
 

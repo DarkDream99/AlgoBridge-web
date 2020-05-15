@@ -6,9 +6,10 @@ import ErrorIndicator from '../error-indicator';
 import './identification-body.css';
 
 
-const IdentificationBody = ({actionText, action, loader, errorMessage}) => {
+const IdentificationBody = ({actionText, action, loader, errorMessage, isRegister=false}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
 
     let errorBoard = null;
     if (errorMessage)
@@ -18,20 +19,43 @@ const IdentificationBody = ({actionText, action, loader, errorMessage}) => {
             </ErrorIndicator>
         );
 
+    let emailField = null;
+    if (isRegister) {
+        emailField = (
+            <Form.Group controlId="formEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control placeholder="Enter email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                />
+            </Form.Group>
+        );
+    }
+
+    const handleAction = () => {
+        if (isRegister) {
+            action(username, email, password);
+        } else {
+            action(username, password);
+        }
+    }
+
     return (
         <Jumbotron className="identification-block">
             <Form>
-                <Form.Group controlId="formEmail">
+                <Form.Group controlId="formUsername">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control placeholder="Enter username" 
-                        value={username} 
+                    <Form.Control placeholder="Enter username"
+                        value={username}
                         onChange={(event) => setUsername(event.target.value)}
                     />
                 </Form.Group>
 
+                {emailField}
+
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" 
+                    <Form.Control type="password" placeholder="Password"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                     />
@@ -40,7 +64,7 @@ const IdentificationBody = ({actionText, action, loader, errorMessage}) => {
                 <Button variant="primary" type="submit" onClick={
                     (event) => {
                         event.preventDefault();
-                        action(username, password);
+                        handleAction();
                     }
                 }>
                     {actionText}

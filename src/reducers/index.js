@@ -15,9 +15,9 @@ const initialState = {
             label: 'Login',
             href: '/login',
         },
-        signup: {
-            label: 'Signup',
-            href: '/signup',
+        register: {
+            label: 'Register',
+            href: '/register',
         },
         userHome: {
             label: 'Home',
@@ -45,6 +45,7 @@ const reducer = (state=initialState, action) => {
             };
 
         case ACTION_TYPES.LOGOUT_SUCCESS:
+            window.localStorage.removeItem('aauthToken');
             return {
                 ...state,
                 isLogin: false,

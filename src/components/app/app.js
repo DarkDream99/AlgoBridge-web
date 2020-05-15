@@ -60,7 +60,9 @@ class App extends Component {
                     <Route path='/login' exact>
                         <LoginPageContainer login={(authToken, activeUser) => this.logIn(authToken, activeUser)} />
                     </Route>
-                    <Route path='/signup' component={SignupPageContainer} exact />
+                    <Route path='/register' exact>
+                        <SignupPageContainer login={(authToken, activeUser) => this.logIn(authToken, activeUser)} />
+                    </Route>
                     <Route path='/logout' component={LogoutPage} exact />
 
                     <AuthRedirect>

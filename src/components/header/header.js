@@ -19,7 +19,7 @@ const Header = (props) => {
         </Jumbotron>
     );
 
-    const activeUser = JSON.parse(window.localStorage.getItem('activeUser'))
+    const activeUser = JSON.parse(window.localStorage.getItem('activeUser')) || '';
     if (isLogin) {
         header = (
             <Navbar bg="dark" variant="dark" expand="lg" className='header'>

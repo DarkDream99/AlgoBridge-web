@@ -12,7 +12,7 @@ const withErrorIndicator = () => (Wrapper) => {
         };
 
         render() {
-            return <Wrapper {...this.props} error={this.state.error} 
+            return <Wrapper {...this.props} error={this.state.error}
                 setError={this.setError} />
         }
     }

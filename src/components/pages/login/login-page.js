@@ -8,7 +8,7 @@ import './login-page.css';
 import AlgoSpinner from "../../spinner";
 
 
-const LoginPage = ({loading, onLogin, links: linkListObj, errorMessage}) => {
+const LoginPage = ({loading, onLogin, links, errorMessage}) => {
      let loader = null;
      if (loading) {
          loader = <AlgoSpinner/>;
@@ -17,7 +17,7 @@ const LoginPage = ({loading, onLogin, links: linkListObj, errorMessage}) => {
      return (
          <Fragment>
              <menu className="links">
-                 <LinkList linkListObj={linkListObj} />
+                 <LinkList links={links} />
              </menu>
              <PageTitle title={"Login"} />
              <IdentificationBody actionText='Login'
@@ -34,7 +34,7 @@ const mapStateToProps = ({links}) => {
     return {
         links: [
             links.home,
-            links.signup,
+            links.register,
         ]
     }
 };

@@ -6,11 +6,10 @@ import LoginPage from '../../../components/pages/login/login-page';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import withLoading from '../../../components/hoc/with-loading';
 import withErrorIndicator from '../../../components/hoc/with-error-indicator';
-import {loginDone} from '../../../actions';
 
 
 class LoginPageContainer extends Component {
-    onLogin = (username='test1', password='test1') => {
+    onLogin = (username, password) => {
         const {algoBridgeService, swapLoading, setError} = this.props;
         swapLoading(true);
         setError('');
@@ -41,10 +40,6 @@ class LoginPageContainer extends Component {
     }
 }
 
-const mapDispatchToProps = {
-    loginDone
-};
-
 const mapStateToProps = () => {
     return {}
 };
@@ -54,5 +49,5 @@ export default compose(
     withAlgoBridgeService(),
     withLoading(),
     withErrorIndicator(),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps)
 )(LoginPageContainer);

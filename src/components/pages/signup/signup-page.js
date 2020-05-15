@@ -7,7 +7,7 @@ import './signup-page.css';
 import AlgoSpinner from "../../spinner";
 
 
-const SignupPage = ({loading, onSignup, links: linkListObj}) => {
+const SignupPage = ({loading, onRegister, links, errorMessage}) => {
     let loader = null;
     if (loading) {
         loader = <AlgoSpinner/>;
@@ -16,12 +16,14 @@ const SignupPage = ({loading, onSignup, links: linkListObj}) => {
     return (
         <Fragment>
             <menu className="links">
-                <LinkList linkListObj={linkListObj} />
+                <LinkList links={links} />
             </menu>
-            <PageTitle title={"Signup"} />
-            <IdentificationBody actionText='Signup'
-                                action={onSignup}
+            <PageTitle title={"Register"} />
+            <IdentificationBody actionText='Register'
+                                action={onRegister}
+                                isRegister={true}
                                 loader={loader}
+                                errorMessage={errorMessage}
             />
         </Fragment>
     );
