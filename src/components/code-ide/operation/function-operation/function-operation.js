@@ -58,7 +58,7 @@ const FunctionOperation = (props) => {
 
     return (
         <div style={{
-            display: 'flex',
+            display: 'inline-flex',
         }}>
             {content}
         </div>

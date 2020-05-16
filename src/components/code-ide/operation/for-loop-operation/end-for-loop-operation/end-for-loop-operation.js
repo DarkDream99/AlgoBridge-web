@@ -2,7 +2,7 @@ import React from "react";
 
 
 const EndForLoopOperation = () => {
-    return <div>END FOR</div>
+    return <div style={{display: 'inline-flex'}}>END FOR</div>
 };
 
 export default EndForLoopOperation;

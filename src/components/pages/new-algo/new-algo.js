@@ -6,6 +6,7 @@ import './new-algo.css'
 import PageTitle from "../../page-title";
 import {Container, Form, Row} from "react-bootstrap";
 import RowLine from "../../code-ide/editor/row";
+import {isBlockOperation, isEndBlockOperation} from "../../code-ide/operation";
 import OperationConstructor from "../../code-ide/operation-constructor";
 import Button from "../../gui/button";
 import GroupButton from "../../gui/button-group";
@@ -152,19 +153,47 @@ class NewAlgoPage extends Component {
         });
     }
 
+    handleChangeRowOperationFromDrag = (newOperation, indexFrom, indexTo) => {
+        let updatedOperations = [
+            ...this.state.operations.slice(0, indexFrom),
+            {type: 'empty', parameter: {}},
+            ...this.state.operations.slice(indexFrom + 1)
+        ];
+        updatedOperations = [
+            ...updatedOperations.slice(0, indexTo),
+            newOperation,
+            ...updatedOperations.slice(indexTo + 1)
+        ];
+        this.setState({
+            operations: updatedOperations,
+        });
+    }
+
     render() {
-        const operationRows = this.state.operations.map((item, index) => {
+        let nest = 0;
+        const operationRows = this.state.operations.map((operation, index) => {
+            let tartget_nest = nest;
+            if (isBlockOperation(operation))
+                nest += 1;
+            if (isEndBlockOperation(operation)) {
+                nest -= 1;
+                tartget_nest = nest;
+            }
             return (
                 <Row key={index}>
                     <RowLine
                         number={index}
-                        operation={item}
+                        operation={operation}
                         comment=""
+                        nest={tartget_nest}
                         handleAddRow={() => this.handleAddRow(index)}
                         handleRemoveRow={() => this.handleRemoveRow(index)}
                         handleMoveRowUp={() => this.handleMoveRowUp(index)}
                         handleMoveRowDown={() => this.handleMoveRowDown(index)}
                         handleSelectRow={() => this.handleSelectRow(index)}
+                        handleChangeRowOperationFromDrag={
+                            (newOperation, indexFrom, indexTo) => this.handleChangeRowOperationFromDrag(newOperation, indexFrom, indexTo)
+                        }
                     />
                 </Row>
             );

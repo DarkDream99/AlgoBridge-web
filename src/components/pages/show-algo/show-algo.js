@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Form, Row} from "react-bootstrap";
+import {isBlockOperation, isEndBlockOperation} from "../../code-ide/operation";
 import PageTitle from "../../page-title";
 import RowLine from "../../code-ide/editor/row";
 import Button from "../../gui/button";
@@ -13,13 +14,22 @@ const ShowAlgoPage = (props) => {
     const {id, title, description, implementation, output, error, handleRunImplementation} = props;
 
     let operations = implementation.length ? JSON.parse(implementation) : [];
+    let nest = 0;
     const operationRows = operations.map((operation, index) => {
+        let tartget_nest = nest;
+        if (isBlockOperation(operation))
+            nest += 1;
+        if (isEndBlockOperation(operation)) {
+            nest -= 1;
+            tartget_nest = nest;
+        }
         return (
             <Row key={index}>
                 <RowLine
                     number={index}
                     operation={operation}
                     comment=""
+                    nest={tartget_nest}
                     disabled={true}
                     handleAddRow={() => null}
                     handleRemoveRow={() => null}

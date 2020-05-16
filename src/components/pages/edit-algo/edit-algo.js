@@ -4,6 +4,7 @@ import {Container, Form, Row} from "react-bootstrap";
 
 import Button from "../../gui/button";
 import ButtonGroup from "../../gui/button-group";
+import {isBlockOperation, isEndBlockOperation} from "../../code-ide/operation";
 import OperationConstructor from "../../code-ide/operation-constructor";
 import PageTitle from "../../page-title";
 import RowLine from "../../code-ide/editor/row";
@@ -19,13 +20,22 @@ const EditAlgoPage = (props) => {
         handleSaveAlgo, handleDeleteAlgo,
     } = props;
 
+    let nest = 0;
     const operationRows = operations.map((operation, index) => {
+        let tartget_nest = nest;
+        if (isBlockOperation(operation))
+            nest += 1;
+        if (isEndBlockOperation(operation)) {
+            nest -= 1;
+            tartget_nest = nest;
+        }
         return (
             <Row key={index}>
                 <RowLine
                     number={index}
                     operation={operation}
                     comment=""
+                    nest={tartget_nest}
                     handleAddRow={() => handleAddRow(index)}
                     handleRemoveRow={() => handleRemoveRow(index)}
                     handleMoveRowUp={() => handleMoveRowUp(index)}

@@ -1,22 +1,21 @@
 import React from "react";
 import {Button, ButtonGroup, Col, Container, Row} from "react-bootstrap";
-import "./row.css"
 import Number from "./number";
 import Operation from "../../operation";
+
+import "./row.css"
 
 
 const RowLine = (props) => {
     const {
-        number, operation, nest, comment, handleAddRow, handleSelectRow,
+        number, operation, nest=0, comment, handleAddRow, handleSelectRow,
         handleRemoveRow, handleMoveRowUp, handleMoveRowDown, disabled,
         handleChangeRowOperationFromDrag
     } = props;
 
     let spaces = [];
-    if (nest) {
-        for (let i = 0; i < 4 * nest; ++i) {
-            spaces.push(<span key={i}>&#160;</span>);
-        }
+    for (let i = 0; i < 5 * nest; ++i) {
+        spaces.push(<span key={i}>&#160;</span>);
     }
 
     let navButtons = null;
@@ -53,7 +52,7 @@ const RowLine = (props) => {
     let operationRow = null;
     if (!disabled) {
         operationRow = (
-            <div draggable='true' style={{ width: '100%' }} onDragStart={(ev) => dragStartHandler(ev)}>
+            <div draggable='true' style={{ width: '100%', display: 'flex' }} onDragStart={(ev) => dragStartHandler(ev)}>
                 {spaces}
                 <Operation
                     {...operation}

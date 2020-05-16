@@ -26,7 +26,7 @@ const ConditionOperation = (props) => {
     }
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'inline-flex' }}>
             {content}
         </div>
     );
