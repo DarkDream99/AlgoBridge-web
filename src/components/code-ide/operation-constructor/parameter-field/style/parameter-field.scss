@@ -1,0 +1,14 @@
+@import '../../../../../styles/scss/colors';
+
+
+.parameter-field {
+    .parameter-content {
+        display: flex;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .selected {
+        background-color: $default-select-color;
+    }
+}

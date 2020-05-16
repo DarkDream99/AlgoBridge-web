@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import './page-title.css';
 
 
-const PageTitle = ({title}) => {
+const PageTitle = ({children}) => {
     return (
-        <h1 className="page-title">{title}</h1>
+        <h1 className="page-title">{children}</h1>
     );
 };
 

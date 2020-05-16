@@ -18,7 +18,7 @@ const SignupPage = ({loading, onRegister, links, errorMessage}) => {
             <menu className="links">
                 <LinkList links={links} />
             </menu>
-            <PageTitle title={"Register"} />
+            <PageTitle>Register</PageTitle>
             <IdentificationBody actionText='Register'
                                 action={onRegister}
                                 isRegister={true}

@@ -19,7 +19,7 @@ const UserAlgosPage = ({algoProps, userAlgos, loading, history}) => {
 
     return (
         <div>
-            <PageTitle title="My algos" />
+            <PageTitle>My algos</PageTitle>
             {table}
         </div>
     );

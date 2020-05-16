@@ -1,0 +1,19 @@
+@import '../../../../styles/scss/colors';
+
+.operation {
+    display: inline-flex;
+    align-items: center;
+}
+
+.key-word {
+    color: $key-word-color;
+}
+
+.function-name {
+    color: $function-name-color;
+}
+
+.structure-name {
+    color: $structure-name-color;
+    font-weight: bold;
+}

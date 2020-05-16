@@ -52,7 +52,7 @@ const VisualizeIDE = ({visualOperations, visualOperationIndex, activeRow, displa
     return (
         <>
             {visualizers}
-            <div>
+            <div style={{ position: 'fixed', right: 0, bottom: 0 }}>
                 {manageVisualButtonsGroup}
             </div>
         </>

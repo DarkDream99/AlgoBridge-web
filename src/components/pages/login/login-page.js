@@ -9,24 +9,26 @@ import AlgoSpinner from "../../spinner";
 
 
 const LoginPage = ({loading, onLogin, links, errorMessage}) => {
-     let loader = null;
-     if (loading) {
-         loader = <AlgoSpinner/>;
-     }
+    let loader = null;
+    if (loading) {
+        loader = <AlgoSpinner/>;
+    }
 
-     return (
-         <Fragment>
-             <menu className="links">
-                 <LinkList links={links} />
-             </menu>
-             <PageTitle title={"Login"} />
-             <IdentificationBody actionText='Login'
-                                 action={onLogin}
-                                 loader={loader}
-                                 errorMessage={errorMessage}
+    return (
+        <Fragment>
+            <menu className="links">
+                <LinkList links={links} />
+            </menu>
+            <PageTitle>
+                Login
+            </PageTitle>
+            <IdentificationBody actionText='Login'
+                action={onLogin}
+                loader={loader}
+                errorMessage={errorMessage}
              />
-         </Fragment>
-     );
+        </Fragment>
+    );
 };
 
 

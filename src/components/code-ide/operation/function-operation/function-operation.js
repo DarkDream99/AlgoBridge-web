@@ -1,6 +1,8 @@
 import React from "react";
 import Operation from "../operation";
 
+import '../style/operation.css';
+
 
 const FunctionOperation = (props) => {
     const {name, mode, childrenIds, ...params} = props;
@@ -34,7 +36,7 @@ const FunctionOperation = (props) => {
     if (mode === 'standard' || !mode) {
         content = (
             <>
-                {name}({previewParams})
+                <span className='function-name'>{name}</span>({previewParams})
             </>
         );
     } else if (mode === 'parameter') {
@@ -51,15 +53,13 @@ const FunctionOperation = (props) => {
         });
         content = (
             <>
-                {name}({previewChildIds})
+                <span className='function-name'>{name}</span>({previewChildIds})
             </>
         );
     }
 
     return (
-        <div style={{
-            display: 'inline-flex',
-        }}>
+        <div className='operation'>
             {content}
         </div>
     );

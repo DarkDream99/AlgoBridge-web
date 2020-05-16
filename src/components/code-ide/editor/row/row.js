@@ -1,9 +1,12 @@
 import React from "react";
 import {Button, ButtonGroup, Col, Container, Row} from "react-bootstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlus, faTrash, faArrowUp, faArrowDown} from "@fortawesome/free-solid-svg-icons"
 import Number from "./number";
 import Operation from "../../operation";
 
 import "./row.css"
+import "./style/operation-row.css"
 
 
 const RowLine = (props) => {
@@ -21,12 +24,20 @@ const RowLine = (props) => {
     let navButtons = null;
     if (!disabled) {
         navButtons = (
-            <Col xs={1} className="line-bottom-border row-line">
+            <Col xs={1} style={{ display: 'flex', alignItems: 'center' }}>
                 <ButtonGroup>
-                    <Button onClick={() => handleAddRow()}>&#9769;</Button>
-                    <Button onClick={() => handleRemoveRow()}>&#10005;</Button>
-                    <Button onClick={() => handleMoveRowUp()}>&#8657;</Button>
-                    <Button onClick={() => handleMoveRowDown()}>&#8659;</Button>
+                    <Button onClick={() => handleAddRow()}>
+                        <FontAwesomeIcon icon={faPlus} />
+                    </Button>
+                    <Button onClick={() => handleMoveRowUp()}>
+                        <FontAwesomeIcon icon={faArrowUp} />
+                    </Button>
+                    <Button onClick={() => handleMoveRowDown()}>
+                        <FontAwesomeIcon icon={faArrowDown} />
+                    </Button>
+                    <Button onClick={() => handleRemoveRow()}>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </Button>
                 </ButtonGroup>
             </Col>
         );
@@ -52,7 +63,7 @@ const RowLine = (props) => {
     let operationRow = null;
     if (!disabled) {
         operationRow = (
-            <div draggable='true' style={{ width: '100%', display: 'flex' }} onDragStart={(ev) => dragStartHandler(ev)}>
+            <div draggable='true' className="operation-row-content" onDragStart={(ev) => dragStartHandler(ev)}>
                 {spaces}
                 <Operation
                     {...operation}
@@ -64,7 +75,7 @@ const RowLine = (props) => {
         );
     } else {
         operationRow = (
-            <div>
+            <div className="operation-row-content">
                 {spaces}<Operation {...operation} />
             </div>
         )
@@ -72,11 +83,11 @@ const RowLine = (props) => {
 
     return (
         <Container>
-            <Row>
-                <Col xs={1} className="line-right-border line-bottom-border row-line">
+            <Row className="operation-row">
+                <Col xs={1} style={{ display: 'flex', alignItems: 'center', paddingTop: '10px', paddingBottom: '10px'  }}>
                     <Number value={number}/>
                 </Col>
-                <Col className="line-right-border line-bottom-border row-line"
+                <Col
                     style={{display: 'flex'}}
                     onClick={() => handleSelectRow()}
                 >

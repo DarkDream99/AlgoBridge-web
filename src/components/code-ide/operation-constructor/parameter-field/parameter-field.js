@@ -1,19 +1,22 @@
 import React from "react";
 import Operation from "../../operation";
 
+import './style/parameter-field.css'
+
 
 const ParameterField = (props) => {
     const {index, operation, isSelected, childrenIds, setSelectedParam} = props;
-    let selectedMark = "";
+    let selectClass = "";
     if (isSelected) {
-        selectedMark = <div>***</div>
+        selectClass = ' selected'
     }
 
     return (
-        <div style={{display: 'flex'}} onClick={() => setSelectedParam(index)}>
-            <div>{index} :</div>
-            <Operation {...operation} childrenIds={childrenIds} mode="parameter" />
-            {selectedMark}
+        <div className='parameter-field'>
+            <div className={'parameter-content' + selectClass} onClick={() => setSelectedParam(index)}>
+                <div>{index} :&nbsp;</div>
+                <Operation {...operation} childrenIds={childrenIds} mode="parameter" />
+            </div>
         </div>
     );
 };

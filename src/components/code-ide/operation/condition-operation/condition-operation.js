@@ -1,6 +1,8 @@
 import React from "react";
 import Operation from "../operation";
 
+import '../style/operation.css';
+
 
 const ConditionOperation = (props) => {
     const {param1: condition, mode, childrenIds} = props;
@@ -9,7 +11,7 @@ const ConditionOperation = (props) => {
     if (mode === 'standard' || !mode) {
         content = (
             <div style={{ display: 'flex' }}>
-                IF &nbsp;(
+                <span className="key-word">IF</span> &nbsp;(
                 <Operation 
                     type={condition.type} parameter={condition.parameter} />
                 )
@@ -18,7 +20,7 @@ const ConditionOperation = (props) => {
     } else if (mode === 'parameter') {
         content = (
             <div>
-                IF &nbsp;(
+                <span className='key-word'>IF</span> &nbsp;(
                     &#123; {childrenIds[0]} &#125;
                 )
             </div>
@@ -26,7 +28,7 @@ const ConditionOperation = (props) => {
     }
 
     return (
-        <div style={{ display: 'inline-flex' }}>
+        <div className='operation'>
             {content}
         </div>
     );

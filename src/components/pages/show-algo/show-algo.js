@@ -53,8 +53,9 @@ const ShowAlgoPage = (props) => {
             width: '60%',
             margin: 'auto',
         }}>
-            <PageTitle title="Show the algorithm"/>
-            <Link to={`/algo/${id}/edit`}>Edit</Link>
+            <PageTitle>
+                Show the algorithm (<Link to={`/algo/${id}/edit`}>Edit</Link>)
+            </PageTitle>
 
             <Form.Group as={Row}>
                 <Form.Label>Title of the algorithm</Form.Label>

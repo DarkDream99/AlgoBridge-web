@@ -8,6 +8,8 @@ import Button from '../../gui/button';
 import ButtonGroup from '../../gui/button-group';
 import {isValidVariable, isValidNumber} from "../../../validators";
 
+import './style/operation-constructor.css';
+
 
 class OperationConstructor extends Component {
     state = {
@@ -520,7 +522,9 @@ class OperationConstructor extends Component {
                     error={this.state.inputError}
                 />
                 <CodeInterface groups={this.testGroups}/>
-                <div><Operation {...this.state.resultOperation} /></div>
+                <div className="target-operation">
+                    <Operation {...this.state.resultOperation} />
+                </div>
                 {params}
                 {manageOperationButtons}
             </div>

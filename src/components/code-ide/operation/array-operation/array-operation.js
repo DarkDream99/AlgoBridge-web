@@ -1,6 +1,8 @@
 import React from "react";
 import Operation from "../operation";
 
+import '../style/operation.css';
+
 
 const ArrayOperation = (props) => {
     const {items_count, mode, childrenIds} = props;
@@ -9,13 +11,13 @@ const ArrayOperation = (props) => {
     if (mode === 'standard' || !mode) {
         content = (
             <div style={{ display: 'flex' }}>
-                Array(size:  <Operation type={items_count.type} parameter={items_count.parameter} />)
+                <span className='structure-name'>Array</span>(size: &nbsp; <Operation type={items_count.type} parameter={items_count.parameter} />)
             </div>
         );
     } else if (mode === 'parameter') {
         content = (
             <div>
-                Array(size: &#123; {childrenIds[0]} &#125;)
+                <span className='structure-name'>Array</span>(size: &#123; {childrenIds[0]} &#125;)
             </div>
         );
     }

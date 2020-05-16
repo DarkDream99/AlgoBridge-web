@@ -1,0 +1,21 @@
+.operation {
+  display: inline-flex;
+  align-items: center;
+}
+
+.key-word {
+  color: #ca3737;
+}
+
+.function-name {
+  color: #860dd9;
+}
+
+.structure-name {
+  color: #28ae15;
+  font-weight: bold;
+}
+
+/*# sourceMappingURL=operation.css.map */
+
+/*# sourceMappingURL=operation.css.map */

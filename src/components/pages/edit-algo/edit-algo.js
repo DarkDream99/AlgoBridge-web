@@ -86,7 +86,9 @@ const EditAlgoPage = (props) => {
             width: '60%',
             margin: 'auto',
         }}>
-            <PageTitle title="Edit the algorithm"/>
+            <PageTitle>
+                Edit the algorithm
+            </PageTitle>
 
             <Form.Group as={Row}>
                 <Form.Label>Title of the algorithm</Form.Label>

@@ -1,8 +1,10 @@
 import React from "react";
 
+import '../../style/operation.css';
+
 
 const EndForLoopOperation = () => {
-    return <div style={{display: 'inline-flex'}}>END FOR</div>
+    return <div className='operation key-word'>END FOR</div>
 };
 
 export default EndForLoopOperation;

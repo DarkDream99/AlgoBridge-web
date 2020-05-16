@@ -1,6 +1,8 @@
 import React from "react";
 import Operation from "../operation";
 
+import '../style/operation.css'
+
 
 const AssignOperation = (props) => {
     const {left, right, mode, childrenIds} = props;
@@ -10,7 +12,7 @@ const AssignOperation = (props) => {
         content = (
             <>
                 <Operation type={left.type} parameter={left.parameter} />
-                &larr;
+                &nbsp;&larr;&nbsp;
                 <Operation type={right.type} parameter={right.parameter} />
             </>
         );
@@ -18,16 +20,14 @@ const AssignOperation = (props) => {
         content = (
             <>
                 &#123; {childrenIds[0]} &#125;
-                &larr;
+                &nbsp;&larr;&nbsp;
                 &#123; {childrenIds[1]} &#125;
             </>
         );
     }
 
     return (
-        <div style={{
-            display: 'inline-flex',
-        }}>
+        <div className='operation'>
             {content}
         </div>
     );
