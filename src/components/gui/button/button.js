@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../../../styles/css/button.css'
+import './style/button.css'
 
 
 const Button = ({children, action=() => {}, classes=""}) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../../../styles/css/button-group.css'
+import './style/button-group.css'
 
 
 const ButtonGroup = ({buttons}) => {
