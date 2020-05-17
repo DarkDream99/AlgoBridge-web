@@ -22,7 +22,7 @@ import OrLogicOperation from "./or-logic-operation";
 
 
 const Operation = (props) => {
-    const {type, parameter, childrenIds, mode, dragOverHandler, dropHandler} = props;
+    const {type, parameter, childrenIds, mode, isDraggable, dragOverHandler, dropHandler} = props;
     let result = null;
 
     if (type === "assign") {
@@ -106,13 +106,15 @@ const Operation = (props) => {
     }
 
     if (type === "empty" && mode === 'standard') {
-        result = (
-            <div
-                onDrop={(ev) => dropHandler(ev)}
-                onDragOver={(ev) => dragOverHandler(ev)}
-                style={{ width: '100%', height: '100%' }}
-            />
-        );
+        if (isDraggable) {
+            result = (
+                <div
+                    onDrop={(ev) => dropHandler(ev)}
+                    onDragOver={(ev) => dragOverHandler(ev)}
+                    style={{ width: '100%', height: '100%' }}
+                />
+            );
+        }
     }
     return (
         result

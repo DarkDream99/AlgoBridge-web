@@ -25,9 +25,7 @@ const Visualizer = (props) => {
                     {rowNumber}: &nbsp;
                     <Operation
                         {...targetOperation}
-                        dragOverHandler={(ev) => null}
-                        dropHandler={(ev => null)}
-                        mode='standard'
+                        isDraggable={false}
                     />
                 </span>
                 <svg id={svgId} viewBox="0 0 600 100" style={ activeStyle } ref={borderRef}></svg>
