@@ -16,7 +16,14 @@ class VisualizeIDEContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {algoBridgeService, operations} = this.props;
+        const {algoBridgeService, operations, isShow} = this.props;
+
+        if (!isShow && prevProps.isShow) {
+            this.setState({
+                activeOperationIndex: -1,
+                displayedRowsCount: 0
+            });
+        }
 
         const prevOperations = prevProps.operations;
         if (operations === prevOperations)
@@ -52,12 +59,14 @@ class VisualizeIDEContainer extends Component {
     
     render() {
         const {activeOperationIndex, visualOperations, displayedRowsCount} = this.state;
+        const {isShow} = this.props;
         return (
             <VisualizeIDE 
                 visualOperations={visualOperations}
                 activeRow={activeOperationIndex > -1 ? visualOperations[activeOperationIndex].row : -1}
                 visualOperationIndex={activeOperationIndex}
                 displayedRowsCount={displayedRowsCount}
+                isShow={isShow}
                 handleNextOperation={() => this.handleNextOperation()}
                 handleRestartOperations={() => this.handleRestartOperations()}
             />

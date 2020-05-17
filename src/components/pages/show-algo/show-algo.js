@@ -7,11 +7,12 @@ import RowLine from "../../code-ide/editor/row";
 import Button from "../../gui/button";
 import ButtonGroup from "../../gui/button-group";
 
-import './show-algo.css'
-
 
 const ShowAlgoPage = (props) => {
-    const {id, title, description, implementation, output, error, handleRunImplementation} = props;
+    const {
+        id, title, description, implementation, output, error,
+        isVisual, handleRunImplementation, handleVisualSwitch
+    } = props;
 
     let operations = implementation.length ? JSON.parse(implementation) : [];
     let nest = 0;
@@ -41,10 +42,13 @@ const ShowAlgoPage = (props) => {
         );
     });
 
+    const visualText = isVisual ? 'Visualize off' : 'Visualize on';
     const manageAlgoButtonsGroup = (
         <ButtonGroup buttons={[
             <Button key='run' action={() => handleRunImplementation(operations)}>Run</Button>,
-            <Button key='visual'>Visualize</Button>
+            <Button key='visual' action={() => handleVisualSwitch()}>
+                {visualText}
+            </Button>
         ]} />
     );
 

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {Button, Form, Jumbotron} from 'react-bootstrap';
+import {Form, Jumbotron} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import Button from '../gui/button';
 import ErrorIndicator from '../error-indicator';
 
 import './identification-body.css';
@@ -61,14 +62,11 @@ const IdentificationBody = ({actionText, action, loader, errorMessage, isRegiste
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={
-                    (event) => {
-                        event.preventDefault();
-                        handleAction();
-                    }
-                }>
-                    {actionText}
-                </Button>
+                <div style={{ paddingTop: '20px' }}>
+                    <Button action={ () => { handleAction(); } }>
+                        {actionText}
+                    </Button>
+                </div>
             </Form>
 
             <div style={{textAlign: 'center'}}>

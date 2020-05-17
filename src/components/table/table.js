@@ -2,6 +2,8 @@ import React from 'react';
 import PropType from 'prop-types';
 import {Table as BootTable} from 'react-bootstrap';
 
+import './style/table.css';
+
 
 const Table = ({headers, rows, clickHandlers}) => {
     const headerCols = headers.map(([label, key]) => {
@@ -16,14 +18,14 @@ const Table = ({headers, rows, clickHandlers}) => {
         });
 
         return (
-            <tr key={algo.id} onClick={() => clickHandlers[index]()}>
+            <tr key={algo.id} onClick={() => clickHandlers[index]()} className='clickable'>
                 {rowCols}
             </tr>
         );
     });
 
     let table = (
-        <BootTable striped bordered hover>
+        <BootTable striped bordered hover className='table'>
             <thead>
                 <tr>
                     {headerCols}

@@ -16,6 +16,7 @@ class ShowAlgoPageContainer extends Component {
             implementation: '[]',
             output: '',
             error: '',
+            isVisual: false,
         };
     }
 
@@ -58,6 +59,16 @@ class ShowAlgoPageContainer extends Component {
         });
     }
 
+    handleVisualSwitch = () => {
+        this.setState((currState) => {
+            const {isVisual} = currState;
+            return {
+                isVisual: !isVisual
+            }
+        });
+    }
+
+
     render() {
         return (
             <>
@@ -67,10 +78,12 @@ class ShowAlgoPageContainer extends Component {
                     description={this.state.description}
                     handleRunImplementation={(event, operations) => this.handleRunImplementation(event, operations)}
                     implementation={this.state.implementation}
+                    isVisual={this.state.isVisual}
+                    handleVisualSwitch={() => this.handleVisualSwitch()}
                     output={this.state.output}
                     error={this.state.error}
                 />
-                <VisualizeIDEContainer operations={this.state.implementation} />
+                <VisualizeIDEContainer isShow={this.state.isVisual} operations={this.state.implementation} />
             </>
         );
     }

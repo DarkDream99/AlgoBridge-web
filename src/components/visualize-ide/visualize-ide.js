@@ -5,7 +5,11 @@ import Button from '../gui/button';
 import ButtonGroup from '../gui/button-group';
 
 
-const VisualizeIDE = ({visualOperations, visualOperationIndex, activeRow, displayedRowsCount, handleNextOperation, handleRestartOperations}) => {
+const VisualizeIDE = (props) => {
+    const {
+        visualOperations, visualOperationIndex, activeRow, displayedRowsCount, isShow,
+        handleNextOperation, handleRestartOperations
+    } = props;
     const actualVisualOperationIndexes = {};
 
     for (let index = 0; index < visualOperations.length; ++index) {
@@ -49,14 +53,19 @@ const VisualizeIDE = ({visualOperations, visualOperationIndex, activeRow, displa
         ]}/>
     );
 
-    return (
-        <>
-            {visualizers}
-            <div style={{ position: 'fixed', right: 0, bottom: 0 }}>
-                {manageVisualButtonsGroup}
-            </div>
-        </>
-    );
+
+    debugger;
+    if (isShow) {
+        return (
+            <>
+                {visualizers}
+                <div style={{ position: 'fixed', right: 0, bottom: 0 }}>
+                    {manageVisualButtonsGroup}
+                </div>
+            </>
+        );
+    }
+    return <div></div>
 }
 
 
