@@ -22,7 +22,7 @@ import OrLogicOperation from "./or-logic-operation";
 
 
 const Operation = (props) => {
-    const {type, parameter, childrenIds, mode, isDraggable, dragOverHandler, dropHandler} = props;
+    const {type, parameter, childrenIds, mode, isDraggable=true, dragOverHandler, dropHandler} = props;
     let result = null;
 
     if (type === "assign") {
