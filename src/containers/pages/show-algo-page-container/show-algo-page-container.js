@@ -70,20 +70,25 @@ class ShowAlgoPageContainer extends Component {
 
 
     render() {
+        const {title, description, implementation, output, error, isVisual} = this.state;
+
         return (
             <>
                 <ShowAlgoPage
                     id={this.algoId}
-                    title={this.state.title}
-                    description={this.state.description}
+                    title={title}
+                    description={description}
                     handleRunImplementation={(event, operations) => this.handleRunImplementation(event, operations)}
-                    implementation={this.state.implementation}
-                    isVisual={this.state.isVisual}
+                    implementation={implementation}
+                    isVisual={isVisual}
                     handleVisualSwitch={() => this.handleVisualSwitch()}
-                    output={this.state.output}
-                    error={this.state.error}
+                    output={output}
+                    error={error}
                 />
-                <VisualizeIDEContainer isShow={this.state.isVisual} operations={this.state.implementation} />
+                <VisualizeIDEContainer
+                    isShow={this.state.isVisual}
+                    operations={implementation}
+                />
             </>
         );
     }

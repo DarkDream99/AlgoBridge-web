@@ -39,7 +39,7 @@ class VisualizerContainer extends Component {
 
         if (isActive) {
             d3.select(`#${this.operationId}`).remove();
-            this.state.boardRef.current.scrollIntoView();
+            this.state.boardRef.current.scrollIntoView({block: 'center', behavior: 'smooth'});
             this.showOperation(visualOperation);
         }
 
@@ -50,7 +50,7 @@ class VisualizerContainer extends Component {
 
     showLine = ({containerId, startPosition, endPosition, color, width}) => {
         let container = d3.select(`#${containerId}`);
-    
+
         if (!color) {
             color = this.BLACK_COLOR;
         }
@@ -443,8 +443,10 @@ class VisualizerContainer extends Component {
     }
 
     render() {
+        const {targetOperation} = this.props;
         return (
             <Visualizer
+                targetOperation={targetOperation}
                 borderRef={this.state.boardRef}
                 rowNumber={this.props.rowNumber}
                 isActive={this.props.isActive}

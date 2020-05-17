@@ -1,9 +1,11 @@
 import React from 'react';
 
+import Operation from '../code-ide/operation';
+
 
 const Visualizer = (props) => {
 
-    const {rowNumber, borderRef, isActive} = props;
+    const {targetOperation, rowNumber, borderRef, isActive} = props;
     const svgId = `board-${rowNumber}`;
 
     let activeStyle = {
@@ -19,10 +21,18 @@ const Visualizer = (props) => {
     return (
         <>
             <div style={{ height: '120px', width: '1200px' }}>
-                <span>{rowNumber}</span>
+                <span>
+                    {rowNumber}: &nbsp;
+                    <Operation
+                        {...targetOperation}
+                        dragOverHandler={(ev) => null}
+                        dropHandler={(ev => null)}
+                        mode='standard'
+                    />
+                </span>
                 <svg id={svgId} viewBox="0 0 600 100" style={ activeStyle } ref={borderRef}></svg>
             </div>
-        
+
             <br/>
         </>
     );

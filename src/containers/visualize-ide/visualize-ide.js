@@ -11,7 +11,7 @@ class VisualizeIDEContainer extends Component {
         this.state = {
             visualOperations: [],
             activeOperationIndex: -1,
-            displayedRowsCount: 0, 
+            displayedRowsCount: 0,
         }
     }
 
@@ -31,7 +31,6 @@ class VisualizeIDEContainer extends Component {
 
         algoBridgeService.runImplementation(operations, 'visual')
             .then((response) => {
-                console.log(response);
                 this.setState({
                     visualOperations: response['visual_operations']
                 });
@@ -56,14 +55,15 @@ class VisualizeIDEContainer extends Component {
             displayedRowsCount: 0
         });
     }
-    
+
     render() {
         const {activeOperationIndex, visualOperations, displayedRowsCount} = this.state;
-        const {isShow} = this.props;
+        const {isShow, operations} = this.props;
         return (
-            <VisualizeIDE 
+            <VisualizeIDE
                 visualOperations={visualOperations}
                 activeRow={activeOperationIndex > -1 ? visualOperations[activeOperationIndex].row : -1}
+                operations={operations}
                 visualOperationIndex={activeOperationIndex}
                 displayedRowsCount={displayedRowsCount}
                 isShow={isShow}
@@ -77,4 +77,4 @@ class VisualizeIDEContainer extends Component {
 
 export default compose(
     withAlgoBridgeService(),
-)(VisualizeIDEContainer); 
+)(VisualizeIDEContainer);
