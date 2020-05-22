@@ -14,6 +14,7 @@ class ShowAlgoPageContainer extends Component {
             title: '',
             description: '',
             implementation: '[]',
+            outputRef: React.createRef(),
             output: '',
             error: '',
             isVisual: false,
@@ -40,12 +41,12 @@ class ShowAlgoPageContainer extends Component {
         .then((result) => {
             if (Array.isArray(result)) {
                 let vars = result;
-                let wileVars = "";
+                let allVars = "";
                 vars.forEach((item) => {
-                    wileVars += JSON.stringify(item) + '\n';
+                    allVars += `${item["type"]} '${item["name"]}': ${item["value"]}\n`;
                 });
                 this.setState({
-                    output: wileVars,
+                    output: allVars,
                     error: ""
                 });
             } else {
@@ -59,6 +60,12 @@ class ShowAlgoPageContainer extends Component {
         });
     }
 
+    setError = (errorMessage) => {
+        this.setState({
+            error: errorMessage,
+        });
+    }
+
     handleVisualSwitch = () => {
         this.setState((currState) => {
             const {isVisual} = currState;
@@ -68,6 +75,20 @@ class ShowAlgoPageContainer extends Component {
         });
     }
 
+    activateEndOfVisualize = (resultState) => {
+        let allVars = "";
+        resultState.forEach((item) => {
+            allVars += `${item["type"]} '${item["name"]}': ${item["value"]}\n`;
+        });
+        this.setState({
+            output: allVars,
+            error: ""
+        }, () => {
+            this.state.outputRef.current.scrollIntoView({
+                block: 'center', behavior: 'smooth'
+            });
+        });
+    }
 
     render() {
         const {title, description, implementation, output, error, isVisual} = this.state;
@@ -83,11 +104,14 @@ class ShowAlgoPageContainer extends Component {
                     isVisual={isVisual}
                     handleVisualSwitch={() => this.handleVisualSwitch()}
                     output={output}
+                    outputRef={this.state.outputRef}
                     error={error}
                 />
                 <VisualizeIDEContainer
                     isShow={this.state.isVisual}
                     operations={implementation}
+                    activateEndOfVisualize={(resultState) => this.activateEndOfVisualize(resultState)}
+                    setError={(errorMessage) => this.setError(errorMessage)}
                 />
             </>
         );

@@ -7,7 +7,7 @@ import ButtonGroup from '../gui/button-group';
 
 const VisualizeIDE = (props) => {
     const {
-        visualOperations, operations, visualOperationIndex, activeRow, displayedRowsCount, isShow,
+        visualOperations, operations, visualOperationIndex, activeRow, displayedRowsCount, isShow, enableNext,
         handleNextOperation, handleRestartOperations
     } = props;
     const actualVisualOperationIndexes = {};
@@ -51,9 +51,12 @@ const VisualizeIDE = (props) => {
         }
     }
 
+    let nextButton = null;
+    if (enableNext)
+        nextButton = <Button key='next' action={() => handleNextOperation()}>Next</Button>;
     const manageVisualButtonsGroup = (
         <ButtonGroup buttons={[
-            <Button key='next' action={() => handleNextOperation()}>Next</Button>,
+            nextButton,
             <Button key='restart' action={() => handleRestartOperations()}>Restart</Button>
         ]}/>
     );

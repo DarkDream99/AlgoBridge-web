@@ -43,6 +43,7 @@ export default class AlgoBridgeService {
 
     runImplementation = (operations, runType='standard') => {
         let authToken = window.localStorage.getItem('authToken');
+        let statusCode = 200;
         return fetch(
             API_URL + RUN_IMPLEMENTATION_URL,
             {
@@ -57,7 +58,13 @@ export default class AlgoBridgeService {
                 })
             }
         ).then((response) => {
+            statusCode = response.status;
             return response.json();
+        }).then((response) => {
+            response['status'] = statusCode;
+            return new Promise((resolve) => {
+                resolve(response);
+            });
         });
     }
 

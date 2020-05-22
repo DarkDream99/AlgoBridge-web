@@ -9,14 +9,16 @@ class VisualizeIDEContainer extends Component {
         super(props);
 
         this.state = {
+            resultState: [],
             visualOperations: [],
             activeOperationIndex: -1,
             displayedRowsCount: 0,
+            enableNext: true,
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {algoBridgeService, operations, isShow} = this.props;
+        const {algoBridgeService, operations, isShow, setError} = this.props;
 
         if (!isShow && prevProps.isShow) {
             this.setState({
@@ -31,14 +33,20 @@ class VisualizeIDEContainer extends Component {
 
         algoBridgeService.runImplementation(operations, 'visual')
             .then((response) => {
-                this.setState({
-                    visualOperations: response['visual_operations']
-                });
+                if (response['status'] === 400) {
+                    setError(response['error']);
+                } else {
+                    this.setState({
+                        visualOperations: response['visual_operations'],
+                        resultState: response['state']
+                    });
+                }
             });
     }
 
     handleNextOperation = () => {
-        if (this.state.activeOperationIndex < this.state.visualOperations.length - 1)
+        const {activateEndOfVisualize} = this.props;
+        if (this.state.activeOperationIndex < this.state.visualOperations.length - 1) {
             this.setState(prevState => {
                 const {activeOperationIndex, visualOperations, displayedRowsCount} = prevState;
 
@@ -47,12 +55,20 @@ class VisualizeIDEContainer extends Component {
                     displayedRowsCount: Math.max(visualOperations[activeOperationIndex + 1].row + 1, displayedRowsCount)
                 }
             });
+        } else {
+            this.setState({
+                enableNext: false
+            }, () => {
+                activateEndOfVisualize(this.state.resultState);
+            })
+        }
     }
 
     handleRestartOperations = () => {
         this.setState({
             activeOperationIndex: -1,
-            displayedRowsCount: 0
+            displayedRowsCount: 0,
+            enableNext: true,
         });
     }
 
@@ -67,6 +83,7 @@ class VisualizeIDEContainer extends Component {
                 visualOperationIndex={activeOperationIndex}
                 displayedRowsCount={displayedRowsCount}
                 isShow={isShow}
+                enableNext={this.state.enableNext}
                 handleNextOperation={() => this.handleNextOperation()}
                 handleRestartOperations={() => this.handleRestartOperations()}
             />

@@ -31,11 +31,18 @@ class VisualizerContainer extends Component {
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        const {visualOperation, isActive} = this.props;
+        if (
+            JSON.stringify(nextProps.visualOperation) === JSON.stringify(visualOperation)
+                && nextProps.isActive === isActive
+        )
+            return false;
+        return true;
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const {isActive, isClear, visualOperation} = this.props;
-
-        if (prevState.operation === visualOperation)
-            return;
 
         if (isActive) {
             d3.select(`#${this.operationId}`).remove();

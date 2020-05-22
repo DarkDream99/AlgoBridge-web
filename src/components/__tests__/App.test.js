@@ -38,7 +38,7 @@ describe('App tests', () => {
 
     it('Should show signup component', () => {
         const component = mount(
-            <MemoryRouter initialEntries={['/signup']}>
+            <MemoryRouter initialEntries={['/register']}>
                 <App/>
             </MemoryRouter>
         );

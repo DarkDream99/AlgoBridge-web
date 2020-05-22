@@ -10,7 +10,7 @@ import ButtonGroup from "../../gui/button-group";
 
 const ShowAlgoPage = (props) => {
     const {
-        id, title, description, implementation, output, error,
+        id, title, description, implementation, output, outputRef, error,
         isVisual, handleRunImplementation, handleVisualSwitch
     } = props;
 
@@ -87,7 +87,7 @@ const ShowAlgoPage = (props) => {
             </Form.Group>
             <Form.Group as={Row}>
                 <Form.Label>Output</Form.Label>
-                <Form.Control id="code-output" as="textarea" rows={6} readOnly value={output} />
+                <Form.Control id="code-output" as="textarea" rows={6} readOnly value={output} ref={outputRef} />
             </Form.Group>
         </Form>
     )
