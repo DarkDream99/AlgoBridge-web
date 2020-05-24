@@ -1,25 +1,27 @@
 import React from "react";
+import {compose} from "redux";
+import withOperationBrackets from "../../../hoc/with-operation-brackets";
 import Operation from "../operation";
 
 
 const SumOperation = (props) => {
-    const {left, right, mode, childrenIds} = props;
+    const {left, right, mode, childrenIds, brackets} = props;
 
     let content = "";
     if (mode === 'standard' || !mode) {
         content = (
             <div style={{ display: 'flex' }}>
-                <Operation type={left.type} parameter={left.parameter} />
+            {brackets.leftStart}<Operation type={left.type} parameter={left.parameter} />{brackets.leftEnd}
                 &nbsp;+&nbsp;
-                <Operation type={right.type} parameter={right.parameter} />
+            {brackets.rightStart}<Operation type={right.type} parameter={right.parameter} />{brackets.rightEnd}
             </div>
         );
     } else if (mode === 'parameter') {
         content = (
             <div>
-                &#123; {childrenIds[0]} &#125;
+                {brackets.leftStart}&#123; {childrenIds[0]} &#125;{brackets.leftEnd}
                 &nbsp;+&nbsp;
-                &#123; {childrenIds[1]} &#125;
+                {brackets.rightStart}&#123; {childrenIds[1]} &#125;{brackets.rightEnd}
             </div>
         );
     }
@@ -32,4 +34,6 @@ const SumOperation = (props) => {
     );
 };
 
-export default SumOperation;
+export default compose(
+    withOperationBrackets(),
+)(SumOperation);
