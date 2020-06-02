@@ -11,7 +11,7 @@ import "./style/operation-row.css"
 
 const RowLine = (props) => {
     const {
-        number, operation, nest=0, comment, handleAddRow, handleSelectRow,
+        number, operation, nest=0, handleAddRow, handleSelectRow,
         handleRemoveRow, handleMoveRowUp, handleMoveRowDown, disabled,
         handleChangeRowOperationFromDrag
     } = props;

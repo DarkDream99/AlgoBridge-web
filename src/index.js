@@ -8,7 +8,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import App from './components/app';
 import ErrorBoundry from './components/error-boundry';
 import {
-    AlgoBridgeServiceDummy, AlgoBridgeService, AlgoBridgeConstantsService
+    AlgoBridgeService, AlgoBridgeConstantsService
 } from './services';
 import {
     AlgoBridgeServiceProvider, AlgoBridgeConstantsServiceProvider
@@ -17,7 +17,6 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-// const algoBridgeServiceDummy = new AlgoBridgeServiceDummy();
 const algoBridgeService = new AlgoBridgeService();
 const algoBridgeConstantsService = new AlgoBridgeConstantsService();
 

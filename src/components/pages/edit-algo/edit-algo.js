@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {Container, Form, Row} from "react-bootstrap";
 
 import Button from "../../gui/button";

@@ -1,17 +1,103 @@
 version: 2.1
-orbs:
-  node: circleci/node@1.1.6
+
+executors:
+    docker-executor:
+        docker:
+            - image: circleci/node:14.2.0
+
+commands:
+    install-libs:
+        description: "Command to modules synchronization"
+        steps:
+            - run:
+                name: Modules synchronization
+                command: npm install
+
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
-    steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
+    check-environment:
+        executor: docker-executor
+        steps:
+            - checkout
+            - run:
+                name: Check modules
+                command: |
+                    npm -v
+    test:
+        executor: docker-executor
+        steps:
+            - checkout
+            - restore_cache:
+                key: test-libs-{{ .Branch }}-{{ checksum "package.json" }}
+            - install-libs
+            - save_cache:
+                key: test-libs-{{ .Branch }}-{{ checksum "package.json" }}
+                paths:
+                    - "node_modules"
+            - run:
+                name: Run tests
+                command: npm test
+    build-release:
+        executor: docker-executor
+        steps:
+            - checkout
+            - restore_cache:
+                key: build-libs-{{ .Branch }}-{{ checksum "package.json" }}
+            - install-libs
+            - save_cache:
+                key: build-libs-{{ .Branch }}-{{ checksum "package.json" }}
+                paths:
+                    - "node_modules"
+            - run:
+                name: Building
+                command: npm run build
+            - run:
+                name: Result build
+                command: ls -la ./build
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - build
+    deploy-release:
+        executor: docker-executor
+        steps:
+            - checkout
+            - attach_workspace:
+                at: .
+            - run:
+                name: Install netlify cli
+                command: npm install -g --silent netlify-cli
+            - run:
+                name: Deploy to netlify service
+                command: netlify deploy --dir=./build -p
+
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+    testing:
+        jobs:
+            - check-environment
+            - test
+            - approve-build:
+                type: approval
+                requires:
+                    - test
+                filters:
+                    branches:
+                        only: develop
+            - build-release:
+                requires:
+                    - approve-build
+                filters:
+                    branches:
+                        only: develop
+            - approve-deploy:
+                type: approval
+                requires:
+                    - build-release
+                filters:
+                    branches:
+                        only: develop
+            - deploy-release:
+                requires:
+                    - approve-deploy
+                filters:
+                    branches:
+                        only: develop
