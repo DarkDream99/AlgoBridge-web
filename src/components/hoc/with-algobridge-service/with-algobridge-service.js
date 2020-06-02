@@ -2,7 +2,7 @@ import React from 'react';
 import {AlgoBridgeServiceConsumer} from '../../../components/service-context/algobridge-service-constext';
 
 
-const withBookstoreService = () => (Wrapper) => {
+const withAlgoBridgeService = () => (Wrapper) => {
     return (props) => {
         return (
             <AlgoBridgeServiceConsumer>
@@ -19,5 +19,5 @@ const withBookstoreService = () => (Wrapper) => {
     }
 };
 
-export default withBookstoreService;
+export default withAlgoBridgeService;
 

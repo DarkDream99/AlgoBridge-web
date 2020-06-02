@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-import {connect} from 'react-redux';
 import LoginPage from '../../../components/pages/login/login-page';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import withLoading from '../../../components/hoc/with-loading';
@@ -40,14 +39,10 @@ class LoginPageContainer extends Component {
     }
 }
 
-const mapStateToProps = () => {
-    return {}
-};
 
 export default compose(
     withRouter,
     withAlgoBridgeService(),
     withLoading(),
     withErrorIndicator(),
-    connect(mapStateToProps)
 )(LoginPageContainer);

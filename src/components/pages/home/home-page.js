@@ -1,15 +1,17 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {compose} from 'redux';
+import withAlgoBridgeConstantsService from '../../hoc/with-algobridge-constants-service';
 import LinkList from '../../link-list';
 import './home-page.css';
 
 
-const HomePage = ({links}) => {
+const HomePage = ({algoBridgeConstantsService}) => {
     let menu = null;
+    const links = algoBridgeConstantsService.links;
     if (!window.localStorage.getItem('authToken')) {
         menu = (
             <menu className='menu'>
-                <LinkList links={links} />
+                <LinkList links={[links.login, links.register]} />
             </menu>
         )
     }
@@ -22,13 +24,6 @@ const HomePage = ({links}) => {
     );
 };
 
-const mapStateToProps = ({links}) => {
-    return {
-        links: [
-            links.login,
-            links.register,
-        ],
-    } 
-};
-
-export default connect(mapStateToProps)(HomePage);
+export default compose(
+    withAlgoBridgeConstantsService()
+)(HomePage);

@@ -1,11 +1,16 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {compose} from "redux";
 import {Redirect} from "react-router";
 
+import withAlgoBridgeConstantsService from '../../components/hoc/with-algobridge-constants-service';
+
 
 const AuthRedirect = (props) => {
-    const {linkLogin, authToken, activeUser} = props;
+    const {algoBridgeConstantsService} = props;
+
+    const authToken = window.localStorage.getItem('authToken');
+    const activeUser = JSON.parse(window.localStorage.getItem('activeUser'));
+    const linkLogin = algoBridgeConstantsService.links.login.href;
     let template = <Redirect to={linkLogin} />;
 
     if (authToken && activeUser) {
@@ -21,14 +26,7 @@ const AuthRedirect = (props) => {
     )
 };
 
-const mapStateToProps = ({isLogin, links}) => {
-    return {
-        authToken: window.localStorage.getItem('authToken'),
-        activeUser: JSON.parse(window.localStorage.getItem('activeUser')),
-        linkLogin: links.login.href,
-    }
-};
 
 export default compose(
-    connect(mapStateToProps)
+    withAlgoBridgeConstantsService(),
 )(AuthRedirect);

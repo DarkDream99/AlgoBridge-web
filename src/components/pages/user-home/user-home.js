@@ -1,10 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {compose} from "redux";
 import PageTitle from "../../page-title";
 
 
-const UserHome = ({activeUser}) => {
+const UserHome = () => {
+    const activeUser = JSON.parse(window.localStorage.getItem('activeUser'));
     return (
         <>
             <PageTitle title="Home" />
@@ -13,12 +12,5 @@ const UserHome = ({activeUser}) => {
     )
 };
 
-const mapStateToProps = ({activeUser}) => {
-    return {
-        activeUser: JSON.parse(window.localStorage.getItem('activeUser')),
-    }
-};  
 
-export default compose(
-    connect(mapStateToProps)
-)(UserHome);
+export default UserHome;

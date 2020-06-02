@@ -3,23 +3,26 @@ import 'react-app-polyfill/stable';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
 import {BrowserRouter as Router} from 'react-router-dom';
 
 import App from './components/app';
 import ErrorBoundry from './components/error-boundry';
-import {AlgoBridgeServiceDummy, AlgoBridgeService} from './services';
-import {AlgoBridgeServiceProvider} from './components/service-context';
-import store from './store';
+import {
+    AlgoBridgeServiceDummy, AlgoBridgeService, AlgoBridgeConstantsService
+} from './services';
+import {
+    AlgoBridgeServiceProvider, AlgoBridgeConstantsServiceProvider
+} from './components/service-context';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const algoBridgeServiceDummy = new AlgoBridgeServiceDummy();
+// const algoBridgeServiceDummy = new AlgoBridgeServiceDummy();
 const algoBridgeService = new AlgoBridgeService();
+const algoBridgeConstantsService = new AlgoBridgeConstantsService();
 
 ReactDOM.render(
-    <Provider store={store}>
+    <AlgoBridgeConstantsServiceProvider value={algoBridgeConstantsService}>
         <ErrorBoundry>
             <AlgoBridgeServiceProvider value={algoBridgeService}>
                 <Router>
@@ -27,6 +30,6 @@ ReactDOM.render(
                 </Router>
             </AlgoBridgeServiceProvider>
         </ErrorBoundry>
-    </Provider>,
+    </AlgoBridgeConstantsServiceProvider>,
     document.getElementById('root')
 );

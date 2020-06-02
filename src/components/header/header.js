@@ -1,18 +1,18 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {Jumbotron, Navbar, Nav, NavDropdown} from 'react-bootstrap';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import './header.css';
+import withAlgoBridgeConstantsService from '../hoc/with-algobridge-constants-service';
 import {compose} from "redux";
-import {logoutDone} from "../../actions";
 
 
 const Header = (props) => {
     const {
-        title, links, isLogin, logout, history
+        title, isLogin, logout, history, algoBridgeConstantsService, 
     } = props;
+    const links = algoBridgeConstantsService.links;
     let header = (
         <Jumbotron fluid className='header'>
             {title}
@@ -57,15 +57,8 @@ Header.propTypes = {
     title: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({links}) => {
-    return {
-        links,
-    }
-};
-
-const mapDispatchToProps = {};
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, mapDispatchToProps),
+    withAlgoBridgeConstantsService(),
 )(Header);
