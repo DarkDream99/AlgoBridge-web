@@ -53,6 +53,9 @@ jobs:
             - run:
                 name: Result build
                 command: ls -la ./build
+            - run:
+                name: Add routing
+                command: echo "/*    /index.html  200" > ./build/_redirects
             - persist_to_workspace:
                 root: .
                 paths:
