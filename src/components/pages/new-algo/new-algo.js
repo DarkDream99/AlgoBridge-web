@@ -119,7 +119,7 @@ class NewAlgoPage extends Component {
                 let vars = result;
                 let wileVars = "";
                 vars.forEach((item) => {
-                    wileVars += JSON.stringify(item) + '\n';
+                    wileVars += `${item["type"]} '${item["name"]}': ${item["value"]}\n`;
                 });
                 this.setState({
                     output: wileVars,
