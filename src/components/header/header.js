@@ -1,27 +1,44 @@
-import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
 import {Jumbotron, Navbar, Nav, NavDropdown} from 'react-bootstrap';
+import {Link, withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import React, {Component} from 'react';
 
+import {compose} from "redux";
 import './header.css';
 import withAlgoBridgeConstantsService from '../hoc/with-algobridge-constants-service';
-import {compose} from "redux";
 
 
-const Header = (props) => {
-    const {
-        title, isLogin, logout, history, algoBridgeConstantsService, 
-    } = props;
-    const links = algoBridgeConstantsService.links;
-    let header = (
-        <Jumbotron fluid className='header'>
-            {title}
-        </Jumbotron>
-    );
+class Header extends Component {
 
-    const activeUser = JSON.parse(window.localStorage.getItem('activeUser')) || '';
-    if (isLogin) {
-        header = (
+    render = () => {
+        const {isLogin} = this.props;
+        let header = this._makeGuestHeader();
+        if (isLogin) {
+            header = this._makeUserHeader();
+        }
+
+        return (
+            <div>{header}</div>
+        );
+    };
+
+    _makeGuestHeader() {
+        const {title} = this.props;
+        return (
+            <Jumbotron fluid className='header'>
+                {title}
+            </Jumbotron>
+        );
+    }
+
+    _makeUserHeader() {
+        const {
+            title, logout, history, algoBridgeConstantsService,
+        } = this.props;
+        const links = algoBridgeConstantsService.links;
+        const activeUser = JSON.parse(window.localStorage.getItem('activeUser')) || '';
+
+        return (
             <Navbar bg="dark" variant="dark" expand="lg" className='header'>
                 <Link to={links.userHome.href}>
                     <Navbar.Brand>{title}</Navbar.Brand>
@@ -47,10 +64,6 @@ const Header = (props) => {
             </Navbar>
         );
     }
-
-    return (
-        <div>{header}</div>
-    );
 };
 
 Header.propTypes = {

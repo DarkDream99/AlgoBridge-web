@@ -24,9 +24,9 @@ class OperationConstructor extends Component {
     };
 
     INTERMEDIATE_CHILDREN = [
-        'left', 'right', 'index', 'start', 'end', 'step',
+        'left', 'right', 'arrName', 'index', 'start', 'end', 'step',
         'param1', 'param2', 'param3', 'param4', 'param5', 'param6', 'param7',
-        'items_count',
+        'items_count', 'newValue'
     ];
 
     emptyInput = {
@@ -53,7 +53,7 @@ class OperationConstructor extends Component {
             values: [
                 'Assign', 'Larger', 'Larger or Equal', 'Less', 'Less or Equal',
                 'Equals', 'And', 'Or', 'Sum', 'Subtraction', 'Multiplication',
-                'Division'
+                'Division', 'Get item', 'Set item'
             ],
             actions: [() => {
                 this.setState({...this.emptyInput, inputType: 'assign'}, () => {
@@ -103,6 +103,14 @@ class OperationConstructor extends Component {
                 this.setState({...this.emptyInput, inputType: 'division'}, () => {
                     this._handleSaveInputField();
                 })
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'get-item'}, () => {
+                    this._handleSaveInputField();
+                })
+            }, () => {
+                this.setState({...this.emptyInput, inputType: 'set-item'}, () => {
+                    this._handleSaveInputField();
+                })
             }],
         }, {
             title: 'Primitives',
@@ -121,7 +129,7 @@ class OperationConstructor extends Component {
             }],
         }, {
             title: 'Constructions',
-            values: ['Condition', 'End condition', 'Loop', 'End loop', 'Function'],
+            values: ['Condition', 'End condition', 'Loop', 'End loop'],
             actions: [() => {
                 this.setState({...this.emptyInput, inputType: 'condition'}, () => {
                     this._handleSaveInputField();
@@ -222,6 +230,32 @@ class OperationConstructor extends Component {
                     parameter: {
                         left: leftOperand,
                         right: rightOperand
+                    }
+                }
+                break;
+            case "get-item":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "get-item",
+                    parameter: {
+                        index: leftOperand,
+                        arrName: rightOperand,
+                    }
+                }
+                break;
+            case "set-item":
+                isValid = true;
+                leftOperand = Object.assign({}, emptyOperand);
+                rightOperand = Object.assign({}, emptyOperand);
+                let valueOperand = Object.assign({}, emptyOperand);
+                newOperation = {
+                    type: "set-item",
+                    parameter: {
+                        index: leftOperand,
+                        arrName: rightOperand,
+                        newValue: valueOperand
                     }
                 }
                 break;
@@ -510,14 +544,6 @@ class OperationConstructor extends Component {
                     show={this.state.showInputField}
                     handleClose={() => this._handleCloseInputField()}
                     handleSave={(value) => this._handleSaveInputField(value)}
-                    label={this.state.inputLabel}
-                    error={this.state.inputError}
-                />
-                <FunctionSelector
-                    funcs={funcs}
-                    show={this.state.showFunctionSelector}
-                    handleClose={() => this._handleCloseInputField()}
-                    handleSave={(selectedFunc) => this._handleSaveInputField(selectedFunc)}
                     label={this.state.inputLabel}
                     error={this.state.inputError}
                 />

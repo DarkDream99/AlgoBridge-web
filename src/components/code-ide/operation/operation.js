@@ -19,6 +19,8 @@ import LessEqualOperation from "./less-equal-operation";
 import EqualOperation from "./equal-operation";
 import AndLogicOperation from "./and-logic-operation";
 import OrLogicOperation from "./or-logic-operation";
+import GetItemOperation from "./get-item";
+import SetItemOperation from "./set-item";
 
 
 const Operation = (props) => {
@@ -103,6 +105,14 @@ const Operation = (props) => {
 
     if (type === "end-condition") {
         result = <EndConditionOperation/>;
+    }
+
+    if (type === "get-item") {
+        result = <GetItemOperation {...parameter} childrenIds={childrenIds} mode={mode} />
+    }
+
+    if (type === "set-item") {
+        result = <SetItemOperation {...parameter} childrenIds={childrenIds} mode={mode} />
     }
 
     if (type === "empty" && mode === 'standard') {
