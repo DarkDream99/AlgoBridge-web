@@ -1,5 +1,12 @@
 .table .clickable {
   cursor: pointer;
 }
+.table tbody tr:hover {
+  background-color: #e1dcdcb0;
+}
+.table thead {
+  background-color: #072f53c9;
+  color: white;
+}
 
 /*# sourceMappingURL=table.css.map */

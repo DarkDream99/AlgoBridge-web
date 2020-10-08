@@ -5,29 +5,21 @@ button {
   color: black;
   transition-duration: 0.4s;
 }
-
 button.danger {
   border: 2px solid #dc3545;
 }
-
 button.danger:hover {
   background-color: #dc3545;
 }
-
 button.success {
   border: 2px solid #28a745;
 }
-
 button.success:hover {
   background-color: #28a745;
 }
-
 button:hover {
   background-color: black;
   color: white;
 }
-
-/*# sourceMappingURL=button.css.map */
-/*# sourceMappingURL=button.css.map */
 
 /*# sourceMappingURL=button.css.map */

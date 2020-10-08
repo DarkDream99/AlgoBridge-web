@@ -2,17 +2,17 @@ import {compose} from 'redux';
 import React, {Component} from 'react';
 import {Route, Switch, withRouter} from 'react-router-dom';
 
-import './app.css';
+import './styles/app.css';
 import AuthRedirect from "../../containers/auth-redirect";
 import EditAlgoPageContainer from "../../containers/pages/edit-algo-page";
 import Header from '../header';
 import HomePage from '../pages/home';
-import LoginPageContainer from '../../containers/pages/login-page-container';
+import LoginPage from '../../components/pages/login/login-page';
 import LogoutPage from '../pages/logout';
 import NewAlgoPage from "../pages/new-algo";
 import ShowAlgoPageContainer from "../../containers/pages/show-algo-page-container";
-import SignupPageContainer from '../../containers/pages/signup-page-container';
-import UserAlgosContainer from '../../containers/pages/user-algos';
+import SignupPage from '../../components/pages/signup';
+import UserAlgosPage from '../../components/pages/user-algos';
 import UserHome from '../pages/user-home';
 
 
@@ -30,20 +30,12 @@ class App extends Component {
 
     render = () => {
         const header = this._makeHeader();
-        const authRoutings = this._makeAuthRoutings();
-        const staffRoutings = this._makeStaffRoutings();
+        const routings = this._makeRoutings();
 
         return (
             <div className="app">
                 {header}
-                <Switch>
-                    <Route path='/' component={HomePage} exact />
-                    {authRoutings}
-
-                    <AuthRedirect>
-                        {staffRoutings}
-                    </AuthRedirect>
-                </Switch>
+                {routings}
             </div>
         );
     };
@@ -55,34 +47,29 @@ class App extends Component {
                 isLogin={this.state.isLogin}
                 logout={() => this._logOut()}
             />
-
         );
     }
 
-    _makeAuthRoutings() {
+    _makeRoutings = () => {
         return (
-            <>
+            <Switch>
+                <Route path='/' component={HomePage} exact />
                 <Route path='/login' exact>
-                    <LoginPageContainer login={(authToken, activeUser) => this._logIn(authToken, activeUser)} />
+                    <LoginPage login={(authToken, activeUser) => this._logIn(authToken, activeUser)} />
                 </Route>
                 <Route path='/register' exact>
-                    <SignupPageContainer login={(authToken, activeUser) => this._logIn(authToken, activeUser)} />
+                    <SignupPage login={(authToken, activeUser) => this._logIn(authToken, activeUser)} />
                 </Route>
                 <Route path='/logout' component={LogoutPage} exact />
-            </>
-        );
-    }
 
-    _makeStaffRoutings() {
-        return (
-            <>
-                <Route path='/user-home' component={UserHome} exact />
-                <Route path='/user-algos' component={UserAlgosContainer} exact />
-                <Route path='/algo/new' component={NewAlgoPage} exact />
-                <Route path='/algo/:id/edit' component={EditAlgoPageContainer} exact />
-                <Route path='/algo/:id/show' component={ShowAlgoPageContainer} exact />
-
-            </>
+                <AuthRedirect>
+                    <Route path='/user-home' component={UserHome} exact />
+                    <Route path='/user-algos' component={UserAlgosPage} exact />
+                    <Route path='/algo/new' component={NewAlgoPage} exact />
+                    <Route path='/algo/:id/edit' component={EditAlgoPageContainer} exact />
+                    <Route path='/algo/:id/show' component={ShowAlgoPageContainer} exact />
+                </AuthRedirect>
+            </Switch>
         );
     }
 
