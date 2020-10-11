@@ -51,10 +51,10 @@ const EditAlgoPage = (props) => {
     let code = "";
     const manageAlgoButtonsGroup = (
         <ButtonGroup buttons={[
-            <Button action={() => handleSaveAlgo()} classes="success">Save</Button>,
-            <Button action={() => handleRunImplementation(operations)}>Run</Button>,
-            <Button action={() => handleDeleteAlgo()} classes="danger">Delete</Button>
-        ]} /> 
+            <Button key='save' action={() => handleSaveAlgo()} classes="success">Save</Button>,
+            <Button key='run' action={() => handleRunImplementation(operations)}>Run</Button>,
+            <Button key='delete' action={() => handleDeleteAlgo()} classes="danger">Delete</Button>
+        ]} />
     );
     if (selectedRow === -1) {
         code = (

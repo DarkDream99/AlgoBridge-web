@@ -529,10 +529,10 @@ class OperationConstructor extends Component {
         const {handleClose, funcs} = this.props;
         const manageOperationButtons = (
             <ButtonGroup buttons={[
-                <Button classes="success" action={() => this._handleSaveOperation()}>
+                <Button key='save' classes="success" action={() => this._handleSaveOperation()}>
                     Save
                 </Button>,
-                <Button action={() => handleClose()}>
+                <Button key='cancel' action={() => handleClose()}>
                     Cancel
                 </Button>
             ]}/>
