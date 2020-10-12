@@ -82,6 +82,7 @@ class AlgoEditor extends Component {
     };
 
     _makeOperationRows(operations) {
+        const {readOnly = false} = this.props;
         let nest = 0;
         return operations.map((operation, index) => {
             let tartget_nest = nest;
@@ -97,6 +98,7 @@ class AlgoEditor extends Component {
                         number={index}
                         operation={operation}
                         comment=""
+                        readOnly={readOnly}
                         nest={tartget_nest}
                         handleAddRow={() => this._handleAddRow(index)}
                         handleRemoveRow={() => this._handleRemoveRow(index)}

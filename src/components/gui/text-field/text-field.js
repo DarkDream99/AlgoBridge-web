@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 
+import './styles/text-field.css';
+
 
 class TextField extends Component {
     render() {
         const {
-            label, placeholder, refValue, classes = ''
+            label, placeholder, refValue = null, value = '', classes = '', readOnly = false
         } = this.props;
 
         let topLabel = '';
@@ -15,7 +17,7 @@ class TextField extends Component {
         return (
             <div style={{ paddingBottom: '20px' }}>
                 {topLabel}
-                <input type='text' placeholder={placeholder} className={classes} ref={refValue} />
+                <input type='text' defaultValue={value} placeholder={placeholder} className={classes} ref={refValue} readOnly={readOnly} />
             </div>
         )
     }

@@ -53,7 +53,7 @@ export default class AlgoBridgeService {
                     'Authorization': 'Token ' + authToken
                 },
                 body: JSON.stringify({
-                    'operations': operations,
+                    'operations': JSON.stringify(operations),
                     'type': runType
                 })
             }

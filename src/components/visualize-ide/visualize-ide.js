@@ -21,7 +21,7 @@ const VisualizeIDE = (props) => {
     }
 
     let visualizers = [];
-    const sourceOperation = (operations && operations.length) ? JSON.parse(operations) : [];
+    const sourceOperation = operations;
     for (let index = 0; index < displayedRowsCount; ++index) {
         let targetOperation = {type: 'empty', parameter: {}}
         if (actualVisualOperationIndexes.hasOwnProperty(index)) {

@@ -12,7 +12,7 @@ import "./style/operation-row.css"
 const RowLine = (props) => {
     const {
         number, operation, nest=0, handleAddRow, handleSelectRow,
-        handleRemoveRow, handleMoveRowUp, handleMoveRowDown, disabled,
+        handleRemoveRow, handleMoveRowUp, handleMoveRowDown, readOnly,
         handleChangeRowOperationFromDrag
     } = props;
 
@@ -22,7 +22,7 @@ const RowLine = (props) => {
     }
 
     let navButtons = null;
-    if (!disabled) {
+    if (!readOnly) {
         navButtons = (
             <Col xs={1} style={{ display: 'flex', alignItems: 'center' }}>
                 <ButtonGroup>
@@ -61,7 +61,7 @@ const RowLine = (props) => {
     }
 
     let operationRow = null;
-    if (!disabled) {
+    if (!readOnly) {
         operationRow = (
             <div draggable='true' className="operation-row-content" onDragStart={(ev) => dragStartHandler(ev)}>
                 {spaces}
@@ -89,7 +89,7 @@ const RowLine = (props) => {
                 </Col>
                 <Col
                     style={{display: 'flex'}}
-                    onClick={() => handleSelectRow()}
+                    onClick={() => !readOnly && handleSelectRow()}
                 >
                     {operationRow}
                 </Col>

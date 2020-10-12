@@ -2,7 +2,6 @@ import {compose} from 'redux';
 import React, {Component} from 'react';
 import {Route, Switch, withRouter} from 'react-router-dom';
 
-import './styles/app.css';
 import AuthRedirect from "../../containers/auth-redirect";
 import EditAlgoPageContainer from "../../containers/pages/edit-algo-page";
 import Header from '../header';
@@ -10,10 +9,12 @@ import HomePage from '../pages/home';
 import LoginPage from '../../components/pages/login/login-page';
 import LogoutPage from '../pages/logout';
 import NewAlgoPage from "../pages/new-algo";
-import ShowAlgoPageContainer from "../../containers/pages/show-algo-page-container";
+import ShowAlgoPage from "../pages/show-algo";
 import SignupPage from '../../components/pages/signup';
 import UserAlgosPage from '../../components/pages/user-algos';
 import UserHome from '../pages/user-home';
+
+import './styles/app.css';
 
 
 class App extends Component {
@@ -67,7 +68,7 @@ class App extends Component {
                     <Route path='/user-algos' component={UserAlgosPage} exact />
                     <Route path='/algo/new' component={NewAlgoPage} exact />
                     <Route path='/algo/:id/edit' component={EditAlgoPageContainer} exact />
-                    <Route path='/algo/:id/show' component={ShowAlgoPageContainer} exact />
+                    <Route path='/algo/:id/show' component={ShowAlgoPage} exact />
                 </AuthRedirect>
             </Switch>
         );
