@@ -17,7 +17,13 @@ class TextField extends Component {
         return (
             <div style={{ paddingBottom: '20px' }}>
                 {topLabel}
-                <input type='text' defaultValue={value} placeholder={placeholder} className={classes} ref={refValue} readOnly={readOnly} />
+                <input type='text'
+                       defaultValue={value}
+                       placeholder={placeholder}
+                       className={classes}
+                       ref={refValue}
+                       readOnly={readOnly}
+                />
             </div>
         )
     }
