@@ -75,14 +75,19 @@ class EditAlgoPage extends Component {
 
                 <TextareaField label='Short description' value={description} refValue={descriptionRef} />
 
-                <div>Implementation</div>
-                <AlgoEditor operations={operations} />
+                <div style={{paddingBottom: '10px'}}>Implementation</div>
+                <AlgoEditor operations={operations}
+                            syncOperations={(operations) => this.syncOperations(operations)} />
 
                 {manageAlgoButtonsGroup}
                 <TextareaField label='Errors' readOnly value={error} />
                 <TextareaField label='Output' readOnly value={output} />
             </div>
         )
+    }
+
+    syncOperations = (operations) => {
+        this.setState({operations: operations});
     }
 
     handleSaveAlgo = () => {

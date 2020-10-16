@@ -1,23 +1,9 @@
 import React, {Component} from 'react';
 
-import {Container, Form, Row} from "react-bootstrap";
-
 import OperationConstructor from "../operation-constructor";
 import RowLine from "../editor/row";
 import {isBlockOperation, isEndBlockOperation} from "../operation";
 
-
-const funcs = [
-    {
-        name: 'set_item_by_index',
-        paramsCount: 3,
-        description: ''
-    }, {
-        name: 'get_item_by_index',
-        paramsCount: 2,
-        description: ''
-    }
-];
 
 class AlgoEditor extends Component {
     constructor(props) {
@@ -33,24 +19,15 @@ class AlgoEditor extends Component {
 
         let code = "";
         if (this.state.selectedRow === -1) {
-            code = this._makeAlgoOperations(operations);
+            code = <div>{this._makeOperationRows(operations)}</div>;
         } else {
-            code = this._makeOperationConstructor(operations[this.state.selectedRow]);
+            const selectedOperation = operations[this.state.selectedRow];
+            code = this._makeOperationConstructor(selectedOperation);
         }
 
         return (
             <div>{code}</div>
         )
-    }
-
-    _makeAlgoOperations(operations) {
-        return (
-            <Form.Group as={Row}>
-                <Container>
-                    {this._makeOperationRows(operations)}
-                </Container>
-            </Form.Group>
-        );
     }
 
     _makeOperationConstructor(operation) {
@@ -60,7 +37,7 @@ class AlgoEditor extends Component {
 
         return (
             <OperationConstructor
-                funcs={funcs}
+                funcs={[]}
                 operation={selectedOperation}
                 handleSaveOperation={(updatedOperation) => this.handleSaveRowOperation(updatedOperation)}
                 handleClose={() => this._handleUnselectRow()}
@@ -93,7 +70,7 @@ class AlgoEditor extends Component {
                 tartget_nest = nest;
             }
             return (
-                <Row key={index}>
+                <div key={index}>
                     <RowLine
                         number={index}
                         operation={operation}
@@ -109,7 +86,7 @@ class AlgoEditor extends Component {
                             (newOpr, indFrom, indTo) => this._handleChangeRowOperationFromDrag(newOpr, indFrom, indTo)
                         }
                     />
-                </Row>
+                </div>
             );
         });
     }

@@ -94,7 +94,7 @@ class NewAlgoPage extends Component {
     }
 
     _handleRunImplementation = (event) => {
-        this.algoBridgeService.runImplementation(JSON.stringify(this.state.operations))
+        this.algoBridgeService.runImplementation(this.state.operations)
         .then((result) => {
             if (Array.isArray(result)) {
                 let vars = result;

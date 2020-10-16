@@ -1,12 +1,13 @@
 import React, {Component} from "react";
-import Operation from "../operation";
-import ParameterField from "./parameter-field";
-import CodeInterface from "../interface";
-import InputField from "./input-field";
-import FunctionSelector from "./function-selector";
+
 import Button from '../../gui/button';
 import ButtonGroup from '../../gui/button-group';
-import {isValidVariable, isValidNumber} from "../../../validators";
+import CodeInterface from "../interface";
+import FunctionSelector from "./function-selector";
+import OperationComponent from "../operation";
+import ParameterField from "./parameter-field";
+
+import Operation, {OperationTypes} from '../core';
 
 import './style/operation-constructor.css';
 
@@ -16,11 +17,6 @@ class OperationConstructor extends Component {
         params: [],
         resultOperation: null,
         selectedParamIndex: 0,
-        showInputField: false,
-        showFunctionSelector: false,
-        inputLabel: "",
-        inputError: "",
-        inputType: "",
     };
 
     INTERMEDIATE_CHILDREN = [
@@ -29,455 +25,67 @@ class OperationConstructor extends Component {
         'items_count', 'newValue'
     ];
 
-    emptyInput = {
-        inputLabel: "",
-        showInputField: false,
-        inputType: "",
-        inputError: "",
-    }
-
-    testGroups = [
-        {
-            title: 'Variables',
-            values: ['Create new'],
-            actions: [() => {
-                this.setState({
-                    inputLabel: "Enter name:",
-                    showInputField: true,
-                    inputType: "variable",
-                    inputError: "",
-                });
-            }],
-        }, {
-            title: 'Operands',
-            values: [
-                'Assign', 'Larger', 'Larger or Equal', 'Less', 'Less or Equal',
-                'Equals', 'And', 'Or', 'Sum', 'Subtraction', 'Multiplication',
-                'Division', 'Get item', 'Set item'
-            ],
-            actions: [() => {
-                this.setState({...this.emptyInput, inputType: 'assign'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'larger'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'larger-equal'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'less'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'less-equal'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'equal'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'and-logic'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'or-logic'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'sum'}, () => {
-                    this._handleSaveInputField();
-                })
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'subtraction'}, () => {
-                    this._handleSaveInputField();
-                })
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'multiplication'}, () => {
-                    this._handleSaveInputField();
-                })
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'division'}, () => {
-                    this._handleSaveInputField();
-                })
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'get-item'}, () => {
-                    this._handleSaveInputField();
-                })
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'set-item'}, () => {
-                    this._handleSaveInputField();
-                })
-            }],
-        }, {
-            title: 'Primitives',
-            values: ['Number', 'Array'],
-            actions: [() => {
-                this.setState({
-                    inputLabel: "Enter number:",
-                    showInputField: true,
-                    inputType: "number",
-                    inputError: "",
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: "array"}, () => {
-                    this._handleSaveInputField();
-                });
-            }],
-        }, {
-            title: 'Constructions',
-            values: ['Condition', 'End condition', 'Loop', 'End loop'],
-            actions: [() => {
-                this.setState({...this.emptyInput, inputType: 'condition'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'end-condition'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'for-loop'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({...this.emptyInput, inputType: 'end-for-loop'}, () => {
-                    this._handleSaveInputField();
-                });
-            }, () => {
-                this.setState({
-                    inputType: "function",
-                    showFunctionSelector: true,
-                    inputLabel: "Select function:",
-                    inputError: "",
-                });
-            }]
-        }
-    ];
-
     nextIndex = 0;
     constructor(props) {
         super(props);
-        this.state.resultOperation = props.operation;
         this.nextIndex = 0;
+        this.state.resultOperation = props.operation;
         this.state.params = this._updateParams(props.operation);
     }
 
-    _handleSaveInputField = (value="") => {
-        this.setState({inputError: ""});
+    _updateOperation(newOperation) {
+        /* *
+         * Update all inner operations inheritance from the edited to the root
+         * */
 
-        let isValid = true;
-        let newOperation = null;
-        const emptyOperand = {type: "empty", parameter: {}};
-        var leftOperand = null;
-        var rightOperand = null;
+        var startIndex = this.state.selectedParamIndex;
+        var selectedParam = this.state.params.find((element, index, array) => {
+            return element.index === startIndex;
+        });
+        newOperation.index = selectedParam.index;
+        selectedParam.operation = newOperation;
+        selectedParam.childrenIds = [];
 
-        switch (this.state.inputType) {
-            case "number":
-                isValid = isValidNumber(value);
-                newOperation = {
-                    type: "number",
-                    parameter: {val: value}
-                };
-                break;
-            case "array":
-                isValid = true
-                let items_count = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "array",
-                    parameter: {items_count: items_count}
-                }
-                break
-            case "variable":
-                isValid = isValidVariable(value);
-                newOperation = {
-                    type: "variable",
-                    parameter: {name: value}
-                }
-                break;
-            case "assign":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "assign",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case "larger":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "larger",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case "larger-equal":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "larger-equal",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case "get-item":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "get-item",
-                    parameter: {
-                        index: leftOperand,
-                        arrName: rightOperand,
-                    }
-                }
-                break;
-            case "set-item":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                let valueOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "set-item",
-                    parameter: {
-                        index: leftOperand,
-                        arrName: rightOperand,
-                        newValue: valueOperand
-                    }
-                }
-                break;
-            case "less":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "less",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case "less-equal":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "less-equal",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case "equal":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "equal",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case "and-logic":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "and-logic",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case "or-logic":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "or-logic",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case "sum":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "sum",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case "subtraction":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "subtraction",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case "multiplication":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "multiplication",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case "division":
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "division",
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case "for-loop":
-                isValid = true;
-                let index = Object.assign({}, emptyOperand);
-                let start = Object.assign({}, emptyOperand);
-                let end = Object.assign({}, emptyOperand);
-                let step = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: "for-loop",
-                    parameter: {
-                        index: index,
-                        start: start,
-                        end: end,
-                        step: step
-                    }
-                }
-                break;
-            case "end-for-loop":
-                isValid = true;
-                newOperation = {
-                    type: "end-for-loop",
-                    parameter: {}
-                };
-                break;
-            case "function":
-                isValid = true;
-                const name = value.name;
-                const paramsCount = value.paramsCount;
-                let params = {};
+        let nextOperation = Object.assign({}, selectedParam.operation);
+        while (startIndex) {
+            const parentIndex = selectedParam.parentIndex;
 
-                for (let i = 1; i <= paramsCount; ++i) {
-                    params[`param${i}`] = Object.assign({}, emptyOperand);
-                }
-
-                newOperation = {
-                    type: "function",
-                    parameter: {
-                        name: name,
-                        ...params,
-                    }
-                }
-                break;
-            case "condition":
-                isValid = true;
-                newOperation = {
-                    type: "condition",
-                    parameter: {
-                        param1: Object.assign({}, emptyOperand),
-                    }
-                }
-                break;
-            case "end-condition":
-                isValid = true;
-                newOperation = {
-                    type: "end-condition",
-                    parameter: {}
-                }
-                break;
-            default:
-                break;
-        }
-
-        if (isValid) {
-            // Update operation values from down to top
-            var startIndex = this.state.selectedParamIndex;
-            var selectedParam = this.state.params.find((element, index, array) => {
-                return element.index === startIndex;
+            selectedParam = this.state.params.find((element, index, array) => {
+                return element.index === parentIndex;
             });
-            newOperation.index = selectedParam.index;
-            selectedParam.operation = newOperation;
-            selectedParam.childrenIds = [];
 
-            let nextOperation = Object.assign({}, selectedParam.operation);
-            while (startIndex) {
-                const parentIndex = selectedParam.parentIndex;
-
-                selectedParam = this.state.params.find((element, index, array) => {
-                    return element.index === parentIndex;
-                });
-
-                for (let parameterKey in selectedParam.operation.parameter) {
-                    let parameter = selectedParam.operation.parameter[parameterKey];
-                    if (parameter.index === startIndex) {
-                        selectedParam.operation.parameter[parameterKey] = nextOperation;
-                    }
+            for (let parameterKey in selectedParam.operation.parameter) {
+                let parameter = selectedParam.operation.parameter[parameterKey];
+                if (parameter.index === startIndex) {
+                    selectedParam.operation.parameter[parameterKey] = nextOperation;
                 }
-                for (let parameterKey in selectedParam.operation.parameter.params) {
-                    let parameter = selectedParam.operation.parameter.params[parameterKey];
-                    if (parameter.index === startIndex) {
-                        selectedParam.operation.parameter.params[parameterKey] = nextOperation;
-                    }
-                }
-
-                nextOperation = Object.assign({}, selectedParam.operation);
-                startIndex = parentIndex;
             }
-            this.setState({resultOperation: nextOperation});
-            this.nextIndex = 0;
-            this.setState({params: this._updateParams(nextOperation)});
+            for (let parameterKey in selectedParam.operation.parameter.params) {
+                let parameter = selectedParam.operation.parameter.params[parameterKey];
+                if (parameter.index === startIndex) {
+                    selectedParam.operation.parameter.params[parameterKey] = nextOperation;
+                }
+            }
 
-            this._handleCloseInputField();
-        } else {
-            this.setState({inputError: "Incorrect value"});
+            nextOperation = Object.assign({}, selectedParam.operation);
+            startIndex = parentIndex;
         }
-    };
+        this.setState({resultOperation: nextOperation});
+        this.nextIndex = 0;
+        this.setState({params: this._updateParams(nextOperation)});
+
+        this._handleCloseInputField();
+    }
 
     _handleCloseInputField = () => {
         this.setState({showInputField: false,  showFunctionSelector: false});
     };
 
     _updateParams = (operation, parentIndex=null, params=[]) => {
-        // Update operation params from down to top
+        /* *
+         * Update list of the operation params from down to top
+         * */
+
         if (operation) {
             const index = this.nextIndex;
             operation.index = index;
@@ -540,16 +148,11 @@ class OperationConstructor extends Component {
 
         return (
             <div>
-                <InputField
-                    show={this.state.showInputField}
-                    handleClose={() => this._handleCloseInputField()}
-                    handleSave={(value) => this._handleSaveInputField(value)}
-                    label={this.state.inputLabel}
-                    error={this.state.inputError}
-                />
-                <CodeInterface groups={this.testGroups}/>
+                <CodeInterface handleOperationCommand={(operationType) => this.handleOperationCommand(operationType)}
+                               onSaveInputField={(inputType, val='') => this._handleSaveInputField(inputType, val)}
+                               updateOperation={(newOperation) => this._updateOperation(newOperation)}/>
                 <div className="target-operation">
-                    <Operation {...this.state.resultOperation} />
+                    <OperationComponent {...this.state.resultOperation} />
                 </div>
                 {params}
                 {manageOperationButtons}
