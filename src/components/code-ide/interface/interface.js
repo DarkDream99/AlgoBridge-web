@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import GroupInterfaceItem from "./group-item";
-import {OperationTypes} from '../core';
+import Operation, {OperationTypes} from '../core';
 import InputField from '../operation-constructor/input-field';
 import {isValidVariable, isValidNumber} from '../../../validators';
 
@@ -9,13 +9,18 @@ import "./interface.css";
 
 class CodeInterface extends Component {
 
-    state = {
-        showInputField: false,
-        showFunctionSelector: false,
-        inputLabel: '',
-        inputError: '',
-        inputType: '',
-    };
+    constructor(props) {
+        super(props);
+
+        this.emptyOperand = {type: "empty", parameter: {}};
+        this.state = {
+            showInputField: false,
+            showFunctionSelector: false,
+            inputLabel: '',
+            inputError: '',
+            inputType: '',
+        };
+    }
 
     render() {
         const content = this._getOperationGroups().map((group) => (
@@ -145,260 +150,12 @@ class CodeInterface extends Component {
 
     _onSaveInputField = (inputType, value='') => {
         let isValid = true;
-        let newOperation = null;
-        const emptyOperand = {type: "empty", parameter: {}};
-        var leftOperand = null;
-        var rightOperand = null;
-
         switch (inputType) {
             case OperationTypes.NUMBER:
                 isValid = isValidNumber(value);
-                newOperation = {
-                    type: OperationTypes.NUMBER,
-                    parameter: {val: value}
-                };
                 break;
-            case OperationTypes.ARRAY:
-                isValid = true
-                let items_count = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.ARRAY,
-                    parameter: {items_count: items_count}
-                }
-                break
             case OperationTypes.VARIABLE:
                 isValid = isValidVariable(value);
-                newOperation = {
-                    type: "variable",
-                    parameter: {name: value}
-                }
-                break;
-            case OperationTypes.ASSIGN:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.ASSIGN,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case OperationTypes.LARGER:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.LARGER,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case OperationTypes.LARGER_EQUAL:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.LARGER_EQUAL,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case OperationTypes.GET_ITEM:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.GET_ITEM,
-                    parameter: {
-                        index: leftOperand,
-                        arrName: rightOperand,
-                    }
-                }
-                break;
-            case OperationTypes.SET_ITEM:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                let valueOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.SET_ITEM,
-                    parameter: {
-                        index: leftOperand,
-                        arrName: rightOperand,
-                        newValue: valueOperand
-                    }
-                }
-                break;
-            case OperationTypes.LESS:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.LESS,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case OperationTypes.LESS_EQUAL:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.LESS_EQUAL,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case OperationTypes.EQUAL:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.EQUAL,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case OperationTypes.AND_LOGIC:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.AND_LOGIC,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case OperationTypes.OR_LOGIC:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.OR_LOGIC,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand
-                    }
-                }
-                break;
-            case OperationTypes.SUM:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.SUM,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case OperationTypes.SUBTRACTION:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.SUBTRACTION,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case OperationTypes.MULTIPLICATION:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.MULTIPLICATION,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case OperationTypes.DIVISION:
-                isValid = true;
-                leftOperand = Object.assign({}, emptyOperand);
-                rightOperand = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.DIVISION,
-                    parameter: {
-                        left: leftOperand,
-                        right: rightOperand,
-                    }
-                }
-                break;
-            case OperationTypes.FOR_LOOP:
-                isValid = true;
-                let index = Object.assign({}, emptyOperand);
-                let start = Object.assign({}, emptyOperand);
-                let end = Object.assign({}, emptyOperand);
-                let step = Object.assign({}, emptyOperand);
-                newOperation = {
-                    type: OperationTypes.FOR_LOOP,
-                    parameter: {
-                        index: index,
-                        start: start,
-                        end: end,
-                        step: step
-                    }
-                }
-                break;
-            case OperationTypes.END_FOR_LOOP:
-                isValid = true;
-                newOperation = {
-                    type: OperationTypes.END_FOR_LOOP,
-                    parameter: {}
-                };
-                break;
-            case "function":
-                isValid = true;
-                const name = value.name;
-                const paramsCount = value.paramsCount;
-                let params = {};
-
-                for (let i = 1; i <= paramsCount; ++i) {
-                    params[`param${i}`] = Object.assign({}, emptyOperand);
-                }
-
-                newOperation = {
-                    type: "function",
-                    parameter: {
-                        name: name,
-                        ...params,
-                    }
-                }
-                break;
-            case OperationTypes.CONDITION:
-                isValid = true;
-                newOperation = {
-                    type: OperationTypes.CONDITION,
-                    parameter: {
-                        param1: Object.assign({}, emptyOperand),
-                    }
-                }
-                break;
-            case OperationTypes.END_CONDITION:
-                isValid = true;
-                newOperation = {
-                    type: OperationTypes.END_CONDITION,
-                    parameter: {}
-                }
                 break;
             default:
                 break;
@@ -406,10 +163,108 @@ class CodeInterface extends Component {
 
         if (isValid) {
             const {updateOperation} = this.props;
+            let newOperation = this._buildOperationByType(inputType, value);
             updateOperation(newOperation);
         } else {
             this.setState({inputError: "Incorrect value"});
         }
+    }
+
+    _buildOperationByType(operationType, value) {
+        let operationBuilders = {};
+        operationBuilders[OperationTypes.NUMBER] = () => this._buildNumberOperation(value);
+        operationBuilders[OperationTypes.ARRAY] = () => this._buildArrayOperation();
+        operationBuilders[OperationTypes.VARIABLE] = () => this._buildVariableOperation(value);
+        operationBuilders[OperationTypes.ASSIGN] = () => this._buildBinaryOperation(OperationTypes.ASSIGN);
+        operationBuilders[OperationTypes.LARGER] = () => this._buildBinaryOperation(OperationTypes.LARGER);
+        operationBuilders[OperationTypes.LARGER_EQUAL] = () => this._buildBinaryOperation(OperationTypes.LARGER_EQUAL);
+        operationBuilders[OperationTypes.LESS] = () => this._buildBinaryOperation(OperationTypes.LESS);
+        operationBuilders[OperationTypes.LESS_EQUAL] = () => this._buildBinaryOperation(OperationTypes.LESS_EQUAL);
+        operationBuilders[OperationTypes.EQUAL] = () => this._buildBinaryOperation(OperationTypes.EQUAL);
+        operationBuilders[OperationTypes.AND_LOGIC] = () => this._buildBinaryOperation(OperationTypes.AND_LOGIC);
+        operationBuilders[OperationTypes.OR_LOGIC] = () => this._buildBinaryOperation(OperationTypes.OR_LOGIC);
+        operationBuilders[OperationTypes.SUM] = () => this._buildBinaryOperation(OperationTypes.SUM);
+        operationBuilders[OperationTypes.SUBTRACTION] = () => this._buildBinaryOperation(OperationTypes.SUBTRACTION);
+        operationBuilders[OperationTypes.MULTIPLICATION] = () => this._buildBinaryOperation(OperationTypes.MULTIPLICATION);
+        operationBuilders[OperationTypes.DIVISION] = () => this._buildBinaryOperation(OperationTypes.DIVISION);
+        operationBuilders[OperationTypes.FOR_LOOP] = () => this._buildForLoopOperation();
+        operationBuilders[OperationTypes.END_FOR_LOOP] = () => this._buildEndForLoopOperation();
+        operationBuilders[OperationTypes.CONDITION] = () => this._buildConditionOperation();
+        operationBuilders[OperationTypes.END_CONDITION] = () => this._buildEndConditionOperation();
+        operationBuilders[OperationTypes.GET_ITEM] = () => this._buildGetItemOperation();
+        operationBuilders[OperationTypes.SET_ITEM] = () => this._buildSetItemOperation();
+        operationBuilders['function'] = () => this._buildFunctionOperation(value);
+
+        let builtOperation = null
+        if (operationType in operationBuilders) {
+            builtOperation = operationBuilders[operationType]();
+        }
+        return builtOperation;
+    }
+
+    _buildNumberOperation(value) {
+        return new Operation(OperationTypes.NUMBER, {val: value});
+    }
+
+    _buildArrayOperation() {
+        let items_count = new Operation();
+        return new Operation(OperationTypes.ARRAY, {items_count});
+    }
+
+    _buildVariableOperation(value) {
+        return new Operation(OperationTypes.VARIABLE, {name: value});
+    }
+
+    _buildGetItemOperation() {
+        const index = new Operation();
+        const arrName = new Operation();
+        return new Operation(OperationTypes.GET_ITEM, {index, arrName});
+    }
+
+    _buildSetItemOperation() {
+        const index = new Operation();
+        const arrName = new Operation();
+        const newValue = new Operation();
+        return new Operation(OperationTypes.SET_ITEM, {index, arrName, newValue});
+    }
+
+    _buildBinaryOperation(operationType) {
+        const left = new Operation();
+        const right = new Operation();
+        return new Operation(operationType, {left, right});
+    }
+
+    _buildForLoopOperation() {
+        const index = new Operation();
+        const start = new Operation();
+        const end = new Operation();
+        const step = new Operation();
+        return new Operation(OperationTypes.FOR_LOOP, {index, start, end, step});
+    }
+
+    _buildEndForLoopOperation() {
+        return new Operation(OperationTypes.END_FOR_LOOP);
+    }
+
+    _buildFunctionOperation(value) {
+        const name = value.name;
+        const paramsCount = value.paramsCount;
+        let params = {};
+
+        for (let i = 1; i <= paramsCount; ++i) {
+            params[`param${i}`] = Object.assign({}, this.emptyOperand);
+        }
+
+        return new Operation('function', {name, ...params});
+    }
+
+    _buildConditionOperation() {
+        const param1 = new Operation();
+        return new Operation(OperationTypes.CONDITION, {param1});
+    }
+
+    _buildEndConditionOperation() {
+        return new Operation(OperationTypes.END_CONDITION);
     }
 };
 

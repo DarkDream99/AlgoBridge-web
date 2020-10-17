@@ -3,11 +3,8 @@ import React, {Component} from "react";
 import Button from '../../gui/button';
 import ButtonGroup from '../../gui/button-group';
 import CodeInterface from "../interface";
-import FunctionSelector from "./function-selector";
 import OperationComponent from "../operation";
 import ParameterField from "./parameter-field";
-
-import Operation, {OperationTypes} from '../core';
 
 import './style/operation-constructor.css';
 

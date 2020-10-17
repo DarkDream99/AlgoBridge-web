@@ -31,10 +31,10 @@ export const OperationTypes = Object.freeze({
 
 class Operation {
 
-    constructor() {
-        this.index = -1;
-        this.parameter = {};
-        this.type = OperationTypes.EMPTY;
+    constructor(type=OperationTypes.EMPTY, parameter={}, index=-1) {
+        this.type = type;
+        this.parameter = parameter;
+        this.index = index;
     }
 };
 
