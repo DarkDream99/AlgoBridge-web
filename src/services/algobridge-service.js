@@ -4,6 +4,7 @@ const LOGIN_URL = 'api-token-auth/';
 const USER_INFO_URL = 'user-info/';
 const RUN_IMPLEMENTATION_URL = 'interpreter/run_implementation/';
 const ALGOS_URL = 'algos/';
+const OPERATION_TYPES_URL = 'operation-type/';
 
 
 export default class AlgoBridgeService {
@@ -210,6 +211,26 @@ export default class AlgoBridgeService {
             return responseBase.json();
         }).then((responseData) => {
             responseData['statusCode'] = statusCode;
+            return new Promise((resolve) => {
+                resolve(responseData);
+            })
+        });
+    };
+
+    loadOperationTypes = () => {
+        let authToken = window.localStorage.getItem('authToken');
+
+        return fetch(
+            API_URL + OPERATION_TYPES_URL,
+            {
+                method: 'get',
+                headers: {
+                    'Authorization': 'Token ' + authToken,
+                }
+            }
+        ).then((responseBase) => {
+            return responseBase.json();
+        }).then((responseData) => {
             return new Promise((resolve) => {
                 resolve(responseData);
             })
