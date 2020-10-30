@@ -45,7 +45,7 @@ const reducer = (state=initialState, action) => {
             };
 
         case ACTION_TYPES.LOGOUT_SUCCESS:
-            window.localStorage.removeItem('aauthToken');
+            window.localStorage.removeItem('authToken');
             return {
                 ...state,
                 isLogin: false,
