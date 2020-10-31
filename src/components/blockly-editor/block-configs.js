@@ -21,6 +21,7 @@ export const assignBlock = {
     helpUrl: "https://en.wikipedia.org/wiki/Assignment_(computer_science)"
 };
 
+
 export const variableBlock = {
     type: "algobridge-variable",
     message0: "%1",
@@ -37,6 +38,7 @@ export const variableBlock = {
     helpUrl: ""
 };
 
+
 export const numberBlock = {
     type: "algobridge_number",
     message0: "%1",
@@ -52,7 +54,8 @@ export const numberBlock = {
     colour: 0,
     tooltip: 'Number block',
     helpUrl: null
-}
+};
+
 
 export const arrayBlock = {
     type: "algobridge_array",
@@ -73,7 +76,8 @@ export const arrayBlock = {
     colour: 0,
     tooltip: null,
     helpUrl: null
-}
+};
+
 
 export const emptyBlock = {
     type: "algobridge_empty",
@@ -88,7 +92,92 @@ export const emptyBlock = {
     colour: 60,
     tooltip: null,
     helpUrl: null
-}
+};
+
+
+export const sumBlock = {
+    type: "algobridge_sum",
+    message0: "%1 + %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            "type": "input_value",
+            "name": "right"
+        }
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 45,
+    tooltip: null,
+    helpUrl: null
+};
+
+
+export const subtractionBlock = {
+    type: "algobridge_subtraction",
+    message0: "%1 - %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            "type": "input_value",
+            "name": "right"
+        }
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 45,
+    tooltip: null,
+    helpUrl: null
+};
+
+
+export const multiplicationBlock = {
+    type: "algobridge_multiplication",
+    message0: "%1 * %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            "type": "input_value",
+            "name": "right"
+        }
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 45,
+    tooltip: null,
+    helpUrl: null
+};
+
+
+export const divisionBlock = {
+    type: "algobridge_division",
+    message0: "%1 / %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            "type": "input_value",
+            "name": "right"
+        }
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 45,
+    tooltip: null,
+    helpUrl: null
+};
+
 
 export const binaryMathBlock = {
     type: "algobridge_binary_math",
@@ -118,7 +207,8 @@ export const binaryMathBlock = {
     colour: 45,
     tooltip: null,
     helpUrl: null
-}
+};
+
 
 export const binaryLogicBlock = {
     type: "algobridge_binary_logic",
@@ -146,7 +236,50 @@ export const binaryLogicBlock = {
     colour: 30,
     tooltip: null,
     helpUrl: null
-}
+};
+
+
+export const logicAndBlock = {
+    type: "algobridge_logic_and",
+    message0: "%1 and %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            "type": "input_value",
+            "name": "right"
+        }
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 30,
+    tooltip: null,
+    helpUrl: null
+};
+
+
+export const logicOrBlock = {
+    type: "algobridge_logic_or",
+    message0: "%1 or %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            "type": "input_value",
+            "name": "right"
+        }
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 30,
+    tooltip: null,
+    helpUrl: null
+};
+
 
 export const logicNotBlock = {
     type: "algobridge_logic_not",
@@ -162,7 +295,113 @@ export const logicNotBlock = {
     colour: 30,
     tooltip: null,
     helpUrl: null
-}
+};
+
+
+export const lessConditionBlock = {
+    type: "algobridge_less_condition",
+    message0: "%1 < %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            type: "input_value",
+            name: "right"
+        },
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 30,
+    tooltip: null,
+    helpUrl: null
+};
+
+
+export const lessEqualConditionBlock = {
+    type: "algobridge_less_equal_condition",
+    message0: "%1 ≤ %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            type: "input_value",
+            name: "right"
+        },
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 30,
+    tooltip: null,
+    helpUrl: null
+};
+
+
+export const largerConditionBlock = {
+    type: "algobridge_larger_condition",
+    message0: "%1 > %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            type: "input_value",
+            name: "right"
+        },
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 30,
+    tooltip: null,
+    helpUrl: null
+};
+
+
+export const largerEqualConditionBlock = {
+    type: "algobridge_larger_equal_condition",
+    message0: "%1 ≥ %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            type: "input_value",
+            name: "right"
+        },
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 30,
+    tooltip: null,
+    helpUrl: null
+};
+
+
+export const equalConditionBlock = {
+    type: "algobridge_equal_condition",
+    message0: "%1 = %2",
+    args0: [
+        {
+            type: "input_value",
+            name: "left"
+        },
+        {
+            type: "input_value",
+            name: "right"
+        },
+    ],
+    inputsInline: true,
+    output: null,
+    colour: 30,
+    tooltip: null,
+    helpUrl: null
+};
+
 
 export const forLoopBlock = {
     type: "algobridge_for_loop",
@@ -191,7 +430,7 @@ export const forLoopBlock = {
     colour: 105,
     tooltip: 'For loop block',
     helpUrl: null
-}
+};
 
 export const conditionIfBlock = {
     type: "algobridge_condition_if",
@@ -216,7 +455,8 @@ export const conditionIfBlock = {
     colour: 105,
     tooltip: 'For loop block',
     helpUrl: null
-}
+};
+
 
 export const getElementByIndexBlock = {
     type: "algobridge_get_item_by_index",
@@ -236,7 +476,8 @@ export const getElementByIndexBlock = {
     colour: 105,
     tooltip: 'Getting element by index',
     helpUrl: null
-}
+};
+
 
 export const setElementByIndexBlock = {
     type: "algobridge_set_element_by_index",
@@ -261,21 +502,19 @@ export const setElementByIndexBlock = {
     colour: 105,
     tooltip: 'Setting new value to the item by index',
     helpUrl: null
-}
+};
+
 
 export const mainBlock = {
     type: "algobridge_main_block",
-    message0: "main %1",
-    args0: [
-        {
-            type: "input_statement",
-            name: "body"
-        }
-    ],
-    colour: 230,
-    tooltip: null,
+    message0: "Start algorithm from here",
+    args0: [ ],
+    nextStatement: null,
+    colour: 270,
+    tooltip: 'Must be only one start point inside the algorithm!',
     helpUrl: null
-}
+};
+
 
 export const allowedBlocks = {
     'assign': assignBlock,
@@ -283,11 +522,20 @@ export const allowedBlocks = {
     'number': numberBlock,
     'array': arrayBlock,
     'algobridge-empty': emptyBlock,
-    'binary-math': binaryMathBlock,
-    'binary-logic': binaryLogicBlock,
+    'sum': sumBlock,
+    'subtraction': subtractionBlock,
+    'multiplication': multiplicationBlock,
+    'division': divisionBlock,
+    'logic-and': logicAndBlock,
+    'logic-or': logicOrBlock,
     'logic-not': logicNotBlock,
+    'less': lessConditionBlock,
+    'less-equal': lessEqualConditionBlock,
+    'larger': largerConditionBlock,
+    'larger-equal': largerEqualConditionBlock,
+    'equal': equalConditionBlock,
     'for-loop': forLoopBlock,
-    'condition-if': conditionIfBlock,
+    'condition': conditionIfBlock,
     'get-element-by-index': getElementByIndexBlock,
     'set-element-by-index': setElementByIndexBlock,
     'algobridge-main': mainBlock
