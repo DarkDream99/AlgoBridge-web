@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import './styles/text-field.css';
+import './text-field.scss';
 
 
 class TextField extends Component {

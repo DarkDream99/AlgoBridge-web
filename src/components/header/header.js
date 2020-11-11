@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 
 import {compose} from "redux";
-import './header.css';
+import './header.scss';
 import withAlgoBridgeConstantsService from '../hoc/with-algobridge-constants-service';
 
 

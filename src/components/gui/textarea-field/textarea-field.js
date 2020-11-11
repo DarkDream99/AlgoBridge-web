@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import './styles/textarea-field.css';
+import './textarea-field.scss';
 
 
 class TextareaField extends Component {

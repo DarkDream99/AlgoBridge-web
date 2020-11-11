@@ -14,7 +14,7 @@ import SignupPage from '../../components/pages/signup';
 import UserAlgosPage from '../../components/pages/user-algos';
 import UserHome from '../pages/user-home';
 
-import './styles/app.css';
+import './app.scss';
 
 
 class App extends Component {
