@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["parameter-field.css"],"names":[],"mappings":"AAAA;EACE;EACA;EACA;;;AAEF;EACE;;;AAGF","file":"parameter-field.css"}
+{"version":3,"sourceRoot":"","sources":["parameter-field.scss","../../../../../styles/scss/_colors.scss"],"names":[],"mappings":"AAII;EACI;EACA;EACA;;AAGJ;EACI,kBCRe","file":"parameter-field.css"}

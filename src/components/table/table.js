@@ -1,54 +1,80 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropType from 'prop-types';
-import {Table as BootTable} from 'react-bootstrap';
 
 import './style/table.css';
 
 
-const Table = ({headers, rows, clickHandlers}) => {
-    const headerCols = headers.map(([label, key]) => {
-        return (
-            <th key={label}>{label}</th>
-        );
-    });
+class Table extends Component {
+    constructor(props) {
+        super(props);
+        const {headers} = props;
 
-    const rowsBody = rows.map((algo, index) => {
-        const rowCols = headers.map(([colTitle, colKey]) => {
-            return (<td key={colTitle}>{algo[colKey]}</td>);
+        this.headerCols = this._initTableHeader(headers);
+        this.rowsBody = this._initTableBody(props);
+    }
+
+    _initTableHeader(headers) {
+        const headerCols = headers.map(([label, key]) => {
+            return (
+                <td key={label}>{label}</td>
+            );
         });
 
         return (
-            <tr key={algo.id} onClick={() => clickHandlers[index]()} className='clickable'>
-                {rowCols}
-            </tr>
+          <tr>{headerCols}</tr>
         );
-    });
+    }
 
-    let table = (
-        <BootTable striped bordered hover className='table'>
-            <thead>
-                <tr>
-                    {headerCols}
+    _initTableBody(props) {
+        const {headers, rows, clickHandlers} = props;
+        return rows.map((row, index) => {
+            const rowCols = this._initRowCols(row, headers)
+            return (
+                <tr key={index} onClick={() => clickHandlers[index]()} className='clickable'>
+                    {rowCols}
                 </tr>
-            </thead>
+            );
+        });
+    }
 
-            <tbody>
-                {rowsBody}
-            </tbody>
-        </BootTable>
-    );
-    return (
-        <div>
-            {table}
-        </div>
-    );
-};
+    _initRowCols(row, headers) {
+        return headers.map(([colTitle, colKey]) => {
+            return (
+                <td key={colTitle}>{row[colKey]}</td>
+            )
+        });
+    }
+
+
+    render() {
+        const table = this._makeTable();
+        return (
+            <div>{table}</div>
+        );
+    }
+
+    _makeTable() {
+        return (
+            <table className='table'>
+                <thead>
+                    {this.headerCols}
+                </thead>
+
+                <tbody>
+                    {this.rowsBody}
+                </tbody>
+            </table>
+        );
+    }
+}
 
 
 Table.propTypes = {
-    headers: PropType.arrayOf(PropType.arrayOf(PropType.string)),
+    headers: PropType.arrayOf(
+        PropType.arrayOf(PropType.string)
+    ),
     rows: PropType.arrayOf(
-        PropType.object    
+        PropType.object
     ),
 };
 

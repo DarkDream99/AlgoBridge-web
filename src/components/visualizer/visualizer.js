@@ -21,7 +21,7 @@ const Visualizer = (props) => {
     return (
         <>
             <div style={{ height: '120px', width: '1200px' }}>
-                <span>
+                <span style={{ display: 'flex', alignContent: 'center' }}>
                     {rowNumber}: &nbsp;
                     <Operation
                         {...targetOperation}

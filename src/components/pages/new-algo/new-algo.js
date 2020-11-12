@@ -2,118 +2,102 @@ import React, {Component} from 'react';
 import {compose} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import './new-algo.css'
-import PageTitle from "../../page-title";
-import {Container, Form, Row} from "react-bootstrap";
-import RowLine from "../../code-ide/editor/row";
-import {isBlockOperation, isEndBlockOperation} from "../../code-ide/operation";
-import OperationConstructor from "../../code-ide/operation-constructor";
+import AlgoEditor from "../../code-ide/algoeditor";
 import Button from "../../gui/button";
 import GroupButton from "../../gui/button-group";
+import PageTitle from "../../page-title";
+import TextareaField from '../../gui/textarea-field';
+import TextField from '../../gui/text-field';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
+// import BlocklyEditor from '../../blockly-editor';
 
-
-const funcs = [
-    {
-        name: 'set_item_by_index',
-        paramsCount: 3,
-        description: ''
-    }, {
-        name: 'get_item_by_index',
-        paramsCount: 2,
-        description: ''
-    }
-];
+import './new-algo.css'
 
 
 class NewAlgoPage extends Component {
     constructor(props) {
         super(props)
-        const {algoBridgeService} = this.props;
+        const { algoBridgeService } = this.props;
         this.algoBridgeService = algoBridgeService;
-        this.titleRef = React.createRef();
-        this.descriptionRef = React.createRef();
 
         this.state = {
             mode: 'normal',
             error: '',
             output: '',
-            operations: [{type: 'empty', parameter: {}}],
+            titleRef: React.createRef(),
+            descriptionRef: React.createRef(),
+            operations: [{ type: 'empty', parameter: {} }],
             selectedRow: -1,
         };
     }
 
-    handleSaveRowOperation = (newOperation) => {
-        const updatedOperations = [
-            ...this.state.operations.slice(0, this.state.selectedRow),
-            newOperation,
-            ...this.state.operations.slice(this.state.selectedRow + 1)
-        ];
-        this.setState(
-            {
-                'operations': updatedOperations,
-                'selectedRow': -1,
-            }
-        );
-    };
 
-    handleSelectRow = (index) => {
-       this.setState({'selectedRow': index});
-    };
+    render() {
+        const operations = this.state.operations;
 
-    handleUnselectRow = () => {
-        this.setState({'selectedRow': -1});
-    };
+        return (
+            <div style={{
+                width: '60%',
+                margin: 'auto',
+            }}>
+                <PageTitle>Create new algorithm</PageTitle>
 
-    handleAddRow = (index) => {
-        const emptyOperation = {type: 'empty', parameter: {}};
-        const updatedOperations = [
-            ...this.state.operations.slice(0, index+1),
-            emptyOperation,
-            ...this.state.operations.slice(index+1)
-        ];
-        this.setState({operations: updatedOperations, selectedRow: -1});
-    };
+                <TextField label='Title of the algorithm'
+                           placeholder="Enter algorithm's title"
+                           refValue={this.state.titleRef} />
+                <TextareaField label='Short description' refValue={this.state.descriptionRef} />
 
-    handleRemoveRow = (index) => {
-        if (this.state.operations.length === 1)
-            return;
+                <div style={{ paddingBottom: '10px' }}>Implementation</div>
+                <AlgoEditor operations={operations}
+                            syncOperations={(operations) => this._syncOperations(operations)} />
+                {/* <BlocklyEditor /> */}
+                {this._makeAlgoManageButtons()}
 
-        const updatedOperations = [
-            ...this.state.operations.slice(0, index),
-            ...this.state.operations.slice(index + 1)
-        ];
-        this.setState({operations: updatedOperations, selectedRow: -1});
+                <TextareaField label='Errors' readOnly value={this.state.error} />
+                <TextareaField label='Output' readOnly value={this.state.output} />
+            </div>
+        )
     }
 
-    handleMoveRowUp = (index) => {
-        if (index === 0)
-            return;
+    _syncOperations = (updatedOperations) => {
+        this.setState({operations: updatedOperations});
+    };
 
-        const updatedOperations = [
-            ...this.state.operations.slice(0, index-1),
-            this.state.operations[index],
-            this.state.operations[index-1],
-            ...this.state.operations.slice(index + 1)
-        ];
-        this.setState({operations: updatedOperations, selectedRow: -1});
+    _makeAlgoManageButtons() {
+        return (
+            <GroupButton buttons={[
+                <Button key='create'
+                    action={() => this._handleCreateAlgo()}
+                    classes="success">
+                    Create
+                </Button>,
+                <Button key='run'
+                    action={() => this._handleRunImplementation()}>
+                    Run
+                </Button>
+            ]} />
+        )
     }
 
-    handleMoveRowDown = (index) => {
-        if (index === this.state.operations.length - 1)
-            return;
+    _handleCreateAlgo = () => {
+        let title = this.state.titleRef.current.value;
+        let description = this.state.descriptionRef.current.value;
+        let operations = JSON.stringify(this.state.operations);
 
-        const updatedOperations = [
-            ...this.state.operations.slice(0, index),
-            this.state.operations[index+1],
-            this.state.operations[index],
-            ...this.state.operations.slice(index + 2)
-        ];
-        this.setState({operations: updatedOperations, selectedRow: -1});
+        const { history } = this.props;
+        this.algoBridgeService.createAlgo(title, description, operations)
+            .then((result) => {
+                if (result.status === 201) {
+                    let algoId = result.algo_id;
+                    history.push(`/algo/${algoId}/show`);
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
     }
 
-    handleRunImplementation = (event) => {
-        this.algoBridgeService.runImplementation(JSON.stringify(this.state.operations))
+    _handleRunImplementation = (event) => {
+        this.algoBridgeService.runImplementation(this.state.operations)
         .then((result) => {
             if (Array.isArray(result)) {
                 let vars = result;
@@ -134,138 +118,6 @@ class NewAlgoPage extends Component {
         }).catch((error) => {
             console.error('Error:', error);
         });
-    }
-
-    handleCreateAlgo = () => {
-        let title = this.titleRef.current.value;
-        let description = this.descriptionRef.current.value;
-        let operations = JSON.stringify(this.state.operations);
-
-        const {history} = this.props;
-        this.algoBridgeService.createAlgo(title, description, operations)
-        .then((result) => {
-            if (result.status === 201) {
-                let algoId = result.algo_id;
-                history.push(`/algo/${algoId}/show`);
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
-    handleChangeRowOperationFromDrag = (newOperation, indexFrom, indexTo) => {
-        let updatedOperations = [
-            ...this.state.operations.slice(0, indexFrom),
-            {type: 'empty', parameter: {}},
-            ...this.state.operations.slice(indexFrom + 1)
-        ];
-        updatedOperations = [
-            ...updatedOperations.slice(0, indexTo),
-            newOperation,
-            ...updatedOperations.slice(indexTo + 1)
-        ];
-        this.setState({
-            operations: updatedOperations,
-        });
-    }
-
-    render() {
-        let nest = 0;
-        const operationRows = this.state.operations.map((operation, index) => {
-            let tartget_nest = nest;
-            if (isBlockOperation(operation))
-                nest += 1;
-            if (isEndBlockOperation(operation)) {
-                nest -= 1;
-                tartget_nest = nest;
-            }
-            return (
-                <Row key={index}>
-                    <RowLine
-                        number={index}
-                        operation={operation}
-                        comment=""
-                        nest={tartget_nest}
-                        handleAddRow={() => this.handleAddRow(index)}
-                        handleRemoveRow={() => this.handleRemoveRow(index)}
-                        handleMoveRowUp={() => this.handleMoveRowUp(index)}
-                        handleMoveRowDown={() => this.handleMoveRowDown(index)}
-                        handleSelectRow={() => this.handleSelectRow(index)}
-                        handleChangeRowOperationFromDrag={
-                            (newOperation, indexFrom, indexTo) => this.handleChangeRowOperationFromDrag(newOperation, indexFrom, indexTo)
-                        }
-                    />
-                </Row>
-            );
-        });
-
-        const manageAlgoButtons = (
-            <GroupButton buttons={[
-                <Button action={() => this.handleCreateAlgo()} classes="success">Create</Button>,
-                <Button action={() => this.handleRunImplementation()}>Run</Button>
-            ]} />
-        );
-
-        let code = "";
-        if (this.state.selectedRow === -1) {
-            code = (
-                <>
-                    <Form.Group as={Row}>
-                        <Container>
-                            {operationRows}
-                        </Container>
-                    </Form.Group>
-
-                    {manageAlgoButtons}
-                </>
-            );
-        } else {
-            const selectedOperation = JSON.parse(JSON.stringify(this.state.operations[this.state.selectedRow]));
-            code = (
-                <OperationConstructor
-                    funcs={funcs}
-                    operation={selectedOperation}
-                    handleSaveOperation={(updatedOperation) => this.handleSaveRowOperation(updatedOperation)}
-                    handleClose={() => this.handleUnselectRow()}
-                />
-            );
-        }
-
-        return (
-            <Form style={{
-                width: '60%',
-                margin: 'auto',
-            }}>
-                <PageTitle>
-                    Create new algorithm
-                </PageTitle>
-
-                <Form.Group as={Row}>
-                    <Form.Label>Title of the algorithm</Form.Label>
-                    <Form.Control type="text" placeholder="Enter algorithm's title" ref={this.titleRef} />
-                </Form.Group>
-
-                <Form.Group as={Row}>
-                    <Form.Label>Short description</Form.Label>
-                    <Form.Control as="textarea" rows={3} ref={this.descriptionRef}/>
-                </Form.Group>
-
-                <Form.Group as={Row}>
-                    <Form.Label>Implementation</Form.Label>
-                </Form.Group>
-
-                {code}
-
-                <Form.Group as={Row}>
-                    <Form.Label>Errors</Form.Label>
-                    <Form.Control id="code-running-error" as="textarea" rows={3} readOnly value={this.state.error} />
-                </Form.Group>
-                <Form.Group as={Row}>
-                    <Form.Label>Output</Form.Label>
-                    <Form.Control id="code-output" as="textarea" rows={6} readOnly value={this.state.output} />
-                </Form.Group>
-            </Form>
-        )
     }
 }
 

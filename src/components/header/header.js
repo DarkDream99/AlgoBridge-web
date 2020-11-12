@@ -1,56 +1,65 @@
-import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
-import {Jumbotron, Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import React, {Component} from 'react';
 
-import './header.css';
-import withAlgoBridgeConstantsService from '../hoc/with-algobridge-constants-service';
 import {compose} from "redux";
+import './header.scss';
+import withAlgoBridgeConstantsService from '../hoc/with-algobridge-constants-service';
 
 
-const Header = (props) => {
-    const {
-        title, isLogin, logout, history, algoBridgeConstantsService, 
-    } = props;
-    const links = algoBridgeConstantsService.links;
-    let header = (
-        <Jumbotron fluid className='header'>
-            {title}
-        </Jumbotron>
-    );
+class Header extends Component {
 
-    const activeUser = JSON.parse(window.localStorage.getItem('activeUser')) || '';
-    if (isLogin) {
-        header = (
-            <Navbar bg="dark" variant="dark" expand="lg" className='header'>
-                <Link to={links.userHome.href}>
-                    <Navbar.Brand>{title}</Navbar.Brand>
-                </Link>
-                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Nav.Link onClick={() => {history.push(links.userAlgos.href)}}>
-                            {links.userAlgos.label}
-                        </Nav.Link>
-                        <Nav.Link onClick={() => {history.push(links.createNewAlgo.href)}}>
-                            {links.createNewAlgo.label}
-                        </Nav.Link>
-                    </Nav>
-                    <Nav inline="true">
-                        <NavDropdown title={`Log in as ${activeUser.username}`}>
-                            <NavDropdown.Item>Settings</NavDropdown.Item>
-                            <NavDropdown.Divider/>
-                            <NavDropdown.Item onClick={() => {logout()}}>Log out</NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
+    render = () => {
+        const {isLogin} = this.props;
+        let header = this._makeGuestHeader();
+        if (isLogin) {
+            header = this._makeUserHeader();
+        }
+
+        return (
+            <div>{header}</div>
+        );
+    };
+
+    _makeGuestHeader() {
+        const {title} = this.props;
+        return (
+            <div className='header'>
+                {title}
+            </div>
         );
     }
 
-    return (
-        <div>{header}</div>
-    );
+    _makeUserHeader() {
+        const {
+            title, logout, algoBridgeConstantsService,
+        } = this.props;
+        const links = algoBridgeConstantsService.links;
+        const activeUser = JSON.parse(window.localStorage.getItem('activeUser')) || '';
+
+        return (
+            <div className='topnav'>
+                <Link to={links.userHome.href} className="active link">
+                    {title}
+                </Link>
+                <Link to={links.userAlgos.href} className="link">
+                    {links.userAlgos.label}
+                </Link>
+                <Link to={links.createNewAlgo.href} className="link">
+                    {links.createNewAlgo.label}
+                </Link>
+                <Link to={''}
+                      className="link right-position"
+                      onClick={(event) => {event.preventDefault(); logout()}}
+                >
+                    Log out ({activeUser.username})
+                </Link>
+                <Link to="" className="icon" onClick={() => {}}>
+                    <i className="fa fa-bars"></i>
+                </Link>
+            </div>
+        );
+    }
 };
 
 Header.propTypes = {
