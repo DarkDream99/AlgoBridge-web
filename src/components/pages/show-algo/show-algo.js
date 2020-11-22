@@ -144,7 +144,7 @@ class ShowAlgoPage extends Component {
             });
         });
     }
-};
+}
 
 export default compose(
     withAlgoBridgeService(),

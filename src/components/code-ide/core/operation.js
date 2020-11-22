@@ -36,11 +36,7 @@ class Operation {
         this.parameter = parameter;
         this.index = index;
     }
-
-    static parseCodedOperation(codedOperation) {
-
-    }
-};
+}
 
 
 export default Operation;

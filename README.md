@@ -1,13 +1,22 @@
-Hosted site: https://algobridge.netlify.com/
+# AlgoBridge web client
 
-HOW TO RUN:
+[Hosted site](https://algobridge.netlify.com/)
+
+## How to run
 
 1. Clone repository
 2. Run `npm install`
-3. Run `npm start`
+3. Set `REACT_APP_API_URL` environment variable in /.env file (api url to backend)
+4. Run `npm run server`
 
-HOW TO DEPLOY:
+## How to deploy
 
-0. Install netlify CI
-1. Check that backend api is correct (file .env.production)
-2. Run script: `./build-prod.sh`
+1. Check that test stage of CI was passed
+2. Deploy manually via Circle CI trigger
+
+## Command
+
+- `npm install` - install dependencies
+- `npm run dev` - build project in develop mode
+- `npm run prod` - build project in production mode
+- `npm run analyzer` - visualize packages' size

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 
 const withOperationBrackets = () => (Wrapper) => {
-    return class extends Component {
+    const OperationBrackets = class extends Component {
         render() {
             const {left, right} = this.props; 
             const singleOperations = ['number', 'variable']
@@ -14,7 +14,10 @@ const withOperationBrackets = () => (Wrapper) => {
             }
             return (<Wrapper {...this.props} brackets={brackets} />);
         }
-    }
+    };
+    OperationBrackets.displayName = 'OperationBrackets';
+    return OperationBrackets;
 }
+
 
 export default withOperationBrackets;

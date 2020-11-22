@@ -10,7 +10,7 @@ class InputField extends Component {
     _handleSave() {
         const {handleSave} = this.props;
         handleSave(this.state.inputRef.current.value.trim());
-    };
+    }
 
     render() {
         const {show, handleClose, label, error} = this.props;

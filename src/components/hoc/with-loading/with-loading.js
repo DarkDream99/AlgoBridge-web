@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 
 const withLoading = () => (Wrapper) => {
-    return class extends Component {
+    const Loader = class extends Component {
         state = {
             loading: false,
         };
@@ -18,7 +18,10 @@ const withLoading = () => (Wrapper) => {
                 <Wrapper {...this.props} loading={this.state.loading} swapLoading={this.swapLoading} />
             );
         }
-    }
+    };
+    Loader.displayName = 'Loader';
+    return Loader;
 };
+
 
 export default withLoading;

@@ -9,7 +9,6 @@ import PageTitle from "../../page-title";
 import TextareaField from '../../gui/textarea-field';
 import TextField from '../../gui/text-field';
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
-// import BlocklyEditor from '../../blockly-editor';
 
 import './new-algo.css'
 
@@ -50,7 +49,6 @@ class NewAlgoPage extends Component {
                 <div style={{ paddingBottom: '10px' }}>Implementation</div>
                 <AlgoEditor operations={operations}
                             syncOperations={(operations) => this._syncOperations(operations)} />
-                {/* <BlocklyEditor /> */}
                 {this._makeAlgoManageButtons()}
 
                 <TextareaField label='Errors' readOnly value={this.state.error} />
@@ -96,7 +94,7 @@ class NewAlgoPage extends Component {
             });
     }
 
-    _handleRunImplementation = (event) => {
+    _handleRunImplementation = () => {
         this.algoBridgeService.runImplementation(this.state.operations)
         .then((result) => {
             if (Array.isArray(result)) {

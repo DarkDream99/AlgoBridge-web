@@ -49,17 +49,17 @@ jobs:
                     - "node_modules"
             - run:
                 name: Building
-                command: npm run build
+                command: npm run prod
             - run:
                 name: Result build
-                command: ls -la ./build
+                command: ls -la ./dist
             - run:
                 name: Add routing
-                command: echo "/*    /index.html  200" > ./build/_redirects
+                command: echo "/*    /index.html  200" > ./dist/_redirects
             - persist_to_workspace:
                 root: .
                 paths:
-                    - build
+                    - dist
     deploy-release:
         executor: docker-executor
         steps:
@@ -71,17 +71,17 @@ jobs:
                 command: sudo npm install -g --silent netlify-cli
             - run:
                 name: Deploy to netlify service
-                command: netlify deploy --dir=./build -p
+                command: netlify deploy --dir=./dist -p
 
 workflows:
     testing:
         jobs:
             - check-environment
-            - test
+            # - test
             - approve-build:
                 type: approval
-                requires:
-                    - test
+                # requires:
+                #     - test
                 filters:
                     branches:
                         only: develop

@@ -69,7 +69,7 @@ class OperationConstructor extends Component {
          * */
 
         var startIndex = this.state.selectedParamIndex;
-        var selectedParam = this.state.params.find((element, index, array) => {
+        var selectedParam = this.state.params.find((element) => {
             return element.index === startIndex;
         });
         newOperation.index = selectedParam.index;
@@ -90,7 +90,7 @@ class OperationConstructor extends Component {
 
         while (currentIndex) {
             const parentIndex = currentParam.parentIndex;
-            let parentParam = this.state.params.find((element, index, array) => {
+            let parentParam = this.state.params.find((element) => {
                 return element.index === parentIndex;
             });
 
@@ -123,7 +123,7 @@ class OperationConstructor extends Component {
                 childrenIds: [],
             });
             if (parentIndex !== null) {
-                const parent = params.find((element, index, array) => {
+                const parent = params.find((element) => {
                     return element.index === parentIndex;
                 });
                 parent.childrenIds.push(index);
