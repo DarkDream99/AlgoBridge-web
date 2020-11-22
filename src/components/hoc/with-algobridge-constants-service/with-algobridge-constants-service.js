@@ -5,7 +5,7 @@ import {
 
 
 const withAlgoBridgeConstantsService = () => (Wrapper) => {
-    return (props) => {
+    const constantsService = (props) => {
         return (
             <AlgoBridgeConstantsServiceConsumer>
                 {
@@ -18,6 +18,9 @@ const withAlgoBridgeConstantsService = () => (Wrapper) => {
             </AlgoBridgeConstantsServiceConsumer>
         );
     }
+    constantsService.displayName = 'AlgoBridgeConstantsService';
+    return constantsService;
 }
+
 
 export default withAlgoBridgeConstantsService;

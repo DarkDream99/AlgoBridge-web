@@ -40,7 +40,7 @@ class Operation {
     static parseCodedOperation(codedOperation) {
 
     }
-};
+}
 
 
 export default Operation;

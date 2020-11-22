@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 
 const withErrorIndicator = () => (Wrapper) => {
-    return class extends Component {
+    const ErrorIndicator = class extends Component {
         state = {
             error: null,
         };
@@ -15,7 +15,10 @@ const withErrorIndicator = () => (Wrapper) => {
             return <Wrapper {...this.props} error={this.state.error}
                 setError={this.setError} />
         }
-    }
+    };
+    ErrorIndicator.displayName = 'ErrorIndicator';
+    return ErrorIndicator;
 };
+
 
 export default withErrorIndicator;

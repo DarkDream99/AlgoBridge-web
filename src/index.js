@@ -20,6 +20,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const algoBridgeService = new AlgoBridgeService();
 const algoBridgeConstantsService = new AlgoBridgeConstantsService();
 
+
 ReactDOM.render(
     <AlgoBridgeConstantsServiceProvider value={algoBridgeConstantsService}>
         <ErrorBoundry>

@@ -66,7 +66,7 @@ class CodeInterface extends Component {
 
         operationTypes.forEach((item) => {
             let group = item.category.display_name;
-            if (!operationGroups.hasOwnProperty(group)) {
+            if (!Object.prototype.hasOwnProperty.call(operationGroups, group)) {
                 operationGroups[group] = {values: [], actions: []}
             }
             operationGroups[group].values.push(item.display_name);
@@ -316,7 +316,7 @@ class CodeInterface extends Component {
     // _buildEndConditionOperation() {
     //     return new Operation(OperationTypes.END_CONDITION);
     // }
-};
+}
 
 
 export default compose(
