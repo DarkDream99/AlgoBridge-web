@@ -14,7 +14,7 @@ class Table extends Component {
     }
 
     _initTableHeader(headers) {
-        const headerCols = headers.map(([label, key]) => {
+        const headerCols = headers.map(([label]) => {
             return (
                 <td key={label}>{label}</td>
             );

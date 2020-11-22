@@ -96,7 +96,7 @@ class NewAlgoPage extends Component {
             });
     }
 
-    _handleRunImplementation = (event) => {
+    _handleRunImplementation = () => {
         this.algoBridgeService.runImplementation(this.state.operations)
         .then((result) => {
             if (Array.isArray(result)) {

@@ -37,7 +37,7 @@ class Operation {
         this.index = index;
     }
 
-    static parseCodedOperation(codedOperation) {
+    static parseCodedOperation() {
 
     }
 }

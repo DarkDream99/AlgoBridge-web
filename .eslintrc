@@ -2,7 +2,7 @@
     "parser": "babel-eslint",
     "rules": {
       "no-unused-vars": "warn",
-      "react/prop-types": "warn"
+      "react/prop-types": "off"
     },
     "env": {
       "es6": true,
