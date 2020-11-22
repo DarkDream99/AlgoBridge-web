@@ -3,7 +3,7 @@ import {AlgoBridgeServiceConsumer} from '../../../components/service-context/alg
 
 
 const withAlgoBridgeService = () => (Wrapper) => {
-    return (props) => {
+    const algoBridgeService = (props) => {
         return (
             <AlgoBridgeServiceConsumer>
                 {
@@ -16,8 +16,11 @@ const withAlgoBridgeService = () => (Wrapper) => {
                 }
             </AlgoBridgeServiceConsumer> 
         );
-    }
+    };
+    algoBridgeService.displayName = 'AlgoBridgeService';
+    return algoBridgeService;
 };
+
 
 export default withAlgoBridgeService;
 

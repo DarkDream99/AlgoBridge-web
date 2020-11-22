@@ -148,7 +148,7 @@ class EditAlgoPage extends Component {
             console.error('Error:', error);
         });
     }
-};
+}
 
 export default compose(
     withAlgoBridgeService(),

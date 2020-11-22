@@ -31,7 +31,7 @@ class VisualizerContainer extends Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    shouldComponentUpdate(nextProps) {
         const {visualOperation, isActive} = this.props;
         if (
             JSON.stringify(nextProps.visualOperation) === JSON.stringify(visualOperation)
@@ -41,7 +41,7 @@ class VisualizerContainer extends Component {
         return true;
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         const {isActive, isClear, visualOperation} = this.props;
 
         if (isActive) {
@@ -189,7 +189,7 @@ class VisualizerContainer extends Component {
                     )
                     .attr('y', position.y)
                     .attr('dy', '1.35em')
-                    .text((value, index) => value),
+                    .text(value => value),
                 update => update.attr('fill', 'orange'),
                 exit => exit
                     .call( exit => exit.transition(d3time)
@@ -198,7 +198,7 @@ class VisualizerContainer extends Component {
             );
     }
 
-    moveArray = ({position, height, containerId, deltaPosition}) => {
+    moveArray = ({position, containerId, deltaPosition}) => {
         let container = d3.select(`#${containerId}`);
         const d3time = container.transition().duration(400);
 
@@ -390,7 +390,7 @@ class VisualizerContainer extends Component {
         }
     }
 
-    showCondition = ({row, value, isCorrect}) => {
+    showCondition = ({value, isCorrect}) => {
         let board = d3.select(`#${this.state.boardRef.current.id}`);
         board.append('g').attr('id', this.operationId);
 

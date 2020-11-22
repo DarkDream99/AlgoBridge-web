@@ -17,7 +17,7 @@ class VisualizeIDEContainer extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const {algoBridgeService, operations, isShow, setError} = this.props;
 
         if (!isShow && prevProps.isShow) {

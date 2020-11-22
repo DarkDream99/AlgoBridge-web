@@ -24,7 +24,7 @@ const VisualizeIDE = (props) => {
     const sourceOperation = operations;
     for (let index = 0; index < displayedRowsCount; ++index) {
         let targetOperation = {type: 'empty', parameter: {}}
-        if (actualVisualOperationIndexes.hasOwnProperty(index)) {
+        if (Object.prototype.hasOwnProperty.call(actualVisualOperationIndexes, index)) {
             const targetVisualOperation = visualOperations[actualVisualOperationIndexes[index]];
             targetOperation = sourceOperation[targetVisualOperation.row] || targetOperation;
             visualizers.push(

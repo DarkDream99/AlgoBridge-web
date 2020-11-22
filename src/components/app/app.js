@@ -92,7 +92,7 @@ class App extends Component {
             this.props.history.push('/');
         });
     };
-};
+}
 
 export default compose(
     withRouter
