@@ -21,101 +21,102 @@ import AndLogicOperation from "./and-logic-operation";
 import OrLogicOperation from "./or-logic-operation";
 import GetItemOperation from "./get-item";
 import SetItemOperation from "./set-item";
+import operationTypes from "../../../constants/operationTypes";
 
 
 const Operation = (props) => {
-    const {type, parameter, childrenIds, mode, isDraggable=true, dragOverHandler, dropHandler} = props;
+    const { type, parameter, childrenIds, mode, isDraggable = true, dragOverHandler, dropHandler } = props;
     let result = null;
 
-    if (type === "assign") {
+    if (type === operationTypes.ASSIGN) {
         result = <AssignOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "larger") {
+    if (type === operationTypes.LARGER) {
         result = <LargerOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "larger-equal") {
+    if (type === operationTypes.LARGE_EQUAL) {
         result = <LargerEqualOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "less") {
+    if (type === operationTypes.LESS) {
         result = <LessOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "less-equal") {
+    if (type === operationTypes.LESS_EQUAL) {
         result = <LessEqualOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "equal") {
+    if (type === operationTypes.EQUAL) {
         result = <EqualOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "and-logic") {
+    if (type === operationTypes.AND_LOGIC) {
         result = <AndLogicOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "or-logic") {
+    if (type === operationTypes.OR_LOGIC) {
         result = <OrLogicOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "number") {
-        result = <NumberOperation {...parameter}/>;
+    if (type === operationTypes.NUMBER) {
+        result = <NumberOperation {...parameter} />;
     }
 
-    if (type === "variable") {
-        result = <VariableOperation {...parameter}/>;
+    if (type === operationTypes.VARIABLE) {
+        result = <VariableOperation {...parameter} />;
     }
 
-    if (type === "for-loop") {
+    if (type === operationTypes.FOR_LOOP) {
         result = <ForLoopOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "end-for-loop") {
-        result = <EndForLoopOperation/>;
+    if (type === operationTypes.END_FOR_LOOP) {
+        result = <EndForLoopOperation />;
     }
 
-    if (type === "array") {
+    if (type === operationTypes.ARRAY) {
         result = <ArrayOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "sum") {
+    if (type === operationTypes.SUM) {
         result = <SumOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "subtraction") {
+    if (type === operationTypes.SUBSTRACTION) {
         result = <SubtractionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "multiplication") {
+    if (type === operationTypes.MULTIPLICATION) {
         result = <MultiplicationOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "division") {
+    if (type === operationTypes.DIVISION) {
         result = <DivisionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "function") {
+    if (type === operationTypes.FUNCTION) {
         result = <FunctionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "condition") {
+    if (type === operationTypes.CONDITION) {
         result = <ConditionOperation {...parameter} childrenIds={childrenIds} mode={mode} />;
     }
 
-    if (type === "end-condition") {
-        result = <EndConditionOperation/>;
+    if (type === operationTypes.END_CONDITION) {
+        result = <EndConditionOperation />;
     }
 
-    if (type === "get-item") {
+    if (type === operationTypes.GET_ITEM) {
         result = <GetItemOperation {...parameter} childrenIds={childrenIds} mode={mode} />
     }
 
-    if (type === "set-item") {
+    if (type === operationTypes.SET_ITEM) {
         result = <SetItemOperation {...parameter} childrenIds={childrenIds} mode={mode} />
     }
 
-    if (type === "empty" && mode === 'standard') {
+    if (type === operationTypes.EMPTY && mode === 'standard') {
         if (isDraggable) {
             result = (
                 <div

@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {compose} from 'redux';
-import {withRouter} from 'react-router-dom';
+import React, { Component } from 'react';
+import { bindActionCreators, compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import AlgoEditor from "../../code-ide/algoeditor";
 import Button from "../../gui/button";
@@ -20,7 +21,6 @@ class NewAlgoPage extends Component {
         this.algoBridgeService = algoBridgeService;
 
         this.state = {
-            mode: 'normal',
             error: '',
             output: '',
             titleRef: React.createRef(),
@@ -30,54 +30,27 @@ class NewAlgoPage extends Component {
         };
     }
 
-
-    render() {
-        const operations = this.state.operations;
-
-        return (
-            <div style={{
-                width: '60%',
-                margin: 'auto',
-            }}>
-                <PageTitle>Create new algorithm</PageTitle>
-
-                <TextField label='Title of the algorithm'
-                           placeholder="Enter algorithm's title"
-                           refValue={this.state.titleRef} />
-                <TextareaField label='Short description' refValue={this.state.descriptionRef} />
-
-                <div style={{ paddingBottom: '10px' }}>Implementation</div>
-                <AlgoEditor operations={operations}
-                            syncOperations={(operations) => this._syncOperations(operations)} />
-                {this._makeAlgoManageButtons()}
-
-                <TextareaField label='Errors' readOnly value={this.state.error} />
-                <TextareaField label='Output' readOnly value={this.state.output} />
-            </div>
-        )
-    }
-
-    _syncOperations = (updatedOperations) => {
-        this.setState({operations: updatedOperations});
+    syncOperations = (updatedOperations) => {
+        this.setState({ operations: updatedOperations });
     };
 
-    _makeAlgoManageButtons() {
+    makeAlgoManageButtons() {
         return (
             <GroupButton buttons={[
                 <Button key='create'
-                    action={() => this._handleCreateAlgo()}
+                    action={() => this.handleCreateAlgo()}
                     classes="success">
                     Create
                 </Button>,
                 <Button key='run'
-                    action={() => this._handleRunImplementation()}>
+                    action={() => this.handleRunImplementation()}>
                     Run
                 </Button>
             ]} />
         )
     }
 
-    _handleCreateAlgo = () => {
+    handleCreateAlgo = () => {
         let title = this.state.titleRef.current.value;
         let description = this.state.descriptionRef.current.value;
         let operations = JSON.stringify(this.state.operations);
@@ -94,32 +67,62 @@ class NewAlgoPage extends Component {
             });
     }
 
-    _handleRunImplementation = () => {
+    handleRunImplementation = () => {
         this.algoBridgeService.runImplementation(this.state.operations)
-        .then((result) => {
-            if (Array.isArray(result)) {
-                let vars = result;
-                let wileVars = "";
-                vars.forEach((item) => {
-                    wileVars += `${item["type"]} '${item["name"]}': ${item["value"]}\n`;
-                });
-                this.setState({
-                    output: wileVars,
-                    error: ""
-                });
-            } else {
-                this.setState({
-                    error: result['error'],
-                    output: ""
-                });
-            }
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
+            .then((result) => {
+                if (Array.isArray(result)) {
+                    let vars = result;
+                    let wileVars = "";
+                    vars.forEach((item) => {
+                        wileVars += `${item["type"]} '${item["name"]}': ${item["value"]}\n`;
+                    });
+                    this.setState({
+                        output: wileVars,
+                        error: ""
+                    });
+                } else {
+                    this.setState({
+                        error: result['error'],
+                        output: ""
+                    });
+                }
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    render() {
+        const operations = this.state.operations;
+
+        return (
+            <div className="container">
+                <PageTitle>Create new algorithm</PageTitle>
+
+                <TextField label='Title of the algorithm'
+                    placeholder="Enter algorithm's title"
+                    refValue={this.state.titleRef} />
+                <TextareaField label='Short description' refValue={this.state.descriptionRef} />
+
+                <div style={{ paddingBottom: '10px' }}>Implementation</div>
+                <AlgoEditor operations={operations}
+                    syncOperations={(operations) => this.syncOperations(operations)} />
+                {this.makeAlgoManageButtons()}
+
+                <TextareaField label='Errors' readOnly value={this.state.error} />
+                <TextareaField label='Output' readOnly value={this.state.output} />
+            </div>
+        )
     }
 }
+
+const mapStateToProps = (state) => ({
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+}, dispatch);
 
 export default compose(
     withAlgoBridgeService(),
     withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
 )(NewAlgoPage);

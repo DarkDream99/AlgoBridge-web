@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {compose} from 'redux';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { compose, bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import AlgoEditor from "../../code-ide/algoeditor";
 import Button from "../../gui/button";
@@ -9,9 +10,12 @@ import PageTitle from "../../page-title";
 import TextareaField from '../../gui/textarea-field';
 import TextField from '../../gui/text-field';
 import VisualizeIDEContainer from '../../../containers/visualize-ide';
+import { getUserAlgoState } from '../../../selectors';
+import { getAlgo } from '../../../actions';
 
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import withLoading from '../../../components/hoc/with-loading';
+import operationTypes from '../../../constants/operationTypes';
 
 
 class ShowAlgoPage extends Component {
@@ -21,9 +25,6 @@ class ShowAlgoPage extends Component {
         this.algoId = props.match.params.id;
 
         this.state = {
-            title: '',
-            description: '',
-            operations: [],
             outputRef: React.createRef(),
             output: '',
             error: '',
@@ -32,9 +33,11 @@ class ShowAlgoPage extends Component {
     }
 
     componentDidMount() {
-        this._loadsUserAlgo(); }
+        this.props.getAlgo(this.algoId);
+    }
 
-    _loadsUserAlgo() { const {algoBridgeService, swapLoading} = this.props;
+    _loadsUserAlgo() {
+        const { algoBridgeService, swapLoading } = this.props;
         swapLoading(true);
         algoBridgeService.userAlgo(this.algoId)
             .then((algo) => {
@@ -48,8 +51,10 @@ class ShowAlgoPage extends Component {
     }
 
     render() {
-        const {title, description, error, output, outputRef, isVisual, operations} = this.state;
+        const { error, output, outputRef, isVisual } = this.state;
+        const { algo } = this.props;
 
+        const operations = algo ? algo.operations : [{ type: operationTypes.EMPTY, parameter: {} }];
         const visualText = isVisual ? 'Visualize off' : 'Visualize on';
         const manageAlgoButtonsGroup = (
             <ButtonGroup buttons={[
@@ -70,8 +75,8 @@ class ShowAlgoPage extends Component {
                 </PageTitle>
 
                 <TextField label='Title of the algorithm'
-                           value={title} readOnly />
-                <TextareaField label='Short description' value={description} readOnly />
+                    value={algo ? algo.title : ''} readOnly />
+                <TextareaField label='Short description' value={algo ? algo.description : ''} readOnly />
 
                 <div style={{ paddingBottom: '10px' }}>Implementation</div>
                 <AlgoEditor operations={operations} readOnly />
@@ -91,28 +96,28 @@ class ShowAlgoPage extends Component {
     }
 
     handleRunImplementation = (operations) => {
-        const {algoBridgeService} = this.props;
+        const { algoBridgeService } = this.props;
         algoBridgeService.runImplementation(operations)
-        .then((result) => {
-            if (Array.isArray(result)) {
-                let vars = result;
-                let allVars = "";
-                vars.forEach((item) => {
-                    allVars += `${item["type"]} '${item["name"]}': ${item["value"]}\n`;
-                });
-                this.setState({
-                    output: allVars,
-                    error: ""
-                });
-            } else {
-                this.setState({
-                    error: result['error'],
-                    output: ""
-                });
-            }
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
+            .then((result) => {
+                if (Array.isArray(result)) {
+                    let vars = result;
+                    let allVars = "";
+                    vars.forEach((item) => {
+                        allVars += `${item["type"]} '${item["name"]}': ${item["value"]}\n`;
+                    });
+                    this.setState({
+                        output: allVars,
+                        error: ""
+                    });
+                } else {
+                    this.setState({
+                        error: result['error'],
+                        output: ""
+                    });
+                }
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
     }
 
     setError = (errorMessage) => {
@@ -123,7 +128,7 @@ class ShowAlgoPage extends Component {
 
     handleVisualSwitch = () => {
         this.setState((currState) => {
-            const {isVisual} = currState;
+            const { isVisual } = currState;
             return {
                 isVisual: !isVisual
             }
@@ -146,7 +151,16 @@ class ShowAlgoPage extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    algo: getUserAlgoState(state)
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    getAlgo,
+}, dispatch);
+
 export default compose(
     withAlgoBridgeService(),
     withLoading(),
+    connect(mapStateToProps, mapDispatchToProps),
 )(ShowAlgoPage);
