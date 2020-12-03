@@ -10,7 +10,7 @@ import PageTitle from "../../page-title";
 import TextareaField from '../../gui/textarea-field';
 import TextField from '../../gui/text-field';
 import VisualizeIDEContainer from '../../../containers/visualize-ide';
-import { getUserAlgoState } from '../../../selectors';
+import { getUserAlgoState, isLoadingAlgoState } from '../../../selectors';
 import { getAlgo } from '../../../actions';
 
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
@@ -36,64 +36,6 @@ class ShowAlgoPage extends Component {
         this.props.getAlgo(this.algoId);
     }
 
-    _loadsUserAlgo() {
-        const { algoBridgeService, swapLoading } = this.props;
-        swapLoading(true);
-        algoBridgeService.userAlgo(this.algoId)
-            .then((algo) => {
-                this.setState({
-                    title: algo.title,
-                    description: algo.description,
-                    operations: JSON.parse(algo.implementation)
-                });
-                swapLoading(false);
-            });
-    }
-
-    render() {
-        const { error, output, outputRef, isVisual } = this.state;
-        const { algo } = this.props;
-
-        const operations = algo ? algo.operations : [{ type: operationTypes.EMPTY, parameter: {} }];
-        const visualText = isVisual ? 'Visualize off' : 'Visualize on';
-        const manageAlgoButtonsGroup = (
-            <ButtonGroup buttons={[
-                <Button key='run' action={() => this.handleRunImplementation(operations)}>Run</Button>,
-                <Button key='visual' action={() => this.handleVisualSwitch()}>
-                    {visualText}
-                </Button>
-            ]} />
-        );
-
-        return (
-            <div style={{
-                width: '60%',
-                margin: 'auto',
-            }}>
-                <PageTitle>
-                    Show the algorithm (<Link to={`/algo/${this.algoId}/edit`}>Edit</Link>)
-                </PageTitle>
-
-                <TextField label='Title of the algorithm'
-                    value={algo ? algo.title : ''} readOnly />
-                <TextareaField label='Short description' value={algo ? algo.description : ''} readOnly />
-
-                <div style={{ paddingBottom: '10px' }}>Implementation</div>
-                <AlgoEditor operations={operations} readOnly />
-
-                {manageAlgoButtonsGroup}
-                <TextareaField label='Errors' readOnly value={error} />
-                <TextareaField label='Output' readOnly value={output} refValue={outputRef} />
-
-                <VisualizeIDEContainer
-                    isShow={this.state.isVisual}
-                    operations={operations}
-                    activateEndOfVisualize={(resultState) => this.activateEndOfVisualize(resultState)}
-                    setError={(errorMessage) => this.setError(errorMessage)}
-                />
-            </div>
-        )
-    }
 
     handleRunImplementation = (operations) => {
         const { algoBridgeService } = this.props;
@@ -149,10 +91,57 @@ class ShowAlgoPage extends Component {
             });
         });
     }
+
+    render() {
+        const { error, output, outputRef, isVisual } = this.state;
+        const { algo, swapLoading, isLoading } = this.props;
+        swapLoading(isLoading);
+
+        const operations = algo ? algo.implementation : [{ type: operationTypes.EMPTY, parameter: {} }];
+        const visualText = isVisual ? 'Visualize off' : 'Visualize on';
+        const manageAlgoButtonsGroup = (
+            <ButtonGroup buttons={[
+                <Button key='run' action={() => this.handleRunImplementation(operations)}>Run</Button>,
+                <Button key='visual' action={() => this.handleVisualSwitch()}>
+                    {visualText}
+                </Button>
+            ]} />
+        );
+
+        return (
+            <div style={{
+                width: '60%',
+                margin: 'auto',
+            }}>
+                <PageTitle>
+                    Show the algorithm (<Link to={`/algo/${this.algoId}/edit`}>Edit</Link>)
+                </PageTitle>
+
+                <TextField label='Title of the algorithm'
+                    value={algo ? algo.title : ''} readOnly />
+                <TextareaField label='Short description' value={algo ? algo.description : ''} readOnly />
+
+                <div style={{ paddingBottom: '10px' }}>Implementation</div>
+                <AlgoEditor operations={operations} readOnly />
+
+                {manageAlgoButtonsGroup}
+                <TextareaField label='Errors' readOnly value={error} />
+                <TextareaField label='Output' readOnly value={output} refValue={outputRef} />
+
+                {/* <VisualizeIDEContainer
+                    isShow={this.state.isVisual}
+                    operations={operations}
+                    activateEndOfVisualize={(resultState) => this.activateEndOfVisualize(resultState)}
+                    setError={(errorMessage) => this.setError(errorMessage)}
+                /> */}
+            </div>
+        )
+    }
 }
 
 const mapStateToProps = (state) => ({
-    algo: getUserAlgoState(state)
+    algo: getUserAlgoState(state),
+    isLoading: isLoadingAlgoState(state)
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

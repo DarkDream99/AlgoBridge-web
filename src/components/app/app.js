@@ -29,37 +29,44 @@ class App extends Component {
         }
     }
 
-    render = () => {
-        const header = this._makeHeader();
-        const routings = this._makeRoutings();
+    logIn = (authToken, activeUser) => {
+        window.localStorage.setItem('authToken', authToken);
+        window.localStorage.setItem('activeUser', JSON.stringify(activeUser));
 
-        return (
-            <div className="app">
-                {header}
-                {routings}
-            </div>
-        );
+        this.setState({
+            isLogin: true,
+        });
     };
 
-    _makeHeader() {
+    logOut = () => {
+        this.setState({
+            isLogin: false,
+        }, () => {
+            window.localStorage.removeItem('authToken');
+            window.localStorage.removeItem('activeUser');
+            this.props.history.push('/');
+        });
+    };
+
+    makeHeader() {
         return (
             <Header
                 title="Algo Bridge"
                 isLogin={this.state.isLogin}
-                logout={() => this._logOut()}
+                logout={() => this.logOut()}
             />
         );
     }
 
-    _makeRoutings = () => {
+    makeRoutings = () => {
         return (
             <Switch>
                 <Route path='/' component={HomePage} exact />
                 <Route path='/login' exact>
-                    <LoginPage login={(authToken, activeUser) => this._logIn(authToken, activeUser)} />
+                    <LoginPage login={(authToken, activeUser) => this.logIn(authToken, activeUser)} />
                 </Route>
                 <Route path='/register' exact>
-                    <SignupPage login={(authToken, activeUser) => this._logIn(authToken, activeUser)} />
+                    <SignupPage login={(authToken, activeUser) => this.logIn(authToken, activeUser)} />
                 </Route>
                 <Route path='/logout' component={LogoutPage} exact />
 
@@ -74,23 +81,16 @@ class App extends Component {
         );
     }
 
-    _logIn = (authToken, activeUser) => {
-        window.localStorage.setItem('authToken', authToken);
-        window.localStorage.setItem('activeUser', JSON.stringify(activeUser));
+    render = () => {
+        const header = this.makeHeader();
+        const routings = this.makeRoutings();
 
-        this.setState({
-            isLogin: true,
-        });
-    };
-
-    _logOut = () => {
-        this.setState({
-            isLogin: false,
-        }, () => {
-            window.localStorage.removeItem('authToken');
-            window.localStorage.removeItem('activeUser');
-            this.props.history.push('/');
-        });
+        return (
+            <div className="app">
+                {header}
+                {routings}
+            </div>
+        );
     };
 }
 
