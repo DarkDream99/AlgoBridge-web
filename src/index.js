@@ -17,6 +17,7 @@ import {
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './store'
+import './styles/base.scss'
 
 
 const algoBridgeService = new AlgoBridgeService();

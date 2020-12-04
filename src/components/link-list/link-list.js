@@ -1,16 +1,16 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import './link-list.css';
+import './link-list.scss';
 
 
-const LinkList = ({links}) => {
+const LinkList = ({ links }) => {
     const linksCount = links.length;
     const linkList = links.map((link, idx) => {
-        const linkComponent = (<Link  to={link.href}>{link.label}</Link>);
+        const linkComponent = (<Link to={link.href}>{link.label}</Link>);
         let divider = null;
         if (idx + 1 !== linksCount) {
-            divider = '|';   
+            divider = '|';
         }
 
         return (

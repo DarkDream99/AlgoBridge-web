@@ -1,7 +1,9 @@
 .page-title {
   text-align: center;
-  margin-top: 30px;
+  padding-top: 30px;
   margin-bottom: 30px;
+  color: #27E67A;
+  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }
 
 /*# sourceMappingURL=page-title.css.map */

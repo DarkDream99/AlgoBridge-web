@@ -61,7 +61,7 @@ class App extends Component {
 
     makeRoutings = () => {
         return (
-            <div>
+            <div className='background'>
                 <Switch>
                     <Route path={pathes.BASE} component={HomePage} exact />
                     <Route path={pathes.LOGIN} exact>

@@ -19,7 +19,7 @@ const HomePage = ({ algoBridgeConstantsService }) => {
     return (
         <>
             {menu}
-            <div className='intro'>Hello on Algo Bridge</div>
+            <div className='intro full-screen-text'>Hello on Algo Bridge</div>
         </>
     );
 };
