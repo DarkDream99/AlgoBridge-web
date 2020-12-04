@@ -1,11 +1,11 @@
 import React from 'react';
-import {compose} from 'redux';
+import { compose } from 'redux';
 import withAlgoBridgeConstantsService from '../../hoc/with-algobridge-constants-service';
 import LinkList from '../../link-list';
 import './home-page.css';
 
 
-const HomePage = ({algoBridgeConstantsService}) => {
+const HomePage = ({ algoBridgeConstantsService }) => {
     let menu = null;
     const links = algoBridgeConstantsService.links;
     if (!window.localStorage.getItem('authToken')) {
@@ -19,7 +19,7 @@ const HomePage = ({algoBridgeConstantsService}) => {
     return (
         <>
             {menu}
-            <div>Hello on Algo Bridge</div>
+            <div className='intro'>Hello on Algo Bridge</div>
         </>
     );
 };

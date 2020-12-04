@@ -1,6 +1,6 @@
-import {compose} from 'redux';
-import React, {Component} from 'react';
-import {Route, Switch, withRouter} from 'react-router-dom';
+import { compose } from 'redux';
+import React, { Component } from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import AuthRedirect from "../../containers/auth-redirect";
 import Header from '../header';
@@ -13,6 +13,7 @@ import EditAlgoPage from "../pages/edit-algo";
 import SignupPage from '../../components/pages/signup';
 import UserAlgosPage from '../../components/pages/user-algos';
 import UserHome from '../pages/user-home';
+import pathes from '../../constants/pathes';
 
 import './app.scss';
 
@@ -60,24 +61,26 @@ class App extends Component {
 
     makeRoutings = () => {
         return (
-            <Switch>
-                <Route path='/' component={HomePage} exact />
-                <Route path='/login' exact>
-                    <LoginPage login={(authToken, activeUser) => this.logIn(authToken, activeUser)} />
-                </Route>
-                <Route path='/register' exact>
-                    <SignupPage login={(authToken, activeUser) => this.logIn(authToken, activeUser)} />
-                </Route>
-                <Route path='/logout' component={LogoutPage} exact />
+            <div>
+                <Switch>
+                    <Route path={pathes.BASE} component={HomePage} exact />
+                    <Route path={pathes.LOGIN} exact>
+                        <LoginPage login={(authToken, activeUser) => this.logIn(authToken, activeUser)} />
+                    </Route>
+                    <Route path={pathes.REGISTER} exact>
+                        <SignupPage login={(authToken, activeUser) => this.logIn(authToken, activeUser)} />
+                    </Route>
+                    <Route path={pathes.LOGOUT} component={LogoutPage} exact />
 
-                <AuthRedirect>
-                    <Route path='/user-home' component={UserHome} exact />
-                    <Route path='/user-algos' component={UserAlgosPage} exact />
-                    <Route path='/algo/new' component={NewAlgoPage} exact />
-                    <Route path='/algo/:id/edit' component={EditAlgoPage} exact />
-                    <Route path='/algo/:id/show' component={ShowAlgoPage} exact />
-                </AuthRedirect>
-            </Switch>
+                    <AuthRedirect>
+                        <Route path={pathes.USER_HOME} component={UserHome} exact />
+                        <Route path={pathes.USER_ALGORITHMS} component={UserAlgosPage} exact />
+                        <Route path={pathes.SHOW_ALGORITHM} component={ShowAlgoPage} exact />
+                        <Route path='/algo/:id/edit' component={EditAlgoPage} exact />
+                        <Route path='/algo/:id/show' component={ShowAlgoPage} exact />
+                    </AuthRedirect>
+                </Switch>
+            </div>
         );
     }
 

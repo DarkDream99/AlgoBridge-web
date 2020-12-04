@@ -10,8 +10,8 @@ import PageTitle from "../../page-title";
 import TextareaField from '../../gui/textarea-field';
 import TextField from '../../gui/text-field';
 import VisualizeIDEContainer from '../../../containers/visualize-ide';
-import { getUserAlgoState, isLoadingAlgoState } from '../../../selectors';
-import { getAlgo } from '../../../actions';
+import { getUserAlgoState, isLoadingAlgoState, getSelectedAlgoState } from '../../../selectors';
+import { fetchAlgo } from '../../../actions';
 
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
 import withLoading from '../../../components/hoc/with-loading';
@@ -22,7 +22,6 @@ class ShowAlgoPage extends Component {
 
     constructor(props) {
         super(props);
-        this.algoId = props.match.params.id;
 
         this.state = {
             outputRef: React.createRef(),
@@ -33,7 +32,9 @@ class ShowAlgoPage extends Component {
     }
 
     componentDidMount() {
-        this.props.getAlgo(this.algoId);
+        const { selectedAlgo } = this.props;
+        if (selectedAlgo)
+            this.props.fetchAlgo(selectedAlgo.id);
     }
 
 
@@ -114,7 +115,7 @@ class ShowAlgoPage extends Component {
                 margin: 'auto',
             }}>
                 <PageTitle>
-                    Show the algorithm (<Link to={`/algo/${this.algoId}/edit`}>Edit</Link>)
+                    Show the algorithm (<Link to={`/algo`}>Edit</Link>)
                 </PageTitle>
 
                 <TextField label='Title of the algorithm'
@@ -141,11 +142,12 @@ class ShowAlgoPage extends Component {
 
 const mapStateToProps = (state) => ({
     algo: getUserAlgoState(state),
-    isLoading: isLoadingAlgoState(state)
+    isLoading: isLoadingAlgoState(state),
+    selectedAlgo: getSelectedAlgoState(state)
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    getAlgo,
+    fetchAlgo,
 }, dispatch);
 
 export default compose(

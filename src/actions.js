@@ -14,7 +14,7 @@ const getHeader = () => {
 
 export const createAlgo = (algoObj) => (dispatch) => {
     dispatch({ type: types.CREATE_ALGORITHM_REQUEST });
-    axios.post(urls.CREATE_ALGORITHM, algoObj, getHeader())
+    axios.post(urls.ALGORITHMS, algoObj, getHeader())
         .then((res) => {
             dispatch({
                 type: types.CREATE_ALGORITHM_SUCCESS,
@@ -28,9 +28,9 @@ export const createAlgo = (algoObj) => (dispatch) => {
         });
 }
 
-export const getAlgo = (algoId) => (dispatch) => {
+export const fetchAlgo = (algoId) => (dispatch) => {
     dispatch({ type: types.GET_ALGORITHM_REQUEST });
-    axios.get(urls.GET_ALGORITHM + `${algoId}/`, getHeader())
+    axios.get(urls.ALGORITHMS + `${algoId}/`, getHeader())
         .then((res) => {
             dispatch({
                 type: types.GET_ALGORITHM_SUCCESS,
@@ -39,6 +39,26 @@ export const getAlgo = (algoId) => (dispatch) => {
         }).catch((error) => {
             dispatch({
                 type: types.GET_ALGORITHM_FAIL,
+                payload: error
+            });
+        });
+}
+
+export const selectAlgoInList = (algoId) => (dispatch) => {
+    dispatch({ type: types.SELECT_ALGORITHM_IN_LIST, payload: algoId });
+}
+
+export const fetchAlgos = () => (dispatch) => {
+    dispatch({ type: types.GET_ALGORITHMS_REQUEST });
+    axios.get(urls.ALGORITHMS, getHeader())
+        .then((res) => {
+            dispatch({
+                type: types.GET_ALGORITHMS_SUCCESS,
+                payload: res.data,
+            });
+        }).catch((error) => {
+            dispatch({
+                type: types.GET_ALGORITHMS_FAIL,
                 payload: error
             });
         });
