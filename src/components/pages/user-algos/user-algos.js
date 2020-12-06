@@ -5,6 +5,10 @@ import { connect } from 'react-redux';
 import withAlgoBridgeService from '../../hoc/with-algobridge-service';
 import withLoading from '../../hoc/with-loading';
 import { withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons"
+import Button from "../../gui/button";
+import ButtonGroup from "../../gui/button-group";
 
 import AlgoSpinner from '../../spinner';
 import PageTitle from '../../page-title';
@@ -48,12 +52,27 @@ class UserAlgosPage extends Component {
         });
     }
 
+    createNewAlgo = () => {
+        const { history, selectAlgoInList } = this.props;
+        selectAlgoInList(null);
+        history.push(pathes.SHOW_ALGORITHM)
+    }
+
+    renderHeaderButtons = () => {
+        return (
+            <ButtonGroup className="button-group-left-space" buttons={[
+                <Button key="btn-header-1" action={this.createNewAlgo}>
+                    <FontAwesomeIcon icon={faPlus} />
+                </Button>
+            ]} />)
+    }
+
     render() {
         const algosTable = this.getAlgosTable();
 
         return (
             <div className='container'>
-                <PageTitle>My algos</PageTitle>
+                <PageTitle rightElements={this.renderHeaderButtons()}>My algos</PageTitle>
                 {algosTable}
             </div>
         );

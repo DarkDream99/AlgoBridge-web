@@ -31,7 +31,8 @@ const reducer = (state = initialState, action) => {
         }
         case types.SELECT_ALGORITHM_IN_LIST: {
             const selected = state.getIn(["algos"]).find((a) => a.id === action.payload);
-            return state.setIn(["selectedAlgo"], selected);
+            const mapped = selected ? { ...selected, implementation: JSON.parse(selected.implementation), } : null;
+            return state.setIn(["selectedAlgo"], mapped);
         }
         case types.GET_ALGORITHMS_REQUEST: {
             return state.setIn(["isLoading", "algos"], true);

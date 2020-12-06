@@ -6,7 +6,7 @@ import './text-field.scss';
 class TextField extends Component {
     render() {
         const {
-            label, placeholder, refValue = null, value = '', classes = '', readOnly = false
+            label, placeholder, refValue = null, value = '', classes = '', readOnly = false, onChange = null,
         } = this.props;
 
         let topLabel = '';
@@ -15,7 +15,7 @@ class TextField extends Component {
         }
 
         return (
-            <div style={{ paddingBottom: '20px' }}>
+            <div style={{ paddingBottom: '1.5%' }}>
                 {topLabel}
                 <input type='text'
                        defaultValue={value}
@@ -23,6 +23,7 @@ class TextField extends Component {
                        className={classes}
                        ref={refValue}
                        readOnly={readOnly}
+                       onChange={onChange}
                 />
             </div>
         )

@@ -3,7 +3,7 @@ import React from 'react';
 import './button.scss'
 
 
-const Button = ({children, action=() => {}, classes=""}) => {
+const Button = ({ children, action = () => { }, classes = "" }) => {
     const handleClick = (event) => {
         event.preventDefault();
         action();

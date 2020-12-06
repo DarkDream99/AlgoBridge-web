@@ -7,9 +7,7 @@ import Header from '../header';
 import HomePage from '../pages/home';
 import LoginPage from '../../components/pages/login/login-page';
 import LogoutPage from '../pages/logout';
-import NewAlgoPage from "../pages/new-algo";
 import ShowAlgoPage from "../pages/show-algo";
-import EditAlgoPage from "../pages/edit-algo";
 import SignupPage from '../../components/pages/signup';
 import UserAlgosPage from '../../components/pages/user-algos';
 import UserHome from '../pages/user-home';
@@ -76,8 +74,6 @@ class App extends Component {
                         <Route path={pathes.USER_HOME} component={UserHome} exact />
                         <Route path={pathes.USER_ALGORITHMS} component={UserAlgosPage} exact />
                         <Route path={pathes.SHOW_ALGORITHM} component={ShowAlgoPage} exact />
-                        <Route path='/algo/:id/edit' component={EditAlgoPage} exact />
-                        <Route path='/algo/:id/show' component={ShowAlgoPage} exact />
                     </AuthRedirect>
                 </Switch>
             </div>

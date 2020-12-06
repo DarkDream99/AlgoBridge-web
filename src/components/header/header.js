@@ -45,9 +45,6 @@ class Header extends Component {
                 <Link to={links.userAlgos.href} className="link">
                     {links.userAlgos.label}
                 </Link>
-                <Link to={links.createNewAlgo.href} className="link">
-                    {links.createNewAlgo.label}
-                </Link>
                 <Link to={''}
                       className="link right-position"
                       onClick={(event) => {event.preventDefault(); logout()}}

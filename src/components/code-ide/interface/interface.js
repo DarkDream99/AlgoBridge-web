@@ -65,7 +65,7 @@ class CodeInterface extends Component {
         const {operationTypes} = this.state;
 
         operationTypes.forEach((item) => {
-            let group = item.category.display_name;
+            let group = item.category;
             if (!Object.prototype.hasOwnProperty.call(operationGroups, group)) {
                 operationGroups[group] = {values: [], actions: []}
             }

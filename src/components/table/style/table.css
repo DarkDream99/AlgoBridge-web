@@ -1,5 +1,6 @@
 .table .clickable {
   cursor: pointer;
+  color: white;
 }
 .table tbody tr:hover {
   background-color: #e1dcdcb0;
