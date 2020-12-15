@@ -3,7 +3,7 @@ import React from 'react';
 import './button-group.scss'
 
 
-const ButtonGroup = ({ className, buttons}) => {
+const ButtonGroup = ({ className = null, buttons}) => {
     return (
         <div className={className ? className : "button-group"}>
             {buttons}

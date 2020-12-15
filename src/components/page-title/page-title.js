@@ -2,7 +2,7 @@ import React from 'react';
 import './page-title.css';
 
 
-const PageTitle = ({leftElements, children, rightElements}) => {
+const PageTitle = ({leftElements = null, children, rightElements = null}) => {
     return (
         <div className="page-title">
             <div className="page-title-element">{leftElements}</div>

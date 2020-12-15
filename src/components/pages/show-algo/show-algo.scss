@@ -1,0 +1,13 @@
+.algo-container{
+    margin: 0% 10%;
+
+    .output{
+        display: flex;
+        justify-content: space-between;
+    
+        .element{
+            width: 47%;
+            padding: 1.5% 0%;
+        }
+    }
+}

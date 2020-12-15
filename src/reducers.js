@@ -21,17 +21,12 @@ const reducer = (state = initialState, action) => {
             return state.setIn(["isLoading", "algo"], true);
         }
         case types.GET_ALGORITHM_SUCCESS: {
-            const data = action.payload;
-            const result = {
-                ...data,
-                implementation: JSON.parse(data.implementation),
-            };
             return state.setIn(["isLoading", "algo"], false)
-                .setIn(["algo"], result);
+                .setIn(["algo"], action.payload);
         }
         case types.SELECT_ALGORITHM_IN_LIST: {
             const selected = state.getIn(["algos"]).find((a) => a.id === action.payload);
-            const mapped = selected ? { ...selected, implementation: JSON.parse(selected.implementation), } : null;
+            const mapped = selected ? { ...selected, implementation: selected.code } : null;
             return state.setIn(["selectedAlgo"], mapped);
         }
         case types.GET_ALGORITHMS_REQUEST: {
@@ -41,6 +36,20 @@ const reducer = (state = initialState, action) => {
             const data = action.payload;
             return state.setIn(["isLoading", "algos"], false)
                 .setIn(["algos"], data);
+        }
+        case types.EDIT_ALGORITHM_REQUEST: {
+            return state.setIn(["isLoading", "algo"], true);
+        }
+        case types.EDIT_ALGORITHM_SUCCESS: {
+            const data = action.payload;
+            return state.setIn(["isLoading", "algo"], false)
+                .setIn(["selectedAlgo"], data);
+        }
+        case types.DELETE_ALGORITM_REQUEST: {
+            return state.setIn(["isLoading", "algo"], true);
+        }
+        case types.DELETE_ALGORITM_SUCCESS: {
+            return state.setIn(["selectedAlgo"], null);
         }
 
         default: {

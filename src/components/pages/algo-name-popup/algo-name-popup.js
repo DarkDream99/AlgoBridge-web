@@ -6,7 +6,7 @@ import Button from '../../gui/button';
 import ButtonGroup from '../../gui/button-group';
 import { useState, useEffect } from 'react';
 
-const AlgoNamePopup = ({ algo, readOnly, close, submit }) => {
+const AlgoNamePopup = ({ algo, readOnly, close, submit, isCreation = false }) => {
     const [title, setTitle] = useState(algo.title);
     const [description, setDescription] = useState(algo.description);
 
@@ -41,7 +41,11 @@ const AlgoNamePopup = ({ algo, readOnly, close, submit }) => {
 
         let buttons = [closeButton];
         if (!readOnly) {
-            buttons = [...buttons, declineButton, acceptButton];
+            if (!isCreation) {
+                buttons = [...buttons, declineButton];
+            }
+            
+            buttons = [...buttons, acceptButton];
         }
 
         return (<ButtonGroup className="button-group-right-space" buttons={buttons} />)

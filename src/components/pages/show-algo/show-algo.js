@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { compose, bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faCog, faInfo } from "@fortawesome/free-solid-svg-icons"
@@ -10,10 +9,15 @@ import Button from "../../gui/button";
 import ButtonGroup from "../../gui/button-group";
 import PageTitle from "../../page-title";
 import TextareaField from '../../gui/textarea-field';
-import TextField from '../../gui/text-field';
 import VisualizeIDEContainer from '../../../containers/visualize-ide';
-import { getUserAlgoState, isLoadingAlgoState, getSelectedAlgoState } from '../../../selectors';
-import { fetchAlgo, selectAlgoInList } from '../../../actions';
+import { isLoadingAlgoState, getSelectedAlgoState } from '../../../selectors';
+import {
+    fetchAlgo,
+    selectAlgoInList,
+    createAlgo,
+    updateAlgo,
+    deleteAlgo,
+} from '../../../actions';
 import pathes from '../../../constants/pathes';
 
 import withAlgoBridgeService from '../../../components/hoc/with-algobridge-service';
@@ -101,29 +105,47 @@ class ShowAlgoPage extends Component {
 
     backToAlgosList = () => {
         const { history } = this.props;
-        history.push(pathes.USER_ALGORITHMS)
+        history.push(pathes.USER_ALGORITHMS);
     }
 
     changeAlgoName = (name, description) => {
-        const { algo } = this.state;
+        const { algo, isNewAlgo } = this.state;
         this.setState({
             algo: { ...algo, title: name, description }
         });
+
+        if (isNewAlgo) {
+            this.saveAlgo();
+        }
     }
 
     syncOperations = (operations) => {
         const { algo } = this.state;
         this.setState({
-            algo: { ...algo, operations }
+            algo: { ...algo, implementation: operations }
         });
     }
 
     handleCreateAlgo = () => {
-
+        const { isNewAlgo } = this.state;
+        if (isNewAlgo) {
+            this.setState({ isOpenedPopup: true });
+        } else {
+            this.saveAlgo();
+        }
     }
 
     handleDeleteAlgo = () => {
+        const { deleteAlgo, history } = this.props;
+        deleteAlgo(this.state.algo.id);
+        history.push(pathes.USER_ALGORITHMS);
+    }
 
+    saveAlgo = () => {
+        const { algo } = this.state;
+        const { deleteAlgo } = this.props;
+        deleteAlgo(algo.id, algo);
+        this.setState({ isEditMode: false });
     }
 
     renderHeaderButtons = () => {
@@ -198,32 +220,40 @@ class ShowAlgoPage extends Component {
     }
 
     render() {
-        const { error, output, outputRef, isEditMode, algo } = this.state;
+        const { error, output, outputRef, isEditMode, algo, isNewAlgo } = this.state;
         const operations = algo ? algo.implementation : [{ type: operationTypes.EMPTY, parameter: {} }];
 
         return (
-            <div>
+            <div className="algo-container">
                 <PageTitle leftElements={this.renderHeaderButtons()}>
                     {algo ? algo.title : 'Create algorithm'}
                 </PageTitle>
 
-                <div style={{ paddingBottom: '10px' }}>Implementation</div>
-                <AlgoEditor operations={operations}
-                    syncOperations={(operations) => this.syncOperations(operations)} readOnly={!isEditMode} />
-
                 {this.renderManageButtons()}
-                <TextareaField label='Errors' readOnly value={error} />
-                <TextareaField label='Output' readOnly value={output} refValue={outputRef} />
+                <div className="implementation">
+                    <div style={{ paddingBottom: '10px' }}>Implementation</div>
+                    <AlgoEditor operations={operations}
+                        syncOperations={(operations) => this.syncOperations(operations)} readOnly={!isEditMode} />
 
-                <VisualizeIDEContainer
-                    isShow={this.state.isVisual}
-                    operations={operations}
-                    activateEndOfVisualize={(resultState) => this.activateEndOfVisualize(resultState)}
-                    setError={(errorMessage) => this.setError(errorMessage)}
-                />
+                    <VisualizeIDEContainer
+                        isShow={this.state.isVisual}
+                        operations={operations}
+                        activateEndOfVisualize={(resultState) => this.activateEndOfVisualize(resultState)}
+                        setError={(errorMessage) => this.setError(errorMessage)}
+                    />
+                </div>
+                <div className="output">
+                    <div className="element">
+                        <TextareaField label='Errors' readOnly value={error} />
+                    </div>
+                    <div className="element">
+                        <TextareaField label='Output' readOnly value={output} refValue={outputRef} />
+                    </div>
+                </div>
 
                 {this.state.isOpenedPopup
                     ? <AlgoNamePopup
+                        isCreation={isNewAlgo}
                         readOnly={!isEditMode}
                         algo={algo}
                         close={() => this.setState({ isOpenedPopup: false })}
@@ -237,7 +267,6 @@ class ShowAlgoPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    algo: getUserAlgoState(state),
     isLoading: isLoadingAlgoState(state),
     selectedAlgo: getSelectedAlgoState(state)
 });
@@ -245,6 +274,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchAlgo,
     selectAlgoInList,
+    createAlgo,
+    updateAlgo,
+    deleteAlgo
 }, dispatch);
 
 export default compose(

@@ -44,6 +44,38 @@ export const fetchAlgo = (algoId) => (dispatch) => {
         });
 }
 
+export const updateAlgo = (algoObj) => (dispatch) => {
+    dispatch({ type: types.EDIT_ALGORITHM_REQUEST });
+    axios.post(urls.ALGORITHMS, algoObj, getHeader())
+        .then((res) => {
+            dispatch({
+                type: types.EDIT_ALGORITHM_SUCCESS,
+                payload: res.data,
+            });
+        }).catch((error) => {
+            dispatch({
+                type: types.EDIT_ALGORITHM_FAIL,
+                payload: error
+            });
+        });
+}
+
+export const deleteAlgo = (id) => (dispatch) => {
+    dispatch({ type: types.DELETE_ALGORITM_REQUEST });
+    axios.delete(urls.ALGORITHMS, id, getHeader())
+        .then((res) => {
+            dispatch({
+                type: types.DELETE_ALGORITM_SUCCESS,
+                payload: res.data,
+            });
+        }).catch((error) => {
+            dispatch({
+                type: types.DELETE_ALGORITM_FAIL,
+                payload: error
+            });
+        });
+}
+
 export const selectAlgoInList = (algoId) => (dispatch) => {
     dispatch({ type: types.SELECT_ALGORITHM_IN_LIST, payload: algoId });
 }
