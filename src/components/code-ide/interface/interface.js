@@ -167,6 +167,15 @@ class CodeInterface extends Component {
                 });
                 break;
 
+            case OperationTypes.ARRAY:
+                this.setState({
+                    inputType: operationType,
+                    showInputField: true,
+                    inputLabel: "Enter array length:",
+                    inputError: "",
+                });
+                break;
+
             default:
                 this.setState({
                     ...emptyInput,
@@ -184,6 +193,9 @@ class CodeInterface extends Component {
                 break;
             case OperationTypes.VARIABLE:
                 isValid = isValidVariable(value);
+                break;
+            case OperationTypes.ARRAY:
+                isValid = isValidNumber(value);
                 break;
             default:
                 break;
@@ -210,8 +222,10 @@ class CodeInterface extends Component {
         let builtOperation = new Operation(operationType.name);
         let parameter = {};
 
-        if (operationType.is_primitive) {
-            parameter[operationType.parameters[0]] = value;
+        if (operationType.category == 'Primitive') {
+            parameter = operationType.parameters;
+            const object = Reflect.ownKeys(parameter)[0];
+            parameter[object] = value;
         } else {
             for (let parameterKey in operationType.parameters) {
                 let parameterName = operationType.parameters[parameterKey]

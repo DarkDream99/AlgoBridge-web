@@ -44,9 +44,9 @@ export const fetchAlgo = (algoId) => (dispatch) => {
         });
 }
 
-export const updateAlgo = (algoObj) => (dispatch) => {
+export const updateAlgo = (id, algoObj) => (dispatch) => {
     dispatch({ type: types.EDIT_ALGORITHM_REQUEST });
-    axios.post(urls.ALGORITHMS, algoObj, getHeader())
+    axios.put(urls.ALGORITHMS + id, algoObj, getHeader())
         .then((res) => {
             dispatch({
                 type: types.EDIT_ALGORITHM_SUCCESS,
@@ -62,11 +62,11 @@ export const updateAlgo = (algoObj) => (dispatch) => {
 
 export const deleteAlgo = (id) => (dispatch) => {
     dispatch({ type: types.DELETE_ALGORITM_REQUEST });
-    axios.delete(urls.ALGORITHMS, id, getHeader())
+    axios.delete(urls.ALGORITHMS + id, getHeader())
         .then((res) => {
             dispatch({
                 type: types.DELETE_ALGORITM_SUCCESS,
-                payload: res.data,
+                payload: { ...res.data, id},
             });
         }).catch((error) => {
             dispatch({
