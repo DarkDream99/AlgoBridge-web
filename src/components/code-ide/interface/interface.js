@@ -65,7 +65,7 @@ class CodeInterface extends Component {
         const {operationTypes} = this.state;
 
         operationTypes.forEach((item) => {
-            let group = item.category.display_name;
+            let group = item.category;
             if (!Object.prototype.hasOwnProperty.call(operationGroups, group)) {
                 operationGroups[group] = {values: [], actions: []}
             }
@@ -210,8 +210,12 @@ class CodeInterface extends Component {
         let builtOperation = new Operation(operationType.name);
         let parameter = {};
 
-        if (operationType.is_primitive) {
-            parameter[operationType.parameters[0]] = value;
+        // is primitive
+        // TODO should be refactored
+        if (operationType.name == 'variable' || operationType.name == 'number') {
+            for (const paramName in operationType.parameters) {
+                parameter[paramName] = value;
+            }
         } else {
             for (let parameterKey in operationType.parameters) {
                 let parameterName = operationType.parameters[parameterKey]
