@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faCog, faInfo } from "@fortawesome/free-solid-svg-icons"
+import { faAngleLeft, faCog, faPen } from "@fortawesome/free-solid-svg-icons"
 
 import AlgoEditor from "../../code-ide/algoeditor";
 import Button from "../../gui/button";
@@ -110,12 +110,15 @@ class ShowAlgoPage extends Component {
 
     changeAlgoName = (name, description) => {
         const { algo, isNewAlgo } = this.state;
+        const updatedAlgo = { ...algo, title: name, description };
         this.setState({
-            algo: { ...algo, title: name, description }
+            algo: updatedAlgo
         });
 
+        const mappedAlgo = { ...updatedAlgo, implementation: JSON.stringify(updatedAlgo.implementation) };
+
         if (isNewAlgo) {
-            this.saveAlgo();
+            this.saveAlgo(mappedAlgo, true);
         }
     }
 
@@ -127,11 +130,11 @@ class ShowAlgoPage extends Component {
     }
 
     handleCreateAlgo = () => {
-        const { isNewAlgo } = this.state;
+        const { isNewAlgo, algo } = this.state;
         if (isNewAlgo) {
             this.setState({ isOpenedPopup: true });
         } else {
-            this.saveAlgo();
+            this.saveAlgo(algo, false);
         }
     }
 
@@ -141,10 +144,15 @@ class ShowAlgoPage extends Component {
         history.push(pathes.USER_ALGORITHMS);
     }
 
-    saveAlgo = () => {
-        const { algo } = this.state;
-        const { deleteAlgo } = this.props;
-        deleteAlgo(algo.id, algo);
+    saveAlgo = (algo, isNew) => {
+        const { createAlgo, updateAlgo } = this.props;
+        const newAlgo = { ...algo, implementation: JSON.stringify(algo.implementation) };
+        if (isNew) {
+            createAlgo(newAlgo);
+        } else {
+            updateAlgo(algo.id, newAlgo);
+        }
+
         this.setState({ isEditMode: false });
     }
 
@@ -158,7 +166,7 @@ class ShowAlgoPage extends Component {
         );
         const infoButton = (
             <Button key="btn-header-2" action={() => this.setState({ isOpenedPopup: true })}>
-                <FontAwesomeIcon icon={faInfo} />
+                <FontAwesomeIcon icon={faPen} />
             </Button>
         );
         const editButton = (

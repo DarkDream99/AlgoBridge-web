@@ -66,7 +66,7 @@ export const deleteAlgo = (id) => (dispatch) => {
         .then((res) => {
             dispatch({
                 type: types.DELETE_ALGORITM_SUCCESS,
-                payload: { ...res.data, id},
+                payload: { ...res.data, id },
             });
         }).catch((error) => {
             dispatch({
