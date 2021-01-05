@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {compose} from 'redux';
+import React, { Component } from "react";
+import { compose } from 'redux';
 
 import GroupInterfaceItem from "./group-item";
-import Operation, {OperationTypes} from '../core';
+import Operation, { OperationTypes } from '../core';
 import InputField from '../operation-constructor/input-field';
-import {isValidVariable, isValidNumber} from '../../../validators';
+import { isValidVariable, isValidNumber } from '../../../validators';
 import withAlgoBridgeService from '../../hoc/with-algobridge-service';
 
 import "./interface.css";
@@ -12,7 +12,7 @@ import "./interface.css";
 
 class CodeInterface extends Component {
 
-    emptyOperand = {type: "empty", parameter: {}};
+    emptyOperand = { type: "empty", parameter: {} };
     state = {
         showInputField: false,
         showFunctionSelector: false,
@@ -24,11 +24,11 @@ class CodeInterface extends Component {
     };
 
     componentDidMount() {
-        const {algoBridgeService} = this.props;
+        const { algoBridgeService } = this.props;
 
         algoBridgeService.loadOperationTypes().then(
             (data) => {
-                this.setState({operationTypes: data})
+                this.setState({ operationTypes: data })
             }
         );
     }
@@ -45,7 +45,7 @@ class CodeInterface extends Component {
             ));
 
             return (
-                <div style={{display: 'flex'}}>
+                <div style={{ display: 'flex' }}>
                     <InputField
                         show={this.state.showInputField}
                         handleClose={() => this._onCloseInputField()}
@@ -62,12 +62,12 @@ class CodeInterface extends Component {
 
     _getOperationGroups() {
         let operationGroups = {};
-        const {operationTypes} = this.state;
+        const { operationTypes } = this.state;
 
         operationTypes.forEach((item) => {
             let group = item.category;
             if (!Object.prototype.hasOwnProperty.call(operationGroups, group)) {
-                operationGroups[group] = {values: [], actions: []}
+                operationGroups[group] = { values: [], actions: [] }
             }
             operationGroups[group].values.push(item.display_name);
             operationGroups[group].actions.push(() => this._onSelectOperation(item));
@@ -185,7 +185,7 @@ class CodeInterface extends Component {
         }
     }
 
-    _onSaveInputField = (operationType, value='') => {
+    _onSaveInputField = (operationType, value = '') => {
         let isValid = true;
         switch (operationType.name) {
             case OperationTypes.NUMBER:
@@ -202,12 +202,12 @@ class CodeInterface extends Component {
         }
 
         if (isValid) {
-            const {updateOperation} = this.props;
+            const { updateOperation } = this.props;
             let newOperation = this._buildOperationByType(operationType, value);
             updateOperation(newOperation);
             this._onCloseInputField();
         } else {
-            this.setState({inputError: "Incorrect value"});
+            this.setState({ inputError: "Incorrect value" });
         }
     }
 
@@ -222,10 +222,12 @@ class CodeInterface extends Component {
         let builtOperation = new Operation(operationType.name);
         let parameter = {};
 
-        if (operationType.category == 'Primitive') {
-            parameter = operationType.parameters;
-            const object = Reflect.ownKeys(parameter)[0];
-            parameter[object] = value;
+        // is primitive
+        // TODO should be refactored
+        if (operationType.name == 'variable' || operationType.name == 'number') {
+            for (const paramName in operationType.parameters) {
+                parameter[paramName] = value;
+            }
         } else {
             for (let parameterKey in operationType.parameters) {
                 let parameterName = operationType.parameters[parameterKey]
