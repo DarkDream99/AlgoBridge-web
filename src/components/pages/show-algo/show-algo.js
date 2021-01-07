@@ -115,10 +115,8 @@ class ShowAlgoPage extends Component {
             algo: updatedAlgo
         });
 
-        const mappedAlgo = { ...updatedAlgo, implementation: JSON.stringify(updatedAlgo.implementation) };
-
         if (isNewAlgo) {
-            this.saveAlgo(mappedAlgo, true);
+            this.saveAlgo(updatedAlgo, true);
         }
     }
 
@@ -238,17 +236,20 @@ class ShowAlgoPage extends Component {
                 </PageTitle>
 
                 {this.renderManageButtons()}
+                <div style={{ paddingBottom: '10px' }}>Implementation</div>
                 <div className="implementation">
-                    <div style={{ paddingBottom: '10px' }}>Implementation</div>
-                    <AlgoEditor operations={operations}
-                        syncOperations={(operations) => this.syncOperations(operations)} readOnly={!isEditMode} />
-
-                    <VisualizeIDEContainer
-                        isShow={this.state.isVisual}
-                        operations={operations}
-                        activateEndOfVisualize={(resultState) => this.activateEndOfVisualize(resultState)}
-                        setError={(errorMessage) => this.setError(errorMessage)}
-                    />
+                    <div className="element">
+                        <AlgoEditor operations={operations}
+                            syncOperations={(operations) => this.syncOperations(operations)} readOnly={!isEditMode} />
+                    </div>
+                    <div className="element">
+                        <VisualizeIDEContainer
+                            isShow={this.state.isVisual}
+                            operations={operations}
+                            activateEndOfVisualize={(resultState) => this.activateEndOfVisualize(resultState)}
+                            setError={(errorMessage) => this.setError(errorMessage)}
+                        />
+                    </div>
                 </div>
                 <div className="output">
                     <div className="element">

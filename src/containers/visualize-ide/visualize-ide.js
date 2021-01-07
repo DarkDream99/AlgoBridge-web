@@ -17,6 +17,21 @@ class VisualizeIDEContainer extends Component {
         }
     }
 
+    componentDidMount() {
+        const {algoBridgeService, operations, setError} = this.props;
+        algoBridgeService.runImplementation(operations, 'visual')
+            .then((response) => {
+                if (response['status'] === 400) {
+                    setError(response['error']);
+                } else {
+                    this.setState({
+                        visualOperations: response['visual_operations'],
+                        resultState: response['state']
+                    });
+                }
+            });
+    }
+
     componentDidUpdate(prevProps) {
         const {algoBridgeService, operations, isShow, setError} = this.props;
 
