@@ -242,6 +242,7 @@ class ShowAlgoPage extends Component {
                         <AlgoEditor operations={operations}
                             syncOperations={(operations) => this.syncOperations(operations)} readOnly={!isEditMode} />
                     </div>
+                    <div className="vertical-line" />
                     <div className="element">
                         <VisualizeIDEContainer
                             isShow={this.state.isVisual}
