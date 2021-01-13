@@ -14,7 +14,7 @@ export default class AlgoBridgeService {
             API_URL + LOGIN_URL,
             {
                 method: 'post',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(
                     {
                         username: username,
@@ -42,7 +42,7 @@ export default class AlgoBridgeService {
         });
     }
 
-    runImplementation = (operations, runType='standard') => {
+    runImplementation = (operations, runType = 'standard') => {
         let authToken = window.localStorage.getItem('authToken');
         let statusCode = 200;
         return fetch(
@@ -54,7 +54,7 @@ export default class AlgoBridgeService {
                     'Authorization': 'Token ' + authToken
                 },
                 body: JSON.stringify({
-                    'operations': JSON.stringify(operations),
+                    'operations': operations,
                     'type': runType
                 })
             }

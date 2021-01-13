@@ -20,7 +20,7 @@ const Visualizer = (props) => {
 
     return (
         <>
-            <div style={{ height: '120px', width: '1200px' }}>
+            <div style={{ height: '120px', width: '100%' }}>
                 <span style={{ display: 'flex', alignContent: 'center' }}>
                     {rowNumber}: &nbsp;
                     <Operation
@@ -28,7 +28,7 @@ const Visualizer = (props) => {
                         isDraggable={false}
                     />
                 </span>
-                <svg id={svgId} viewBox="0 0 600 100" style={ activeStyle } ref={borderRef}></svg>
+                <svg id={svgId} viewBox="0 0 200 100" style={ activeStyle } ref={borderRef}></svg>
             </div>
 
             <br/>

@@ -1,0 +1,35 @@
+.algo-container{
+    margin: 0% 10%;
+
+    .implementation{
+        display: flex;
+        justify-content: space-between;
+    
+        .vertical-line{
+            border-left: 4px solid whitesmoke;
+        }
+
+        .vertical-line:hover {
+            cursor: grab;
+        }
+
+        .vertical-line:active {
+            cursor: col-resize;
+        }
+
+        .element{
+            width: 49%;
+            padding: 1.5% 0%;
+        }
+    }
+
+    .output{
+        display: flex;
+        justify-content: space-between;
+    
+        .element{
+            width: 47%;
+            padding: 1.5% 0%;
+        }
+    }
+}

@@ -1,7 +1,7 @@
 import React from "react";
-import {Button, ButtonGroup, Col, Container, Row} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus, faTrash, faArrowUp, faArrowDown} from "@fortawesome/free-solid-svg-icons"
+import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTrash, faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons"
 import Number from "./number";
 import Operation from "../../operation";
 
@@ -11,7 +11,7 @@ import "./style/operation-row.css"
 
 const RowLine = (props) => {
     const {
-        number, operation, nest=0, handleAddRow, handleSelectRow,
+        number, operation, nest = 0, handleAddRow, handleSelectRow,
         handleRemoveRow, handleMoveRowUp, handleMoveRowDown, readOnly,
         handleChangeRowOperationFromDrag
     } = props;
@@ -24,7 +24,7 @@ const RowLine = (props) => {
     let navButtons = null;
     if (!readOnly) {
         navButtons = (
-            <Col xs={1} style={{ display: 'flex', alignItems: 'center' }}>
+            <Col xs={3} style={{ display: 'flex', alignItems: 'center' }}>
                 <ButtonGroup>
                     <Button onClick={() => handleAddRow()}>
                         <FontAwesomeIcon icon={faPlus} />
@@ -44,7 +44,7 @@ const RowLine = (props) => {
     }
 
     const dragStartHandler = (ev) => {
-        ev.dataTransfer.setData('text/plain', JSON.stringify({operation: operation, startRow: number}));
+        ev.dataTransfer.setData('text/plain', JSON.stringify({ operation: operation, startRow: number }));
     }
 
     const dragOverHandler = (ev) => {
@@ -84,11 +84,11 @@ const RowLine = (props) => {
     return (
         <Container>
             <Row className="operation-row">
-                <Col xs={1} style={{ display: 'flex', alignItems: 'center', paddingTop: '10px', paddingBottom: '10px'  }}>
-                    <Number value={number}/>
+                <Col xs={1} style={{ display: 'flex', alignItems: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
+                    <Number value={number} />
                 </Col>
                 <Col
-                    style={{display: 'flex'}}
+                    style={{ display: 'flex' }}
                     onClick={() => !readOnly && handleSelectRow()}
                 >
                     {operationRow}

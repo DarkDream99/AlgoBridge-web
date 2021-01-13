@@ -4,12 +4,12 @@ import {Button, Modal} from "react-bootstrap";
 
 class InputField extends Component {
     state = {
-        inputRef: React.createRef(),
+        text: ''
     };
 
     _handleSave() {
         const {handleSave} = this.props;
-        handleSave(this.state.inputRef.current.value.trim());
+        handleSave(this.state.text.trim());
     }
 
     render() {
@@ -26,7 +26,7 @@ class InputField extends Component {
                 <Modal.Body>
                     <div>{label}</div>
                     {errorField}
-                    <input type="text" ref={this.state.inputRef} />
+                    <input type="text" value={this.state.text} onChange={(event) => this.setState({text: event.target.value})} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

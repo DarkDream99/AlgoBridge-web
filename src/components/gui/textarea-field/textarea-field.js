@@ -5,7 +5,7 @@ import './textarea-field.scss';
 
 class TextareaField extends Component {
     render() {
-        const {label, refValue = null, value = '', rows = 5, readOnly = false, classes = ''} = this.props;
+        const {label, refValue = null, value = '', rows = 5, readOnly = false, classes = '', onChange = null} = this.props;
 
         let topLabel = '';
         if (label) {
@@ -13,9 +13,9 @@ class TextareaField extends Component {
         }
 
         return (
-            <div style={{paddingBottom: '20px'}}>
+            <div style={{paddingBottom: '1.5%'}}>
                 {topLabel}
-                <textarea readOnly={readOnly} className={classes} rows={rows} defaultValue={value} ref={refValue} />
+                <textarea readOnly={readOnly} className={classes} rows={rows} defaultValue={value} ref={refValue} onChange={onChange} />
             </div>
         )
     }

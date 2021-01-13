@@ -31,14 +31,10 @@ class AlgoEditor extends Component {
     }
 
     _makeOperationConstructor(operation) {
-        const selectedOperation = JSON.parse(
-            JSON.stringify(operation)
-        );
-
         return (
             <OperationConstructor
                 funcs={[]}
-                operation={selectedOperation}
+                operation={operation}
                 handleSaveOperation={(updatedOperation) => this.handleSaveRowOperation(updatedOperation)}
                 handleClose={() => this._handleUnselectRow()}
             />
