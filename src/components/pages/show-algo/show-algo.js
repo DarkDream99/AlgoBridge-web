@@ -129,6 +129,10 @@ class ShowAlgoPage extends Component {
 
     handleCreateAlgo = () => {
         const { isNewAlgo, algo } = this.state;
+        if (!algo || !algo.implementation) {
+            this.setError('Please, add implementation');
+            return;
+        }
         if (isNewAlgo) {
             this.setState({ isOpenedPopup: true });
         } else {

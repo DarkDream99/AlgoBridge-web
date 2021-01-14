@@ -7,8 +7,8 @@ import ButtonGroup from '../../gui/button-group';
 import { useState, useEffect } from 'react';
 
 const AlgoNamePopup = ({ algo, readOnly, close, submit, isCreation = false }) => {
-    const [title, setTitle] = useState(algo.title);
-    const [description, setDescription] = useState(algo.description);
+    const [title, setTitle] = useState(algo ? algo.title : '');
+    const [description, setDescription] = useState(algo ? algo.description : '');
 
     useEffect(() => {
         window.addEventListener('keydown', downKeyHandler);
@@ -44,7 +44,7 @@ const AlgoNamePopup = ({ algo, readOnly, close, submit, isCreation = false }) =>
             if (!isCreation) {
                 buttons = [...buttons, declineButton];
             }
-            
+
             buttons = [...buttons, acceptButton];
         }
 
