@@ -49,7 +49,7 @@ const reducer = (state = initialState, action) => {
             return state.setIn(["isLoading", "algo"], true);
         }
         case types.DELETE_ALGORITM_SUCCESS: {
-            const algosList = state.getIn(["algos"]).find((a) => a.id != action.payload.id);
+            const algosList = state.getIn(["algos"]).filter((a) => a.id != action.payload.id);
             return state.setIn(["selectedAlgo"], null)
                 .setIn(["algos"], algosList);
         }

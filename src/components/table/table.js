@@ -1,34 +1,35 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropType from 'prop-types';
 
 import './style/table.css';
 
-
 class Table extends Component {
-    constructor(props) {
-        super(props);
-        const {headers} = props;
 
-        this.headerCols = this._initTableHeader(headers);
-        this.rowsBody = this._initTableBody(props);
+    static propTypes = {
+        headers: PropType.arrayOf(
+            PropType.arrayOf(PropType.string)
+        ),
+        rows: PropType.arrayOf(
+            PropType.object
+        ),
     }
 
-    _initTableHeader(headers) {
-        const headerCols = headers.map(([label]) => {
+    renderTableHeader = () => {
+        const headerCols = this.props.headers.map(([label]) => {
             return (
                 <td key={label}>{label}</td>
             );
         });
 
         return (
-          <tr>{headerCols}</tr>
+            <tr>{headerCols}</tr>
         );
     }
 
-    _initTableBody(props) {
-        const {headers, rows, clickHandlers} = props;
+    renderTableBody = () => {
+        const { headers, rows, clickHandlers } = this.props;
         return rows.map((row, index) => {
-            const rowCols = this._initRowCols(row, headers)
+            const rowCols = this.renderRowCols(row, headers)
             return (
                 <tr key={index} onClick={() => clickHandlers[index]()} className='clickable'>
                     {rowCols}
@@ -37,7 +38,7 @@ class Table extends Component {
         });
     }
 
-    _initRowCols(row, headers) {
+    renderRowCols = (row, headers) => {
         return headers.map(([colTitle, colKey]) => {
             return (
                 <td key={colTitle}>{row[colKey]}</td>
@@ -45,38 +46,26 @@ class Table extends Component {
         });
     }
 
-
-    render() {
-        const table = this._makeTable();
-        return (
-            <div>{table}</div>
-        );
-    }
-
-    _makeTable() {
+    renderTable() {
         return (
             <table className='table'>
                 <thead>
-                    {this.headerCols}
+                    {this.renderTableHeader()}
                 </thead>
 
                 <tbody>
-                    {this.rowsBody}
+                    {this.renderTableBody()}
                 </tbody>
             </table>
         );
     }
+
+    render() {
+        const table = this.renderTable();
+        return (
+            <div>{table}</div>
+        );
+    }
 }
-
-
-Table.propTypes = {
-    headers: PropType.arrayOf(
-        PropType.arrayOf(PropType.string)
-    ),
-    rows: PropType.arrayOf(
-        PropType.object
-    ),
-};
-
 
 export default Table;
