@@ -44,6 +44,13 @@ class ShowAlgoPage extends Component {
         };
     }
 
+    componentDidUpdate() {
+        const { selectedAlgo } = this.props;
+        if (selectedAlgo && selectedAlgo.id && this.state.isNewAlgo) {
+            this.setState({ isNewAlgo: false });
+        }
+    }
+
     componentWillUnmount() {
         selectAlgoInList(null);
     }

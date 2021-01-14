@@ -18,7 +18,7 @@ export const createAlgo = (algoObj) => (dispatch) => {
         .then((res) => {
             dispatch({
                 type: types.CREATE_ALGORITHM_SUCCESS,
-                payload: res.data,
+                payload: { ...algoObj, id: res.data.algo_id }
             });
         }).catch((error) => {
             dispatch({
