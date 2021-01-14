@@ -80,8 +80,8 @@ workflows:
             # - test
             - approve-build:
                 type: approval
-                # requires:
-                #     - test
+                requires:
+                    - check-environment
                 filters:
                     branches:
                         only: develop
