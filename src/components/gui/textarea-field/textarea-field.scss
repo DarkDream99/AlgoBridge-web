@@ -1,3 +1,5 @@
+@import 'src/styles/colors.scss';
+
 textarea[readonly] {
-  background-color: #e9ecef;
+  background-color: $nav-font-color;
 }

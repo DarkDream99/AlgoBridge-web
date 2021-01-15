@@ -1,14 +1,14 @@
+@import 'src/styles/colors.scss';
+
+
 .full-screen-text {
     text-align: center;
     font-size: 5em;
     padding: 3em 0;
-    color: #27E67A;
-    text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+    color: $font-color;
 }
 
+
 .background {
-    background-image: url('../images/main-page-background.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 92vh;
+    background-color: $main-color;
 }

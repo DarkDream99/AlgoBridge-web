@@ -59,7 +59,7 @@ class App extends Component {
 
     makeRoutings = () => {
         return (
-            <div className='background'>
+            <div>
                 <Switch>
                     <Route path={pathes.BASE} component={HomePage} exact />
                     <Route path={pathes.LOGIN} exact>
@@ -85,7 +85,7 @@ class App extends Component {
         const routings = this.makeRoutings();
 
         return (
-            <div className="app">
+            <div className="app background">
                 {header}
                 {routings}
             </div>

@@ -1,0 +1,17 @@
+@import 'src/styles/colors.scss';
+
+.operation-row {
+    &:hover {
+        background-color: $block-color;
+    }
+    display: flex;
+}
+
+.operation-row-content {
+    border-top: 1px solid black;
+    // border-bottom: 1px solid black;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}

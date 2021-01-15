@@ -1,10 +1,14 @@
+@import 'src/styles/colors.scss';
+
+
 .algo-container{
     margin: 0% 10%;
+    color: $font-color;
 
     .implementation{
         display: flex;
         justify-content: space-between;
-    
+
         .vertical-line{
             border-left: 4px solid whitesmoke;
         }
@@ -26,7 +30,7 @@
     .output{
         display: flex;
         justify-content: space-between;
-    
+
         .element{
             width: 47%;
             padding: 1.5% 0%;
