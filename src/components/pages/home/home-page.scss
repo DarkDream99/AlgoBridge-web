@@ -1,0 +1,88 @@
+@import 'src/styles/colors.scss';
+
+
+.menu {
+    text-align: right;
+    margin-top: 0px;
+}
+
+
+#landing-tools {
+  img {
+    width: 100%;
+    border: 3px solid $nav-color;
+  }
+}
+
+
+#landing-title {
+  margin-top: 30px;
+  margin-right: 30px;
+  width: 40%;
+
+  h1 {
+    font-size: 2.3em;
+  }
+}
+
+
+#landing-facilities {
+  margin-top: 30px;
+  padding-top: 30px;
+  background-color: $block-color;
+
+  .label {
+    text-align: center;
+    font-size: 2.3em;
+  }
+
+  .flex-block {
+    justify-content: space-evenly;
+  }
+
+  .landing-facility {
+    font-size: 1.2em;
+    margin: 25px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    h3 {
+      font-size: 1.5em;
+      text-align: center;
+    }
+  }
+}
+
+
+#landing-how-to {
+  margin-top: 30px;
+
+  .label {
+    text-align: center;
+    font-size: 2.3em;
+  }
+}
+
+
+#landing-how-it-works {
+  background-color: $block-color;
+  margin-top: 30px;
+  padding-top: 30px;
+
+  .label {
+    text-align: center;
+    font-size: 2.3em;
+  }
+}
+
+
+footer {
+  background-color: $nav-color;
+  color: $nav-font-color;
+  padding: 20px;
+  text-align: center;
+
+  a {
+    color: $nav-font-color !important;
+  }
+}

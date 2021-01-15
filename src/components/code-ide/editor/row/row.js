@@ -6,7 +6,7 @@ import Number from "./number";
 import Operation from "../../operation";
 
 import "./row.css"
-import "./style/operation-row.css"
+import "./operation-row.scss"
 
 
 const RowLine = (props) => {
